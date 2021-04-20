@@ -2,11 +2,7 @@ language: node_js
 cache:
   npm: false
 install:
-  - cd issuer-front && npm ci && cd ..
-  - cd issuer-back && npm ci && cd ..
+  - npm ci
 script:
-  - cd issuer-front
   - npm run build 
   - npm run test 
-  - cd .. && cd issuer-back
-  - npm run test
