@@ -41,8 +41,8 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"test:init": "cd ./node_modules/DIDI-SSI-Issuer-module-functional-test/ && npm i && cd ../../",
-		"test:browser": "cd ./node_modules/DIDI-SSI-Issuer-module-functional-test/ && npm run test",
-		"test:ci" : "cd ./node_modules/DIDI-SSI-Issuer-module-functional-test/ && npm run test:ci"
+		"test:browser": "cd ./node_modules/DIDI-SSI-Issuer-module-functional-test/ && npm i && npm run test",
+		"test:ci" : "cd ./node_modules/DIDI-SSI-Issuer-module-functional-test/ && npm i && npm run test:ci"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
