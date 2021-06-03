@@ -42,7 +42,7 @@
 		"eject": "react-scripts eject",
 		"test:init": "cd ./node_modules/DIDI-SSI-Issuer-module-functional-test/ && npm i && cd ../../",
 		"test:browser": "cd ./node_modules/DIDI-SSI-Issuer-module-functional-test/ && npm i && npm run test",
-		"test:ci" : "cd ./node_modules/DIDI-SSI-Issuer-module-functional-test/ && npm i && npm run test:ci"
+		"test:ci": "cd ./node_modules/DIDI-SSI-Issuer-module-functional-test/ && npm i && npm run test:ci"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
@@ -63,6 +63,5 @@
 		"commitizen": "^4.2.3",
 		"cz-jira-smart-commit": "^3.0.0",
 		"DIDI-SSI-Issuer-module-functional-test": "git+https://github.com/ong-bitcoin-argentina/DIDI-SSI-Issuer-module-functional-test.git"
-
 	}
 }
