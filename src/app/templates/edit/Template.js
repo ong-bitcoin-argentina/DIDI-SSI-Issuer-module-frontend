@@ -25,6 +25,10 @@ import RegisterService from "../../../services/RegisterService";
 import BlockchainName from "../../utils/dialogs/blockchainName";
 import { validateAccess } from "../../../constants/Roles";
 
+import preview1 from "./Preview/1.png";
+import preview2 from "./Preview/2.png";
+import preview3 from "./Preview/3.png";
+
 const { Write_Templates } = Constants.ROLES;
 
 class Template extends Component {
@@ -291,7 +295,7 @@ class Template extends Component {
 								checked={radioValue === "1"}
 								control={<Radio />}
 							/>
-							<img src={require("./Preview/1.png")} className="PreviewFieldTypeImage" alt="type 1" />
+							<img src={preview1} className="PreviewFieldTypeImage" alt="type 1" />
 						</div>
 
 						<div className="PreviewFieldItem">
@@ -301,7 +305,7 @@ class Template extends Component {
 								checked={radioValue === "2"}
 								control={<Radio />}
 							/>
-							<img src={require("./Preview/2.png")} className="PreviewFieldTypeImage" alt="type 2" />
+							<img src={preview2} className="PreviewFieldTypeImage" alt="type 2" />
 						</div>
 
 						<div className="PreviewFieldItem">
@@ -311,7 +315,7 @@ class Template extends Component {
 								checked={radioValue === "3"}
 								control={<Radio />}
 							/>
-							<img src={require("./Preview/3.png")} className="PreviewFieldTypeImage" alt="type 3" />
+							<img src={preview3} className="PreviewFieldTypeImage" alt="type 3" />
 						</div>
 					</RadioGroup>
 				</div>
