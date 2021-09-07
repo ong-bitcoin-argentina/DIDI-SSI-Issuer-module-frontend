@@ -1,10 +1,12 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from "@material-ui/core";
-import React from "react";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography, CircularProgress } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import Constants, { DATE_FORMAT } from "../../constants/Constants";
+import ImageService from '../../services/ImageService';
 import moment from "moment";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "./default-button";
 import CollapseMessageError from "./CollapseMessageError/CollapseMessageError";
+import placeholder from '../../images/placeholder.png';
 
 const TITLE = "Detalles del Registro";
 
@@ -19,7 +21,39 @@ const KeyValue = ({ field, value }) => (
 );
 
 const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleRevoke }) => {
-	const { did, name, createdOn, expireOn, blockHash, messageError, status, blockchain } = register;
+	const [image, setImage] = useState({
+		src: "",
+		alt: "Issuer Image",
+	});
+	const [loading, setLoading] = useState(false);
+	const { 
+		did,
+		name,
+		createdOn,
+		expireOn,
+		blockHash,
+		messageError,
+		status,
+		blockchain,
+		description,
+		imageId,
+	} = register;
+
+	const fetchImage = async (id) => {
+		try {
+			setLoading(true);
+			const img = await ImageService.getImage(id);
+			setImage({ src: img || placeholder });
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		fetchImage(imageId);
+	}, [imageId]);
+
 	const partsOfDid = did?.split(":");
 	const didKey = partsOfDid && partsOfDid[partsOfDid.length - 1];
 	const createdOn_ = formatDate(createdOn);
@@ -37,26 +71,34 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 			</DialogTitle>
 			<DialogContent style={{ margin: "0px 0 25px" }}>
 				<Grid container item xs={12} justify="center" direction="column" style={{ marginBottom: "5px" }}>
-					<KeyValue field="DID" value={didKey} />
+					<KeyValue field="DID" value={`did:ethr:${blockchain}:${didKey}`} />
 					<KeyValue field="Blockchain" value={blockchain} />
 					<KeyValue field="Nombre" value={name} />
+					<KeyValue field="Descripcion" value={description} />
 					<KeyValue field="Fecha de Registro" value={createdOn_} />
+					<KeyValue field="Imagen" value={""} />
 					{expireOn_ && expireOn_ !== "-" && <KeyValue field="Fecha de Expiración" value={expireOn_} />}
 					{blockHash && <KeyValue field="Hash de Transacción" value={blockHash} />}
+					{!loading ? 
+						<img src={image.src} alt={image.alt} className="img-preview"/>
+					:
+					<Grid item xs={2} container justify="center" alignItems="center">
+						{loading && <CircularProgress />}
+					</Grid>}		
 					{messageError && <CollapseMessageError messageError={messageError} blockchain={blockchain} status={status} />}
 				</Grid>
 				{!statusNotAllowed.includes(status) && (
-					<Grid container direction="column">
+					<Grid container direction="row">
 						<Grid item style={{ margin: "15px 0" }}>
-							<DefaultButton funct={() => handleRevoke(did)} otherClass="DangerButton" name="Revocar" />
-						</Grid>
-						<Grid>
 							<DefaultButton
 								funct={() => handleRefresh(did)}
 								otherClass="WarningButton"
 								name="Renovar"
 								disabled={statusNotAllowed.includes(status)}
 							/>
+						</Grid>
+						<Grid item style={{ margin: "15px 10px" }}>
+							<DefaultButton funct={() => handleRevoke(did)} otherClass="DangerButton" name="Revocar" />
 						</Grid>
 					</Grid>
 				)}

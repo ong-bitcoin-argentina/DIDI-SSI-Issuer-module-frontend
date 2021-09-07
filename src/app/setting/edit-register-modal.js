@@ -35,7 +35,7 @@ const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 	useEffect(() => {
 		setImage(null);
 		fetchImage(data.imageId);
-	}, [data]);
+	}, [data.imageId]);
 
 	const INPUTS = [
 		{

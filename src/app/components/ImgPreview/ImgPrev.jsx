@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import placeholder from './placeholder.png';
+import placeholder from '../../../images/placeholder.png';
 import './_style.scss';
 
 const ImgPrev = ({handleImage, image}) => {
