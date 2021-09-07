@@ -1,5 +1,5 @@
 import Constants from "../constants/Constants";
-import { fetchData, options, optionsBody } from "./utils";
+import { fetchData, options, optionsBodyMultipart } from "./utils";
 
 const { DONE } = Constants.STATUS;
 const { GET, GET_ALL_BLOCKCHAINS, CREATE } = Constants.API_ROUTES.REGISTER;
@@ -15,12 +15,12 @@ export default class RegisterService {
 		return fetchData(options("GET"), GET_ALL_BLOCKCHAINS);
 	}
 
-	static create({ name, did, key }) {
-		return fetchData(optionsBody("POST", { name, did, key }), CREATE);
+	static create(data) {
+		return fetchData(optionsBodyMultipart("POST", data), CREATE);
 	}
 
-	static editName(did, name) {
-		return fetchData(optionsBody("PUT", { name }), `${CREATE}/${did}`);
+	static editName(data, did) {
+		return fetchData(optionsBodyMultipart("PATCH", data), `${CREATE}/${did}`);
 	}
 
 	static retry(did) {

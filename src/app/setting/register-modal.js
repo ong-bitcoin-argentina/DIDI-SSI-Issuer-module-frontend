@@ -8,7 +8,8 @@ import {
 	MenuItem,
 	Select,
 	TextField,
-	Typography
+	Typography,
+	InputLabel,
 } from "@material-ui/core";
 import { Credentials } from "uport-credentials";
 import RegisterService from "../../services/RegisterService";
@@ -17,6 +18,7 @@ import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import ModalTitle from "../utils/modal-title";
 import ClipBoardInput from "../components/ClipBoardInput";
 import DefaultButton from "./default-button";
+import ImgPrev from "../components/ImgPreview/ImgPrev";
 
 const TITLE = "Registro de Emisor";
 
@@ -38,7 +40,13 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 			placeholder: "Nombre",
 			disabled: false,
 			initial: ""
-		}
+		},
+		{
+			name: "description",
+			placeholder: "Descripción",
+			disabled: false,
+			initial: ""
+		},
 	];
 
 	const handleChange = event => {
@@ -54,7 +62,6 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 
 	const handleSubmit = async event => {
 		event.preventDefault();
-
 		if (!newRegister.did) {
 			setError("Selecciones una blockchain");
 			return;
@@ -64,10 +71,15 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 		try {
 			const token = Cookie.get("token");
 			const { did, blockchain } = newRegister;
-			await RegisterService.create({
-				...newRegister,
-				did: `did:ethr:${blockchain}:${did}`
-			})(token);
+			const formData = new FormData();
+			Object.entries(newRegister).forEach(
+				([k,v]) => formData.append(k, v)
+			)
+			formData.set('did', `did:ethr:${blockchain}:${did}`);
+
+			await RegisterService.create(
+				formData
+			)(token);
 			resetForm();
 			onSuccess();
 		} catch (error) {
@@ -81,9 +93,13 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 		resetForm();
 	};
 
+	const handleImage = file => {
+		setNewRegister({...newRegister, file})
+	}
+
 	return (
 		<Dialog open={modalOpen}>
-			<form onSubmit={handleSubmit} onReset={handleReset}>
+			<form onSubmit={handleSubmit} onReset={handleReset} >
 				<DialogTitle id="form-dialog-title">
 					<ModalTitle title={TITLE} />
 				</DialogTitle>
@@ -154,13 +170,26 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 									fullWidth
 								/>
 							))}
-							<Select id="emisor-select-input" required fullWidth name="blockchain" onChange={handleChange}>
+							<InputLabel id="blockchain-select-label">Blockchain</InputLabel>
+							<Select 
+								id="emisor-select-input" 
+								required 
+								fullWidth 
+								name="blockchain" 
+								onChange={handleChange}
+								defaultValue={blockchains[0]}
+								style={{ marginBottom: "25px" }}
+							>
 								{blockchains.map((blockchain, index) => (
 									<MenuItem key={index} value={blockchain}>
 										<span style={{ textTransform: "uppercase" }}>{blockchain}</span>
 									</MenuItem>
 								))}
 							</Select>
+							<label htmlFor="contained-button-file">
+								<InputLabel id="file-select-image" style={{ marginBottom: "5px" }}>Seleccione una Imagen (Opcional)</InputLabel>
+								<ImgPrev handleImage={handleImage} />
+							</label>
 						</Grid>
 						{error && (
 							<div className="errMsg" style={{ width: "100%" }}>
