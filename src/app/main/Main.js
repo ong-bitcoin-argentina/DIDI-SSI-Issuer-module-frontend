@@ -92,7 +92,6 @@ class Main extends Component {
 				address: {}
 			},
 			allSelectedCerts: false,
-			anchorEl: null,
 			selectedCerts: {},
 			certificates: [],
 			filteredCertificates: [],

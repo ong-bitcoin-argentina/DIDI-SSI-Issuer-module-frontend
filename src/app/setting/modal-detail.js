@@ -83,7 +83,7 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 						<img src={image.src} alt={image.alt} className="img-preview"/>
 					:
 					<Grid item xs={2} container justify="center" alignItems="center">
-						{loading && <CircularProgress />}
+						<CircularProgress />
 					</Grid>}		
 					{messageError && <CollapseMessageError messageError={messageError} blockchain={blockchain} status={status} />}
 				</Grid>

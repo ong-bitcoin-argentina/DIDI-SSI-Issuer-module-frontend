@@ -125,7 +125,7 @@ const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 									<ImgPrev handleImage={handleImage} image={image} /> 
 								: 
 									<Grid item xs={2} container justify="center" alignItems="center">
-										{loading && <CircularProgress />}
+										<CircularProgress />
 									</Grid>}								
 							</label>								
 						</Grid>
