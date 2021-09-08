@@ -6,10 +6,9 @@ import Cookie from "js-cookie";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "./default-button";
 import ImgPrev from "../components/ImgPreview/ImgPrev";
+import INPUTS from "./inputs";
 
 const TITLE = "Editar informacion del Emisor";
-const EQUALS_NAME_ERROR = "Ingrese un nuevo nombre";
-const EQUALS_DESCRIPTION_ERROR = "Ingrese un nuevo nombre";
 
 const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 	const [error, setError] = useState("");
@@ -22,11 +21,16 @@ const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 			setLoading(true);
 			const img = await ImageService.getImage(id);
 			setImage(img);
-			setLoading(false);
 		} catch (error) {
 			setError(error.message);
-		}
+		} finally {
+			setLoading(false);
+	 }
 	};
+
+	let inputs = INPUTS;
+	inputs[0].initial = data.name;
+	inputs[1].initial = data.description;
 
 	useEffect(() => {
 		setData(register);
@@ -36,21 +40,6 @@ const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 		setImage(null);
 		fetchImage(data.imageId);
 	}, [data.imageId]);
-
-	const INPUTS = [
-		{
-			name: "name",
-			placeholder: "Nombre",
-			disabled: false,
-			initial: data.name,
-		},
-		{
-			name: "description",
-			placeholder: "Descripción",
-			disabled: false,
-			initial: data.description,
-		},
-	];
 	
 	const handleChange = event => {
 		const { name, value } = event.target;
@@ -59,23 +48,11 @@ const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 
 	const handleSubmit = async event => {
 		event.preventDefault();
-		if (register.name === data.name) {
-			setError(EQUALS_NAME_ERROR);
-			return;
-		}
-		if (register.description === data.description) {
-			setError(EQUALS_DESCRIPTION_ERROR);
-			return;
-		}
-
 		try {
 			const token = Cookie.get("token");
-			const { name, description, file, did } = data;
+			const { did, ...others } = data;
 			const formData = new FormData();
-			formData.append('name', name);
-			formData.append('description', description);
-			formData.append('file', file);
-
+			Object.entries(others).forEach(([k,v]) => formData.append(k, v));
 			await RegisterService.editName(formData, did)(token);
 			onAccept();
 			handleReset();
@@ -89,8 +66,12 @@ const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 		setModalOpen(false);
 	};
 
-	const handleImage = file => {
-		setData({...data, file})
+	const handleImage = (e) => {
+		if(e.target.files[0]) {
+      const file = e.target.files[0];
+			setData({...data, file})
+      setImage(URL.createObjectURL(file));
+    } 
 	};
 
 	return (
@@ -102,7 +83,7 @@ const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 				<DialogContent style={{ margin: "0 0 25px" }}>
 					<Grid container justify="center" style={{ marginTop: "25px" }}>
 						<Grid item xs={6}>
-							{INPUTS.map(({ name, placeholder, disabled, initial }, index) => (
+							{inputs.map(({ name, placeholder, disabled, initial }, index) => (
 									<TextField
 										disabled={disabled}
 										key={index}

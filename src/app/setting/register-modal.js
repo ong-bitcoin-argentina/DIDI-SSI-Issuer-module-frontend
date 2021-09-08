@@ -19,6 +19,7 @@ import ModalTitle from "../utils/modal-title";
 import ClipBoardInput from "../components/ClipBoardInput";
 import DefaultButton from "./default-button";
 import ImgPrev from "../components/ImgPreview/ImgPrev";
+import INPUTS from "./inputs";
 
 const TITLE = "Registro de Emisor";
 
@@ -26,6 +27,7 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 	const [newRegister, setNewRegister] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
+	const [image, setImage] = useState();
 
 	useEffect(() => {
 		const identity_ = Credentials.createIdentity();
@@ -33,21 +35,6 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 		const key = identity_.privateKey;
 		setNewRegister({ key, did });
 	}, [modalOpen]);
-
-	const INPUTS = [
-		{
-			name: "name",
-			placeholder: "Nombre",
-			disabled: false,
-			initial: ""
-		},
-		{
-			name: "description",
-			placeholder: "Descripción",
-			disabled: false,
-			initial: ""
-		},
-	];
 
 	const handleChange = event => {
 		const { name, value } = event.target;
@@ -93,9 +80,13 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 		resetForm();
 	};
 
-	const handleImage = file => {
-		setNewRegister({...newRegister, file})
-	}
+	const handleImage = (e) => {
+		if(e.target.files[0]) {
+      const file = e.target.files[0];
+			setNewRegister({...newRegister, file})
+      setImage(URL.createObjectURL(file));
+    } 
+	};
 
 	return (
 		<Dialog open={modalOpen}>
@@ -188,7 +179,7 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 							</Select>
 							<label htmlFor="contained-button-file">
 								<InputLabel id="file-select-image" style={{ marginBottom: "5px" }}>Seleccione una Imagen (Opcional)</InputLabel>
-								<ImgPrev handleImage={handleImage} />
+								<ImgPrev handleImage={handleImage} image={image} />
 							</label>
 						</Grid>
 						{error && (

@@ -12,28 +12,28 @@ export const filterByDates = (item, from, to, key) => {
 };
 
 export const options = method => token => ({
-	method: method,
+	method,
 	headers: {
 		"Content-Type": "application/json",
-		token: token
-	}
+		token,
+	},
 });
 
 export const optionsMultipart = method => token => ({
-	method: method,
+	method,
 	headers: {
-		token: token
-	}
+		token,
+	},
 });
 
 export const optionsBody = (method, body) => token => ({
 	...options(method)(token),
-	body: JSON.stringify(body)
+	body: JSON.stringify(body),
 });
 
 export const optionsBodyMultipart = (method, body) => token => ({
 	...optionsMultipart(method)(token),
-	body
+	body,
 });
 
 export const fetchData = (optionsF, url) => async token => {

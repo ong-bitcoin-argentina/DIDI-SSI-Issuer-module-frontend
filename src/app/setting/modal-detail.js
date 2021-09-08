@@ -44,18 +44,17 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 			setLoading(true);
 			const img = await ImageService.getImage(id);
 			setImage({ src: img || placeholder });
-			setLoading(false);
 		} catch (error) {
 			console.log(error);
-		}
+		} finally {
+			setLoading(false);
+	 }
 	};
 
 	useEffect(() => {
 		fetchImage(imageId);
 	}, [imageId]);
 
-	const partsOfDid = did?.split(":");
-	const didKey = partsOfDid && partsOfDid[partsOfDid.length - 1];
 	const createdOn_ = formatDate(createdOn);
 	const expireOn_ = formatDate(expireOn);
 	const statusNotAllowed = [CREATING, ERROR, REVOKING, REVOKED];
@@ -71,7 +70,7 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 			</DialogTitle>
 			<DialogContent style={{ margin: "0px 0 25px" }}>
 				<Grid container item xs={12} justify="center" direction="column" style={{ marginBottom: "5px" }}>
-					<KeyValue field="DID" value={`did:ethr:${blockchain}:${didKey}`} />
+					<KeyValue field="DID" value={did} />
 					<KeyValue field="Blockchain" value={blockchain} />
 					<KeyValue field="Nombre" value={name} />
 					<KeyValue field="Descripcion" value={description} />
