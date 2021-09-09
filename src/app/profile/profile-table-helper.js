@@ -1,4 +1,4 @@
-import { Chip, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import React from "react";
 import Constants from "../../constants/Constants";
 import { Edit, Delete } from "@material-ui/icons";

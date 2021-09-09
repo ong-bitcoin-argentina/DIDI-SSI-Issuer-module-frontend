@@ -45,7 +45,7 @@ const Setting = () => {
 				filter(row, "blockchain", blockchain)
 		);
 		setFilteredData(result);
-	}, [filters]);
+	}, [filters, data]);
 
 	const getRegisters = async () => {
 		setLoading(true);

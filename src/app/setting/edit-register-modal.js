@@ -1,35 +1,59 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, InputLabel } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
 import RegisterService from "../../services/RegisterService";
+import ImageService from '../../services/ImageService';
 import Cookie from "js-cookie";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "./default-button";
+import ImgPrev from "../components/ImgPreview/ImgPrev";
+import INPUTS from "./inputs";
 
-const TITLE = "Editar Nombre del Emisor";
-const EQUALS_NAME_ERROR = "Ingrese un nuevo nombre";
+const TITLE = "Editar informacion del Emisor";
 
 const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 	const [error, setError] = useState("");
-	const [newName, setNewName] = useState("");
+	const [data, setData] = useState({});
+	const [image, setImage] = useState();
+	const [loading, setLoading] = useState(false);
+
+	const fetchImage = async (id) => {
+		try {
+			setLoading(true);
+			const img = await ImageService.getImage(id);
+			setImage(img);
+		} catch (error) {
+			setError(error.message);
+		} finally {
+			setLoading(false);
+	 }
+	};
+
+	let inputs = INPUTS;
+	inputs[0].initial = data.name;
+	inputs[1].initial = data.description;
 
 	useEffect(() => {
-		setNewName(register.name);
+		setData(register);
 	}, [register]);
 
+	useEffect(() => {
+		setImage(null);
+		fetchImage(data.imageId);
+	}, [data.imageId]);
+	
 	const handleChange = event => {
-		const { value } = event.target;
-		setNewName(value);
+		const { name, value } = event.target;
+		setData(reg => ({ ...reg, [name]: value }));
 	};
 
 	const handleSubmit = async event => {
 		event.preventDefault();
-		if (register.name === newName) {
-			setError(EQUALS_NAME_ERROR);
-			return;
-		}
 		try {
 			const token = Cookie.get("token");
-			await RegisterService.editName(register.did, newName)(token);
+			const { did, ...others } = data;
+			const formData = new FormData();
+			Object.entries(others).forEach(([k,v]) => formData.append(k, v));
+			await RegisterService.editName(formData, did)(token);
 			onAccept();
 			handleReset();
 		} catch (error) {
@@ -42,6 +66,14 @@ const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 		setModalOpen(false);
 	};
 
+	const handleImage = (e) => {
+		if(e.target.files[0]) {
+      const file = e.target.files[0];
+			setData({...data, file})
+      setImage(URL.createObjectURL(file));
+    } 
+	};
+
 	return (
 		<Dialog open={modalOpen}>
 			<form onSubmit={handleSubmit} onReset={handleReset}>
@@ -51,19 +83,27 @@ const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 				<DialogContent style={{ margin: "0 0 25px" }}>
 					<Grid container justify="center" style={{ marginTop: "25px" }}>
 						<Grid item xs={6}>
-							<TextField
-								placeholder="Nombre del Emisor"
-								required
-								error={error}
-								helperText={error}
-								id="emisor-name-input"
-								label="Nombre del Emisor"
-								name="name"
-								onChange={handleChange}
-								defaultValue={register.name}
-								type="text"
-								fullWidth
-							/>
+							{inputs.map(({ name, placeholder, disabled, initial }, index) => (
+									<TextField
+										disabled={disabled}
+										key={index}
+										style={{ marginBottom: "25px" }}
+										id={`"emisor-${name}-input"`}
+										label={placeholder}
+										name={name}
+										defaultValue={initial}
+										type="text"
+										required
+										error={error}
+										helperText={error}
+										onChange={handleChange}
+										fullWidth
+									/>
+								))}
+							<label htmlFor="contained-button-file">
+								<InputLabel id="file-select-image" style={{ marginBottom: "5px" }}>Seleccione una Imagen (Opcional)</InputLabel>
+								<ImgPrev handleImage={handleImage} image={image} isLoading={loading} />			
+							</label>								
 						</Grid>
 					</Grid>
 				</DialogContent>

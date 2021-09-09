@@ -92,7 +92,6 @@ class Main extends Component {
 				address: {}
 			},
 			allSelectedCerts: false,
-			anchorEl: null,
 			selectedCerts: {},
 			certificates: [],
 			filteredCertificates: [],
@@ -778,7 +777,7 @@ class Main extends Component {
 			return <Redirect to={Constants.ROUTES.LOGIN} />;
 		}
 
-		const { loading, tabIndex, error, anchorEl } = this.state;
+		const { loading, tabIndex, error } = this.state;
 		const selectedIndex = tabIndex ?? 0;
 
 		return (
@@ -907,7 +906,6 @@ class Main extends Component {
 
 	// mostrar botones al pie de la tabla
 	renderActions = loading => {
-		const showMenu = this.state.showMenu;
 		return (
 			<div className="ActionsMenu">
 				<button onClick={this.toggleShowMenu}>{Messages.LIST.MENU.TITLE}</button>

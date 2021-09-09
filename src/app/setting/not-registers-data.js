@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import React from "react";
 import WarningRoundedIcon from "@material-ui/icons/WarningRounded";
 import OpenModalButton from "./open-modal-button";

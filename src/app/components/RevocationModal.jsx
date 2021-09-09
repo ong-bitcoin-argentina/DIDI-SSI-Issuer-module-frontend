@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
 import { REVOCATION_REASONS } from "../../constants/CertificateDefinitions";
 import FormSelect from "./FormSelect";
 import PropTypes from "prop-types";

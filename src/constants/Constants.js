@@ -17,6 +17,9 @@ module.exports = {
 			GET: API + "/register",
 			GET_ALL_BLOCKCHAINS: API + "/register/all/blockchain"
 		},
+		IMAGE: {
+			GET: (id) => `${API}/image/${id}`
+		},
 		DEFAULT_VALUE: API + "/default",
 		TEMPLATES: {
 			GET_ALL: API + "/template/all",
