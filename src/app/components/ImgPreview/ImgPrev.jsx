@@ -1,8 +1,9 @@
 import React from 'react';
+import { CircularProgress, Grid } from "@material-ui/core";
 import placeholder from '../../../images/placeholder.png';
 import './_style.scss';
 
-const ImgPrev = ({handleImage, image}) => {
+const ImgPrev = ({handleImage, image, isLoading}) => {
   return (
     <div className="input-container">
       <input 
@@ -13,7 +14,12 @@ const ImgPrev = ({handleImage, image}) => {
         onChange={handleImage}
       />
       <label htmlFor="photo" className="file-label" />
-      <img src={image || placeholder} alt="upload" className="img-preview"/>
+      {isLoading ?
+        <Grid item xs={2} container justify="center" alignItems="center">
+          <CircularProgress />
+        </Grid>
+      :
+        <img src={image || placeholder} alt="upload" className="img-preview"/>}
     </div>
   );
 }

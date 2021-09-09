@@ -1,4 +1,4 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography, CircularProgress } from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Constants, { DATE_FORMAT } from "../../constants/Constants";
 import ImageService from '../../services/ImageService';
@@ -7,6 +7,7 @@ import ModalTitle from "../utils/modal-title";
 import DefaultButton from "./default-button";
 import CollapseMessageError from "./CollapseMessageError/CollapseMessageError";
 import placeholder from '../../images/placeholder.png';
+import Image from '../components/Image';
 
 const TITLE = "Detalles del Registro";
 
@@ -78,12 +79,7 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 					<KeyValue field="Imagen" value={""} />
 					{expireOn_ && expireOn_ !== "-" && <KeyValue field="Fecha de Expiración" value={expireOn_} />}
 					{blockHash && <KeyValue field="Hash de Transacción" value={blockHash} />}
-					{!loading ? 
-						<img src={image.src} alt={image.alt} className="img-preview"/>
-					:
-					<Grid item xs={2} container justify="center" alignItems="center">
-						<CircularProgress />
-					</Grid>}		
+					<Image loading={loading} image={image} />
 					{messageError && <CollapseMessageError messageError={messageError} blockchain={blockchain} status={status} />}
 				</Grid>
 				{!statusNotAllowed.includes(status) && (

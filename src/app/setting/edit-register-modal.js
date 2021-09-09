@@ -1,4 +1,4 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, InputLabel, CircularProgress } from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, InputLabel } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import RegisterService from "../../services/RegisterService";
 import ImageService from '../../services/ImageService';
@@ -102,12 +102,7 @@ const EditRegisterModal = ({ modalOpen, setModalOpen, register, onAccept }) => {
 								))}
 							<label htmlFor="contained-button-file">
 								<InputLabel id="file-select-image" style={{ marginBottom: "5px" }}>Seleccione una Imagen (Opcional)</InputLabel>
-								{!loading ? 
-									<ImgPrev handleImage={handleImage} image={image} /> 
-								: 
-									<Grid item xs={2} container justify="center" alignItems="center">
-										<CircularProgress />
-									</Grid>}								
+								<ImgPrev handleImage={handleImage} image={image} isLoading={loading} />			
 							</label>								
 						</Grid>
 					</Grid>
