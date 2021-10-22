@@ -91,7 +91,6 @@ class Main extends Component {
 				personal: {},
 				address: {}
 			},
-			allSelectedCerts: false,
 			selectedCerts: {},
 			certificates: [],
 			filteredCertificates: [],
@@ -381,8 +380,7 @@ class Main extends Component {
 		});
 
 		this.setState({
-			selectedCerts: selectedCerts,
-			allSelectedCerts: allSelected
+			selectedCerts: selectedCerts
 		});
 
 		const certificatesData = this.certificatesMapedToTable(filteredCertificates, selectedCerts);
@@ -431,8 +429,7 @@ class Main extends Component {
 		});
 
 		this.setState({
-			selectedCerts: selectedCerts,
-			allSelectedCerts: allSelected
+			selectedCerts: selectedCerts
 		});
 
 		const filteredCerts = certs.filter(item => !item.emmitedOn);
