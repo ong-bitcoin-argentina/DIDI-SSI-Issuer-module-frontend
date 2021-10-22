@@ -23,9 +23,7 @@ class Certificates extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			name: ""
-		};
+		this.state = {};
 	}
 
 	// generar referencia para abrirlo desde el padre
@@ -60,7 +58,7 @@ class Certificates extends Component {
 
 	// mostrar pantalla de credencial
 	render() {
-		const error = this.props.error || this.state.error;
+		const error = this.props.error;
 		const loading = this.props.loading;
 		return (
 			<div className={loading ? "Certificates Loading" : "Certificates"}>
