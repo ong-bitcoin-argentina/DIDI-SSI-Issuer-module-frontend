@@ -37,8 +37,6 @@ class Template extends Component {
 
 		this.state = {
 			loading: true,
-			typingTimeout: 0,
-			typing: false,
 			radioValue: 1
 		};
 	}
@@ -56,8 +54,7 @@ class Template extends Component {
 			id,
 			async function (template) {
 				self.setState({
-					id: id,
-					template: template,
+					template,
 					radioValue: template.previewType,
 					loading: false,
 					error: false
@@ -97,7 +94,9 @@ class Template extends Component {
 		if (this.templateFieldAddDialog) this.templateFieldAddDialog.close();
 
 		this.state.template.data[type].push(data);
-		this.setState({ template: this.state.template });
+		this.setState(prevState => ({ 
+			template: prevState.template 
+		}));
 	};
 
 	// marcar campo como requerido / no requerido
@@ -108,7 +107,9 @@ class Template extends Component {
 
 		if (dataElem && !dataElem.mandatory) {
 			dataElem.required = !dataElem.required;
-			this.setState({ template: this.state.template });
+			this.setState(prevState => ({ 
+				template: prevState.template 
+			}));
 		}
 	};
 
@@ -120,16 +121,18 @@ class Template extends Component {
 
 		if (dataElem) {
 			dataElem.defaultValue = defaultValue;
-			this.setState({ template: this.state.template });
+			this.setState(prevState => ({ 
+				template: prevState.template 
+			}));
 		}
 	};
 
 	// seleccionar los campos a mostrarse por defecto en el credencial
 	onPreviewFieldsSelected = event => {
-		const template = this.state.template;
-		template.previewData = event.target.value;
-		template.previewType = this.state.radioValue;
-		this.setState({ template: template });
+		const tmpl = this.state.template;
+		tmpl.previewData = event.target.value;
+		tmpl.previewType = this.state.radioValue;
+		this.setState({ template: tmpl });
 	};
 
 	// borrar campo

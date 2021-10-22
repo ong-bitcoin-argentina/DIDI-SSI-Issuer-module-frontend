@@ -168,23 +168,23 @@ class Main extends Component {
 
 	// seleccionar credencial a pedir para el participante
 	onParticipantSelectToggle = (id, type, value) => {
-		const allSelectedParticipants = this.state.allSelectedParticipants;
-		const selectedParticipants = this.state.selectedParticipants;
-		selectedParticipants[type][id] = value;
-		this.updateSelectedParticipantsState(this.state.parts, selectedParticipants, allSelectedParticipants);
+		const allSelectedParts = this.state.allSelectedParticipants;
+		const selectedParts = this.state.selectedParticipants;
+		selectedParts[type][id] = value;
+		this.updateSelectedParticipantsState(this.state.parts, selectedParts, allSelectedParts);
 	};
 
 	// seleccionar credencial a pedir para todos los participantes
 	onParticipantSelectAllToggle = (type, value) => {
 		const parts = this.state.parts;
-		const allSelectedParticipants = this.state.allSelectedParticipants;
-		const selectedParticipants = this.state.selectedParticipants;
+		const allSelectedParts = this.state.allSelectedParticipants;
+		const selectedParts = this.state.selectedParticipants;
 
 		parts.forEach(part => {
-			if (!part[type]) selectedParticipants[type][part.did] = value;
+			if (!part[type]) selectedParts[type][part.did] = value;
 		});
-		allSelectedParticipants[type] = value;
-		this.updateSelectedParticipantsState(parts, selectedParticipants, allSelectedParticipants);
+		allSelectedParts[type] = value;
+		this.updateSelectedParticipantsState(parts, selectedParts, allSelectedParts);
 	};
 
 	// actualizar seleccion de credenciales a pedir para participantes
@@ -283,7 +283,9 @@ class Main extends Component {
 		cert.actions = <div></div>;
 		cert.select = <div></div>;
 
-		self.setState({ certs: self.state.certificates, loading: true });
+		self.setState(prevState => ({
+			certs: prevState.certificates, loading: true
+		}));
 
 		try {
 			await CertificateService.delete(id)(token);
@@ -313,7 +315,9 @@ class Main extends Component {
 			cert.selected = <div></div>;
 		});
 
-		this.setState({ certs: this.state.certificates, loading: true });
+		this.setState(prevState => ({
+			certs: prevState.certificates, loading: true
+		}));
 
 		const self = this;
 		let errors = [];
@@ -353,13 +357,12 @@ class Main extends Component {
 
 	// seleccionar todos los credenciales para emitirlos
 	onCertificateSelectAllToggle = value => {
-		let allSelectedCerts = this.state.allSelectedCerts;
+		let allSelectedCerts = value;
 		const certs = this.state.filteredCertificates;
 		const selectedCerts = this.state.selectedCerts;
 		certs.forEach(cert => {
 			if (!cert["emmitedOn"]) selectedCerts[cert._id] = value;
 		});
-		allSelectedCerts = value;
 		this.updateFilterData(selectedCerts, allSelectedCerts);
 	};
 
@@ -458,7 +461,9 @@ class Main extends Component {
 			cert.selected = <div></div>;
 		});
 
-		this.setState({ certs: this.state.certificates, loading: true });
+		this.setState(prevState => ({
+			certs: prevState.certificates, loading: true
+		}));
 
 		const token = Cookie.get("token");
 		const self = this;
@@ -529,7 +534,9 @@ class Main extends Component {
 		const cert = self.state.certificates.find(t => t._id === id);
 		cert.actions = <div></div>;
 		cert.select = <div></div>;
-		self.setState({ certs: self.state.certificates, loading: true });
+		self.setState(prevState => ({
+			certs: prevState.certificates, loading: true
+		}));
 		CertificateService.emmit(
 			token,
 			id,
