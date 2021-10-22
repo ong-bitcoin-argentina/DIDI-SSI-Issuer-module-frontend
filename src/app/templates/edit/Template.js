@@ -129,10 +129,12 @@ class Template extends Component {
 
 	// seleccionar los campos a mostrarse por defecto en el credencial
 	onPreviewFieldsSelected = event => {
-		const tmpl = this.state.template;
-		tmpl.previewData = event.target.value;
-		tmpl.previewType = this.state.radioValue;
-		this.setState({ template: tmpl });
+		this.setState(prevState => ({ 
+			template: {
+				previewData: event.target.value,
+				previewType: prevState.radioValue,
+			}
+		}));
 	};
 
 	// borrar campo
