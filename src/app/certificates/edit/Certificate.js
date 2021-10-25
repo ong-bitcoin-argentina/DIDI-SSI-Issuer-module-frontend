@@ -201,9 +201,16 @@ class Certificate extends Component {
 
 	// agregar info de participante con los datos por defecto del template
 	addParticipant = () => {
-		const participant = this.state.cert.data.participant;
-		participant.push(this.certDataFromTemplate(this.state.template, "participant"));
-		this.setState(prevState => ({ cert: prevState.cert }));
+		const newParticipantData = this.certDataFromTemplate(this.state.template, "participant");
+		this.setState(({cert}) => ({ 
+			cert: {
+				...cert,
+				data: {
+					...cert.data,
+					participant: [...cert.data, newParticipantData]
+				}
+			}
+		}));
 	};
 
 	// genera csv de ejemplo para carga por csv
