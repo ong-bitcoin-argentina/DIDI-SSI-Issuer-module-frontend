@@ -882,7 +882,7 @@ class Certificate extends Component {
 							<div hidden={key === 0}>
 								<button
 									className="RemoveParticipantButton"
-									hidden={this.state.viewing}
+									hidden={viewing}
 									onClick={() => this.removeParticipant(key)}
 								>
 									{Messages.EDIT.BUTTONS.REMOVE_PARTICIPANTS}

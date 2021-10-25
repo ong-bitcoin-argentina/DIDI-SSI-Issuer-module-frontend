@@ -55,7 +55,7 @@ class Delegates extends Component {
 			return <Redirect to={Constants.ROUTES.LOGIN} />;
 		}
 
-		const error = this.props.error || this.state.error;
+		const error = this.props.error;
 		const loading = this.props.loading;
 		return (
 			<div className={loading ? "Admin Loading" : "Admin"}>
