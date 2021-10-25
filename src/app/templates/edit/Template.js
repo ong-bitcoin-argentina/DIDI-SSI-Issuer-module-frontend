@@ -139,14 +139,20 @@ class Template extends Component {
 
 	// borrar campo
 	deleteField = (data, type) => {
-		const template = this.state.template;
-		template.data[type] = template.data[type].filter(dataElem => {
-			return dataElem.name !== data.name;
-		});
-		template.previewData = template.previewData.filter(prevData => {
-			return prevData !== data.name;
-		});
-		this.setState({ template: template });
+		this.setState(({ template }) => ({
+			template: {
+				...template,
+				data: {
+					...template.data,
+					[type]: template.data[type].filter(dataElem => {
+							return dataElem.name !== data.name;
+					})
+				},
+				previeData: template.previewData.filter(prevData => {
+					return prevData !== data.name
+				}),
+			}
+		}))
 	};
 
 	// guardar template y volver a listado de templates

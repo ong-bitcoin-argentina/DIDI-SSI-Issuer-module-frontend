@@ -167,23 +167,31 @@ class Main extends Component {
 
 	// seleccionar credencial a pedir para el participante
 	onParticipantSelectToggle = (id, type, value) => {
-		const allSelectedParts = this.state.allSelectedParticipants;
-		const selectedParts = this.state.selectedParticipants;
-		selectedParts[type][id] = value;
-		this.updateSelectedParticipantsState(this.state.parts, selectedParts, allSelectedParts);
+		const allSelectedParticipants = this.state.allSelectedParticipants;
+		const selectedParticipants = this.state.selectedParticipants;
+		this.setState(({ selectedParticipants }) => ({
+			selectedParticipants: {
+				...selectedParticipants,
+				[type]: {
+					...selectedParticipants[type],
+					[id]: value,
+				},
+			}
+		}));
+		this.updateSelectedParticipantsState(this.state.parts, selectedParticipants, allSelectedParticipants);
 	};
 
 	// seleccionar credencial a pedir para todos los participantes
 	onParticipantSelectAllToggle = (type, value) => {
 		const parts = this.state.parts;
-		const allSelectedParts = this.state.allSelectedParticipants;
-		const selectedParts = this.state.selectedParticipants;
+		const allSelectedParticipants = this.state.allSelectedParticipants;
+		const selectedParticipants = this.state.selectedParticipants;
 
 		parts.forEach(part => {
-			if (!part[type]) selectedParts[type][part.did] = value;
+			if (!part[type]) selectedParticipants[type][part.did] = value;
 		});
-		allSelectedParts[type] = value;
-		this.updateSelectedParticipantsState(parts, selectedParts, allSelectedParts);
+		allSelectedParticipants[type] = value;
+		this.updateSelectedParticipantsState(parts, selectedParticipants, allSelectedParticipants);
 	};
 
 	// actualizar seleccion de credenciales a pedir para participantes

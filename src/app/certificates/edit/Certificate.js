@@ -584,16 +584,34 @@ class Certificate extends Component {
 
 	// actualizar campos seleccionados de la microcredencial
 	microcredFieldsSelected = (key, event) => {
-		const certificate = this.state.cert;
-		certificate.microCredentials[key].names = event.target.value;
-		this.setState({ cert: certificate });
+		this.setState(({ cert }) => ({
+			cert: {
+				...cert,
+				microCredentials: {
+					...cert.microCredentials,
+					[key]: {
+						...cert.microCredentials[key],
+						names: event.target.value,
+					}
+				}
+			}
+		}));
 	};
 
 	// actualizar nombre de la microcredencial
 	microcredNameChanged = (key, event) => {
-		const certificate = this.state.cert;
-		certificate.microCredentials[key].title = event.target.value;
-		this.setState({ cert: certificate });
+		this.setState(({ cert }) => ({
+			cert: {
+				...cert,
+				microCredentials: {
+					...cert.microCredentials,
+					[key]: {
+						...cert.microCredentials[key],
+						names: event.target.value,
+					}
+				}
+			}
+		}));
 	};
 
 	// habilita o deshabilita microcredenciales
