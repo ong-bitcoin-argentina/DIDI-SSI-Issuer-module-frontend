@@ -388,8 +388,7 @@ class Main extends Component {
 		});
 
 		this.setState({
-			selectedCerts: selectedCerts,
-			allSelectedCerts: allSelected
+			selectedCerts: selectedCerts
 		});
 
 		const certificatesData = this.certificatesMapedToTable(filteredCertificates, selectedCerts);
