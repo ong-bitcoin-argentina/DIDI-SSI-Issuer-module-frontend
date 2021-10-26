@@ -425,12 +425,9 @@ class Certificate extends Component {
 						others: othersData,
 						participant,
 					},
+					error: undefined,
 				}
 			});
-
-			self.setState(prevState => ({ 
-				cert: prevState.cert, error: undefined 
-			}));
 		};
 		reader.readAsText(files[0]);
 	};

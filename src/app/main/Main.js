@@ -388,7 +388,8 @@ class Main extends Component {
 		});
 
 		this.setState({
-			selectedCerts: selectedCerts
+			selectedCerts: selectedCerts,
+			allSelectedCerts: allSelected
 		});
 
 		const certificatesData = this.certificatesMapedToTable(filteredCertificates, selectedCerts);
@@ -437,7 +438,8 @@ class Main extends Component {
 		});
 
 		this.setState({
-			selectedCerts: selectedCerts
+			selectedCerts: selectedCerts,
+			allSelectedCerts: allSelected
 		});
 
 		const filteredCerts = certs.filter(item => !item.emmitedOn);
