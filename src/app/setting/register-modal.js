@@ -60,7 +60,7 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 			const { did, blockchain } = newRegister;
 			const formData = new FormData();
 			Object.entries(newRegister).forEach(([k,v]) => {
-				formData.append(k, v)
+				formData.append(k, v);
 			});
 			formData.set('did', `did:ethr:${blockchain}:${did}`);
 
