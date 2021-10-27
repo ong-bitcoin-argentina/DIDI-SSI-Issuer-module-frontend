@@ -59,11 +59,12 @@ export default class QrDialog extends Component {
 								qr: undefined,
 								qrSet: false,
 								isOpen: false,
+								error: false
 							});
 						}
 					},
 					function (err) {
-						self.setState({ loading: false });
+						self.setState({ loading: false, error: err });
 						console.log(err);
 					}
 				);
@@ -92,7 +93,6 @@ export default class QrDialog extends Component {
 			const registers = await RegisterService.getAll()(token);
 			this.setState({ registers });
 		} catch (error) {
-			console.log(error)
 			this.setState({ registers: [] });
 		}
 	}
@@ -133,6 +133,7 @@ export default class QrDialog extends Component {
 					qr,
 					participant: undefined,
 					loading: false,
+					error: false
 				});
 
 				setTimeout(function () {
@@ -147,7 +148,7 @@ export default class QrDialog extends Component {
 				}, 100);
 			},
 			function (err) {
-				self.setState({ loading: false });
+				self.setState({ loading: false, error: err });
 				console.log(err);
 			},
 			this.state.registerId

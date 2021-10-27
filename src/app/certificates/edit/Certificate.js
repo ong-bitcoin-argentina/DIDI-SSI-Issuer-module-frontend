@@ -438,7 +438,15 @@ class Certificate extends Component {
 			const partData = this.state.cert.data.participant[0];
 			for (let key of Object.keys(partData)) partData[key].value = "";
 		} else {
-			this.state.cert.data.participant.splice(index, 1);
+			this.setState(({cert}) => ({ 
+				cert: {
+					...cert,
+					data: {
+						...cert.data,
+						participant: cert.data.participant.splice(index, 1),
+					}
+				}
+			}));
 		}
 
 		for (let partData of this.state.cert.data.participant) {
@@ -509,7 +517,23 @@ class Certificate extends Component {
 					});
 
 					const didDataToUpdate = partToUpdate.find(data => data.name.toLowerCase() === "did");
-					if (didDataToUpdate) didDataToUpdate.value = participant.did;
+					if (didDataToUpdate) {
+						self.setState(({ cert }) => ({
+							cert: {
+								...cert,
+								data: {
+									...cert.data,
+									participant: {
+										...cert.data.participant,
+										[position]: {
+											...[position],
+											value: participant.did,
+										} 
+									}
+								}
+							}
+						}));
+					}didDataToUpdate.value = participant.did;
 				}
 
 				self.setState(prevState => ({

@@ -437,8 +437,7 @@ class Main extends Component {
 		});
 
 		this.setState({
-			selectedCerts: selectedCerts,
-			allSelectedCerts: allSelected
+			selectedCerts: selectedCerts
 		});
 
 		const filteredCerts = certs.filter(item => !item.emmitedOn);
