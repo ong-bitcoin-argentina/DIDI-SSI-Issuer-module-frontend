@@ -418,16 +418,18 @@ class Certificate extends Component {
 				participant.push(partData);
 			} while (data.length - index >= partDataCount);
 
-			self.setState({
+			self.setState(({ cert }) => ({
 				cert: {
+					...cert,
 					data: {
+						...data,
 						cert: certData,
 						others: othersData,
 						participant,
 					},
 					error: undefined,
 				}
-			});
+			}));
 		};
 		reader.readAsText(files[0]);
 	};
