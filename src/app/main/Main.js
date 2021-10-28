@@ -460,15 +460,13 @@ class Main extends Component {
 
 		if (toEmmit.length === 0) return;
 
-		const certs = this.state.certificates.filter(t => toEmmit.indexOf(t._id) > -1);
-		certs.forEach(cert => {
-			cert.actions = <div></div>;
-			cert.selected = <div></div>;
-		});
+		const certs = this.state.certificates
+			.map(v => {
+				if (!(toEmmit.indexOf(v._id) > -1)) return {...v};
+				return { ...v, actions: <div></div>, selected: <div></div> };
+			});
 
-		this.setState(prevState => ({
-			certs: prevState.certificates, loading: true
-		}));
+		this.setState({ certs, loading: true });
 
 		const token = Cookie.get("token");
 		const self = this;
@@ -536,12 +534,15 @@ class Main extends Component {
 		const token = Cookie.get("token");
 		const self = this;
 
-		const cert = self.state.certificates.find(t => t._id === id);
-		cert.actions = <div></div>;
-		cert.select = <div></div>;
-		self.setState(prevState => ({
-			certs: prevState.certificates, loading: true
-		}));
+		const certs = self.state.certificates.map(v => {
+			if (v._id !== id) return {...v};
+			return {...v, actions: <div></div>, selected: <div></div> };
+		});
+
+		self.setState({
+			certs, loading: true
+		});
+		
 		CertificateService.emmit(
 			token,
 			id,

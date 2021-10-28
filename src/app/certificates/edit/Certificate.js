@@ -422,7 +422,7 @@ class Certificate extends Component {
 				cert: {
 					...cert,
 					data: {
-						...data,
+						...cert.data,
 						cert: certData,
 						others: othersData,
 						participant,
@@ -436,26 +436,24 @@ class Certificate extends Component {
 
 	// eliminar participante
 	removeParticipant = index => {
-		if (this.state.cert.data.participant.length === 1) {
-			const partData = this.state.cert.data.participant[0];
-			for (let key of Object.keys(partData)) partData[key].value = "";
-		} else {
-			this.setState(({cert}) => ({ 
-				cert: {
-					...cert,
-					data: {
-						...cert.data,
-						participant: cert.data.participant.splice(index, 1),
-					}
-				}
-			}));
-		}
+		const partData = this.state.cert.data.participant[0];
+		const isOnlyOneParticipant = this.state.cert.data.participant.length === 1;
+		const participant = isOnlyOneParticipant 
+			?	Object.keys(partData).reduce((acum, key) => {
+					acum[key].value = "";
+					return acum;
+				}, {}) 
+			: this.state.cert.data.participant.splice(index, 1);
 
-		for (let partData of this.state.cert.data.participant) {
-			this.validateDID(partData[0].value);
-			if (this.state.error) break;
-		}
-		this.setState(prevState => ({ cert: prevState.cert }));
+		this.setState(({cert}) => ({ 
+			cert: {
+				...cert,
+				data: {
+					...cert.data,
+					participant,
+				}
+			}
+		}));
 	};
 
 	// borrar data local y generar nuevo cert a partir del template
