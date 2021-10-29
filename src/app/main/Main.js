@@ -462,8 +462,10 @@ class Main extends Component {
 
 		const certs = this.state.certificates
 			.map(v => {
-				if (!(toEmmit.indexOf(v._id) > -1)) return {...v};
-				return { ...v, actions: <div></div>, selected: <div></div> };
+				const overwriteKeys = toEmmit.indexOf(v._id) > -1 
+					? { actions: <div></div>, selected: <div></div> } 
+					: {};
+				return ({ ...v, ...overwriteKeys })
 			});
 
 		this.setState({ certs, loading: true });
