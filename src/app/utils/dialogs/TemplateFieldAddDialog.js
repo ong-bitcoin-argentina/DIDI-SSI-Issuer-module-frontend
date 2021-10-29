@@ -196,8 +196,11 @@ export default class TemplateFieldAddDialog extends Component {
 					<div
 						id="OptionAdd"
 						onClick={() => {
-							this.state.options.push(this.state.option);
-							this.setState({ options: this.state.options, option: "" });
+							this.setState(prevState => ({
+								...prevState,
+								options: prevState.options.push(this.state.option),
+								option: "", 
+							}));
 						}}
 					>
 						<MaterialIcon id="AddOptionIcon" icon={Constants.TEMPLATES.EDIT.ICONS.ADD_OPTION} color={"#3f51b5"} />
@@ -214,8 +217,11 @@ export default class TemplateFieldAddDialog extends Component {
 								icon={Constants.TEMPLATES.EDIT.ICONS.REMOVE_OPTION}
 								color={"rgb(235, 70, 70)"}
 								onClick={() => {
-									this.state.options.splice(key, 1);
-									this.setState({ options: this.state.options, option: "" });
+									this.setState(prevState => ({
+										...prevState,
+										options: prevState.options.splice(key, 1),
+										option: "", 
+									}));
 								}}
 							/>
 						</div>

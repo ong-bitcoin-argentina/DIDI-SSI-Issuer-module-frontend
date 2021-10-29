@@ -91,7 +91,6 @@ class Main extends Component {
 				personal: {},
 				address: {}
 			},
-			allSelectedCerts: false,
 			selectedCerts: {},
 			certificates: [],
 			filteredCertificates: [],
@@ -170,7 +169,15 @@ class Main extends Component {
 	onParticipantSelectToggle = (id, type, value) => {
 		const allSelectedParticipants = this.state.allSelectedParticipants;
 		const selectedParticipants = this.state.selectedParticipants;
-		selectedParticipants[type][id] = value;
+		this.setState(({ selectedParticipants }) => ({
+			selectedParticipants: {
+				...selectedParticipants,
+				[type]: {
+					...selectedParticipants[type],
+					[id]: value,
+				},
+			}
+		}));
 		this.updateSelectedParticipantsState(this.state.parts, selectedParticipants, allSelectedParticipants);
 	};
 
@@ -279,11 +286,17 @@ class Main extends Component {
 		const token = Cookie.get("token");
 		const self = this;
 
-		const cert = self.state.certificates.find(t => t._id === id);
-		cert.actions = <div></div>;
-		cert.select = <div></div>;
+		const certs = this.state.certificates
+			.map(v => {
+				const overwriteKeys = v._id === id
+					? { actions: <div></div>, selected: <div></div> } 
+					: {};
+				return ({ ...v, ...overwriteKeys })
+			});
 
-		self.setState({ certs: self.state.certificates, loading: true });
+		self.setState({
+			certs, loading: true
+		});
 
 		try {
 			await CertificateService.delete(id)(token);
@@ -307,13 +320,17 @@ class Main extends Component {
 
 		if (selectedCerts.length === 0) return;
 
-		const certs = this.state.certificates.filter(t => selectedCerts.indexOf(t._id) > -1);
-		certs.forEach(cert => {
-			cert.actions = <div></div>;
-			cert.selected = <div></div>;
+		const certs = this.state.certificates
+		.map(v => {
+			const overwriteKeys = selectedCerts.indexOf(v._id) > -1 
+				? { actions: <div></div>, selected: <div></div> } 
+				: {};
+			return ({ ...v, ...overwriteKeys })
 		});
 
-		this.setState({ certs: this.state.certificates, loading: true });
+		this.setState({
+			certs, loading: true
+		});
 
 		const self = this;
 		let errors = [];
@@ -353,13 +370,12 @@ class Main extends Component {
 
 	// seleccionar todos los credenciales para emitirlos
 	onCertificateSelectAllToggle = value => {
-		let allSelectedCerts = this.state.allSelectedCerts;
+		let allSelectedCerts = value;
 		const certs = this.state.filteredCertificates;
 		const selectedCerts = this.state.selectedCerts;
 		certs.forEach(cert => {
 			if (!cert["emmitedOn"]) selectedCerts[cert._id] = value;
 		});
-		allSelectedCerts = value;
 		this.updateFilterData(selectedCerts, allSelectedCerts);
 	};
 
@@ -378,8 +394,7 @@ class Main extends Component {
 		});
 
 		this.setState({
-			selectedCerts: selectedCerts,
-			allSelectedCerts: allSelected
+			selectedCerts: selectedCerts
 		});
 
 		const certificatesData = this.certificatesMapedToTable(filteredCertificates, selectedCerts);
@@ -428,8 +443,7 @@ class Main extends Component {
 		});
 
 		this.setState({
-			selectedCerts: selectedCerts,
-			allSelectedCerts: allSelected
+			selectedCerts: selectedCerts
 		});
 
 		const filteredCerts = certs.filter(item => !item.emmitedOn);
@@ -452,13 +466,15 @@ class Main extends Component {
 
 		if (toEmmit.length === 0) return;
 
-		const certs = this.state.certificates.filter(t => toEmmit.indexOf(t._id) > -1);
-		certs.forEach(cert => {
-			cert.actions = <div></div>;
-			cert.selected = <div></div>;
-		});
+		const certs = this.state.certificates
+			.map(v => {
+				const overwriteKeys = toEmmit.indexOf(v._id) > -1 
+					? { actions: <div></div>, selected: <div></div> } 
+					: {};
+				return ({ ...v, ...overwriteKeys })
+			});
 
-		this.setState({ certs: this.state.certificates, loading: true });
+		this.setState({ certs, loading: true });
 
 		const token = Cookie.get("token");
 		const self = this;
@@ -526,10 +542,15 @@ class Main extends Component {
 		const token = Cookie.get("token");
 		const self = this;
 
-		const cert = self.state.certificates.find(t => t._id === id);
-		cert.actions = <div></div>;
-		cert.select = <div></div>;
-		self.setState({ certs: self.state.certificates, loading: true });
+		const certs = self.state.certificates.map(v => {
+			if (v._id !== id) return {...v};
+			return {...v, actions: <div></div>, selected: <div></div> };
+		});
+
+		self.setState({
+			certs, loading: true
+		});
+		
 		CertificateService.emmit(
 			token,
 			id,

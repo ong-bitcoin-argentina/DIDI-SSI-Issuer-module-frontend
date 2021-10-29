@@ -130,7 +130,7 @@ export default class QrDialog extends Component {
 			function (qr) {
 				self.setState({
 					requestCode: code,
-					qr: qr,
+					qr,
 					participant: undefined,
 					loading: false,
 					error: false

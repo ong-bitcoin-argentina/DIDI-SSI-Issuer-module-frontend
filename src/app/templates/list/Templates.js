@@ -40,7 +40,7 @@ class Templates extends Component {
 			const registers = await RegisterService.getAll()(token);
 			this.setState({ registers });
 		} catch (error) {
-			this.setState({ registers: [] });
+			this.setState({ registers: [], error });
 		}
 	}
 

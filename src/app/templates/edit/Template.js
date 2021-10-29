@@ -37,8 +37,6 @@ class Template extends Component {
 
 		this.state = {
 			loading: true,
-			typingTimeout: 0,
-			typing: false,
 			radioValue: 1
 		};
 	}
@@ -56,8 +54,7 @@ class Template extends Component {
 			id,
 			async function (template) {
 				self.setState({
-					id: id,
-					template: template,
+					template,
 					radioValue: template.previewType,
 					loading: false,
 					error: false
@@ -96,52 +93,79 @@ class Template extends Component {
 	createField = (data, type) => {
 		if (this.templateFieldAddDialog) this.templateFieldAddDialog.close();
 
-		this.state.template.data[type].push(data);
-		this.setState({ template: this.state.template });
+		this.setState(({ template }) => ({
+			template: {
+				...template,
+				data: {
+					...template.data,
+					[type]: [...template.data[type], data]
+				}
+			}
+		}));
 	};
 
 	// marcar campo como requerido / no requerido
 	toggleRequired = (data, type) => {
-		const dataElem = this.state.template.data[type].find(dataElem => {
-			return dataElem.name === data.name;
+		const dataElem = this.state.template.data[type].map(v => {
+			if (v.name === data.name && !v.mandatory) return { ...v, required: !v.required};
+			return { ...v };			
 		});
 
-		if (dataElem && !dataElem.mandatory) {
-			dataElem.required = !dataElem.required;
-			this.setState({ template: this.state.template });
-		}
+		this.setState(({ template }) => ({ 
+			template: {
+				...template,
+				data: {
+					...template.data,
+					[type]: dataElem,
+				},
+			},
+		}));
 	};
 
 	// cambiar valor por defecto del campo
 	setDefaultValue = (data, defaultValue, type) => {
-		const dataElem = this.state.template.data[type].find(dataElem => {
-			return dataElem.name === data.name;
+		const dataElem = this.state.template.data[type].map(v => {
+			if (v.name === data.name) return { ...v, defaultValue };
+			return { ...v };			
 		});
 
-		if (dataElem) {
-			dataElem.defaultValue = defaultValue;
-			this.setState({ template: this.state.template });
-		}
+		this.setState(({ template }) => ({
+			template: {
+				...template,
+				data: {
+					...template.data,
+					[type]: dataElem,
+				},
+			},
+		}));
 	};
 
 	// seleccionar los campos a mostrarse por defecto en el credencial
 	onPreviewFieldsSelected = event => {
-		const template = this.state.template;
-		template.previewData = event.target.value;
-		template.previewType = this.state.radioValue;
-		this.setState({ template: template });
+		this.setState(({ template }) => ({
+			template: {
+				...template,
+				previewDate: event.target.value,
+			}
+		}))
 	};
 
 	// borrar campo
 	deleteField = (data, type) => {
-		const template = this.state.template;
-		template.data[type] = template.data[type].filter(dataElem => {
-			return dataElem.name !== data.name;
-		});
-		template.previewData = template.previewData.filter(prevData => {
-			return prevData !== data.name;
-		});
-		this.setState({ template: template });
+		this.setState(({ template }) => ({
+			template: {
+				...template,
+				data: {
+					...template.data,
+					[type]: template.data[type].filter(dataElem => {
+							return dataElem.name !== data.name;
+					})
+				},
+				previeData: template.previewData.filter(prevData => {
+					return prevData !== data.name
+				}),
+			}
+		}))
 	};
 
 	// guardar template y volver a listado de templates

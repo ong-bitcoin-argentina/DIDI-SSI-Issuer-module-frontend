@@ -29,8 +29,6 @@ import DefautValueService from "../../../services/DefaultValueService";
 import { validateAccess } from "../../../constants/Roles";
 
 const { Write_Certs } = Constants.ROLES;
-
-let interval;
 class Certificate extends Component {
 	constructor(props) {
 		super(props);
@@ -39,13 +37,6 @@ class Certificate extends Component {
 			loading: false,
 			action: "viewing"
 		};
-	}
-
-	// parar pooling de participante (espera respuestas del qr)
-	componentWillUnmount() {
-		if (interval) {
-			clearInterval(interval);
-		}
 	}
 
 	// cargar templates, credencial, etc
@@ -210,9 +201,16 @@ class Certificate extends Component {
 
 	// agregar info de participante con los datos por defecto del template
 	addParticipant = () => {
-		const participant = this.state.cert.data.participant;
-		participant.push(this.certDataFromTemplate(this.state.template, "participant"));
-		this.setState({ cert: this.state.cert });
+		const newParticipantData = this.certDataFromTemplate(this.state.template, "participant");
+		this.setState(({cert}) => ({ 
+			cert: {
+				...cert,
+				data: {
+					...cert.data,
+					participant: [...cert.data, newParticipantData]
+				}
+			}
+		}));
 	};
 
 	// genera csv de ejemplo para carga por csv
@@ -420,29 +418,42 @@ class Certificate extends Component {
 				participant.push(partData);
 			} while (data.length - index >= partDataCount);
 
-			self.state.cert.data.cert = certData;
-			self.state.cert.data.participant = participant;
-			self.state.cert.data.others = othersData;
-
-			self.setState({ cert: self.state.cert, error: undefined });
+			self.setState(({ cert }) => ({
+				cert: {
+					...cert,
+					data: {
+						...cert.data,
+						cert: certData,
+						others: othersData,
+						participant,
+					},
+					error: undefined,
+				}
+			}));
 		};
 		reader.readAsText(files[0]);
 	};
 
 	// eliminar participante
 	removeParticipant = index => {
-		if (this.state.cert.data.participant.length === 1) {
-			const partData = this.state.cert.data.participant[0];
-			for (let key of Object.keys(partData)) partData[key].value = "";
-		} else {
-			this.state.cert.data.participant.splice(index, 1);
-		}
+		const partData = this.state.cert.data.participant[0];
+		const isOnlyOneParticipant = this.state.cert.data.participant.length === 1;
+		const participant = isOnlyOneParticipant 
+			?	Object.keys(partData).reduce((acum, key) => {
+					acum[key].value = "";
+					return acum;
+				}, {}) 
+			: this.state.cert.data.participant.splice(index, 1);
 
-		for (let partData of this.state.cert.data.participant) {
-			this.validateDID(partData[0].value);
-			if (this.state.error) break;
-		}
-		this.setState({ cert: this.state.cert });
+		this.setState(({cert}) => ({ 
+			cert: {
+				...cert,
+				data: {
+					...cert.data,
+					participant,
+				}
+			}
+		}));
 	};
 
 	// borrar data local y generar nuevo cert a partir del template
@@ -506,15 +517,31 @@ class Certificate extends Component {
 					});
 
 					const didDataToUpdate = partToUpdate.find(data => data.name.toLowerCase() === "did");
-					if (didDataToUpdate) didDataToUpdate.value = participant.did;
+					if (didDataToUpdate) {
+						self.setState(({ cert }) => ({
+							cert: {
+								...cert,
+								data: {
+									...cert.data,
+									participant: {
+										...cert.data.participant,
+										[position]: {
+											...[position],
+											value: participant.did,
+										} 
+									}
+								}
+							}
+						}));
+					}didDataToUpdate.value = participant.did;
 				}
 
-				self.setState({
-					participants: self.state.participants,
+				self.setState(prevState => ({
+					participants: prevState.participants,
 					error: false,
-					action: self.state.action,
+					action: prevState.action,
 					loading: false
-				});
+				}));
 			},
 			function (err) {
 				self.setState({ error: err });
@@ -578,16 +605,34 @@ class Certificate extends Component {
 
 	// actualizar campos seleccionados de la microcredencial
 	microcredFieldsSelected = (key, event) => {
-		const cert = this.state.cert;
-		cert.microCredentials[key].names = event.target.value;
-		this.setState({ cert: cert });
+		this.setState(({ cert }) => ({
+			cert: {
+				...cert,
+				microCredentials: {
+					...cert.microCredentials,
+					[key]: {
+						...cert.microCredentials[key],
+						names: event.target.value,
+					}
+				}
+			}
+		}));
 	};
 
 	// actualizar nombre de la microcredencial
 	microcredNameChanged = (key, event) => {
-		const cert = this.state.cert;
-		cert.microCredentials[key].title = event.target.value;
-		this.setState({ cert: cert });
+		this.setState(({ cert }) => ({
+			cert: {
+				...cert,
+				microCredentials: {
+					...cert.microCredentials,
+					[key]: {
+						...cert.microCredentials[key],
+						names: event.target.value,
+					}
+				}
+			}
+		}));
 	};
 
 	// habilita o deshabilita microcredenciales
@@ -688,10 +733,8 @@ class Certificate extends Component {
 			code,
 			function (qr) {
 				self.setState({
-					requestCode: code,
-					qr: qr,
+					qr,
 					loading: false,
-					qrSet: false,
 					error: false
 				});
 			},
@@ -860,7 +903,7 @@ class Certificate extends Component {
 							<div hidden={key === 0}>
 								<button
 									className="RemoveParticipantButton"
-									hidden={this.state.viewing}
+									hidden={viewing}
 									onClick={() => this.removeParticipant(key)}
 								>
 									{Messages.EDIT.BUTTONS.REMOVE_PARTICIPANTS}
