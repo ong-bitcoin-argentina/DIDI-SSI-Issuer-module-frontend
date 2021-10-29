@@ -286,13 +286,21 @@ class Main extends Component {
 		const token = Cookie.get("token");
 		const self = this;
 
+		const certs = this.state.certificates
+			.map(v => {
+				const overwriteKeys = v._id === id
+					? { actions: <div></div>, selected: <div></div> } 
+					: {};
+				return ({ ...v, ...overwriteKeys })
+			});
+
 		const cert = self.state.certificates.find(t => t._id === id);
 		cert.actions = <div></div>;
 		cert.select = <div></div>;
 
-		self.setState(prevState => ({
-			certs: prevState.certificates, loading: true
-		}));
+		self.setState({
+			certs, loading: true
+		});
 
 		try {
 			await CertificateService.delete(id)(token);
@@ -316,15 +324,17 @@ class Main extends Component {
 
 		if (selectedCerts.length === 0) return;
 
-		const certs = this.state.certificates.filter(t => selectedCerts.indexOf(t._id) > -1);
-		certs.forEach(cert => {
-			cert.actions = <div></div>;
-			cert.selected = <div></div>;
+		const certs = this.state.certificates
+		.map(v => {
+			const overwriteKeys = selectedCerts.indexOf(v._id) > -1 
+				? { actions: <div></div>, selected: <div></div> } 
+				: {};
+			return ({ ...v, ...overwriteKeys })
 		});
 
-		this.setState(prevState => ({
-			certs: prevState.certificates, loading: true
-		}));
+		this.setState({
+			certs, loading: true
+		});
 
 		const self = this;
 		let errors = [];
