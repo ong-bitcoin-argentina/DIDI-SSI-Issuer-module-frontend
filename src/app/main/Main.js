@@ -294,10 +294,6 @@ class Main extends Component {
 				return ({ ...v, ...overwriteKeys })
 			});
 
-		const cert = self.state.certificates.find(t => t._id === id);
-		cert.actions = <div></div>;
-		cert.select = <div></div>;
-
 		self.setState({
 			certs, loading: true
 		});
