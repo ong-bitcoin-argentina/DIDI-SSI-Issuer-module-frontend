@@ -300,9 +300,9 @@ class Main extends Component {
 
 		try {
 			await CertificateService.delete(id)(token);
-			const certs = self.state.certs.filter(t => t._id !== cert._id);
+			const certiticate = self.state.certs.filter(t => t._id !== id);
 			self.setState({
-				certs: certs,
+				certs: certiticate,
 				loading: false,
 				error: false
 			});
