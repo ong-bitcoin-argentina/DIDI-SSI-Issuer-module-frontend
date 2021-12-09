@@ -8,6 +8,7 @@
 		"@material-ui/icons": "4.9.1",
 		"@material-ui/lab": "4.0.0-alpha.44",
 		"@material/react-tab-bar": "0.15.0",
+		"@proyecto-didi/didi-blockchain-manager": "^2.0.2",
 		"dateformat": "3.0.3",
 		"did-jwt": "4.0.0",
 		"did-resolver": "1.1.0",
@@ -31,7 +32,7 @@
 		"react-table-6": "6.11.0",
 		"react-tabs": "3.0.0",
 		"react-with-direction": "1.3.1",
-		"uport-credentials": "1.3.5"
+		"uport-credentials": "^1.3.5"
 	},
 	"scripts": {
 		"setup": "npm install",
