@@ -10,7 +10,7 @@ import Notification from "../components/Notification";
 import RegisterService from "../../services/RegisterService";
 import Constants from "../../constants/Constants";
 
-const BLOCKCHAIN_LABEL_NAME = "Blockchain de Verificación por defecto";
+const BLOCKCHAIN_LABEL_NAME = "Emisor por defecto";
 const TEMPLATE_LABEL_NAME = "Template de Credenciales por defecto";
 const CREATE_MESSAGE = "Se creo exitosamente";
 const EDIT_MESSAGE = "Se editó exitosamente";
