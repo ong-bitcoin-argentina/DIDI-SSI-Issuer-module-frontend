@@ -43,7 +43,7 @@ const UserList = () => {
 			row => filter(row, "name", name) && filter(row, "profile", profile) && filterByDates(row, start, end)
 		);
 		setFilteredData(result);
-	}, [filters]);
+	}, [filters, users]);
 
 	const getProfilesData = async () => {
 		const token = Cookie.get("token");
@@ -126,7 +126,7 @@ const UserList = () => {
 				<div style={{ display: "flex", justifyContent: "center" }}>
 					<CircularProgress />
 				</div>
-			)) || (
+			)) || ( 
 				<ReactTable
 					sortable={true}
 					previousText={Messages.LIST.TABLE.PREV}
