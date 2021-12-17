@@ -4,7 +4,7 @@ import moment from "moment";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "../setting/default-button";
 import { DATE_FORMAT } from "../../constants/Constants";
-import { CERT_CATEGORIES } from "../presentations/list/constants";
+import { CRED_CATEGORIES } from "../presentations/list/constants";
 const TITLE = "Detalle de la Presentación";
 
 const formatDate = date => (date ? moment(date).format(DATE_FORMAT) : "-");
@@ -28,7 +28,7 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
 	};
   let credentials = []
   Object.entries(claims.verifiable).forEach(([key, value]) => credentials.push({
-    [CERT_CATEGORIES[key]]: {
+    [CRED_CATEGORIES[key] || key]: {
       value
     }
   }));

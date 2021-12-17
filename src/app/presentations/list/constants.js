@@ -1,4 +1,4 @@
-export const CERT_CATEGORIES = {
+export const CRED_CATEGORIES = {
   emailMain: 'Email',
   mobilePhone: 'Telefono',
   nationalId: 'Documento de Identidad',

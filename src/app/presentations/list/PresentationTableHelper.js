@@ -5,7 +5,7 @@ import { Delete, Visibility } from "@material-ui/icons"
 import InputFilter from "../../components/InputFilter";
 import Action from "../../utils/Action";
 import DateRangeFilter from "../../components/DateRangeFilter/DateRangeFilter";
-import { CERT_CATEGORIES } from "./constants";
+import { CRED_CATEGORIES } from "./constants";
 
 const COLUMNS_NAME = [
 	{
@@ -32,7 +32,7 @@ export const getPresentationAllColumns = (handleFilter, onDateRangeFilterChange)
 			accessor: "name"
 		},
 		{
-			Header: "certificados",
+			Header: "Credenciales",
 			accessor: "claims"
 		},
 		{
@@ -50,12 +50,12 @@ const formatDate = date => (date ? moment(date).format(DATE_FORMAT) : "-");
 
 export const getPresentationData = (presentation, onView, onDelete) => {
 	const { iat, claims } = presentation;
-	const certificates = Object.keys(claims.verifiable).map(cert => CERT_CATEGORIES[cert]);
+	const credentials = Object.keys(claims.verifiable).map(cred => CRED_CATEGORIES[cred] || cred);
 
 	return {
 		...presentation,
 		onCreated: <div style={{ textAlign: "center" }}>{formatDate(iat)}</div>,
-		claims: certificates.map((cert, index) => index < certificates.length - 1 ? `${cert} - ` : `${cert}`),
+		claims: credentials.map((cred, index) => index < credentials.length - 1 ? `${cred} - ` : `${cred}`),
 		actions: (
 			<div className="Actions">
 				<Action handle={() => onView(presentation)} title="Ver" Icon={Visibility} color="#5FCDD" />

@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "../setting/default-button";
 import SelectClaims from "./SelectClaims";
-import { CERT_CATEGORIES } from "../presentations/list/constants";
+import { CRED_CATEGORIES } from "../presentations/list/constants";
 
 
 const TITLE = "Nueva Presentación";
@@ -110,7 +110,7 @@ const CreatePresentationModal = ({ open, close, onSubmit, title }) => {
 													<ListItem>
 														<ListItemText
 															primaryTypographyProps={{ style: { fontSize: 18 } }}
-															primary={`- ${CERT_CATEGORIES[claim[0]]}`}
+															primary={`- ${CRED_CATEGORIES[claim[0]] || claim[0]}`}
 														/>
 													</ListItem>
 												)})}
@@ -148,17 +148,17 @@ const CreatePresentationModal = ({ open, close, onSubmit, title }) => {
 				<DialogActions>
 					<DefaultButton otherClass="DangerButtonOutlined" name="Cancelar" type="reset" disabled={loading} />
 					{!selectedName ? 
-						<DefaultButton funct={() => handleSetName()} name={'Agregar credenciales'} type="otherClass" disabled={loading} loading={loading} />
+						<DefaultButton funct={handleSetName} name={'Agregar credenciales'} type="otherClass" disabled={loading} loading={loading} />
 					: 	
 					<>
 						<DefaultButton 
-							funct={() => addClaim()} 
+							funct={addClaim} 
 							name={'Agregar credencial'} 
 							type="otherClass" 
 							disabled={loading || reason === '' || category === '' || issuers.length === 0} 
 						/>
 						<DefaultButton 
-							funct={() => handleSubmit()} 
+							funct={handleSubmit} 
 							name={title} 
 							type="submit" 
 							disabled={loading || !newPresentation.claims} loading={loading} 

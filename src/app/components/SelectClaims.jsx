@@ -9,7 +9,7 @@ import {
   Checkbox,
 } from "@material-ui/core";
 
-import { CERT_CATEGORIES, VC_CATEGORIES } from "../presentations/list/constants";
+import { CRED_CATEGORIES, VC_CATEGORIES } from "../presentations/list/constants";
 import SelectIssuers from "./SelectIssuer";
 
 const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClaim, selectedCategories, issuers }) => {
@@ -45,11 +45,11 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
               id="selectClaims"
               value={category}
               onChange={handleSelectChange}
-              renderValue={(selected) => CERT_CATEGORIES[selected]}
+              renderValue={(selected) => CRED_CATEGORIES[selected] || selected}
             >
             {categories.map((claim) => (
               <MenuItem key={claim} value={claim}>
-                <ListItemText primary={CERT_CATEGORIES[claim]} />
+                <ListItemText primary={CRED_CATEGORIES[claim] || claim} />
               </MenuItem>
             ))}
             </Select>

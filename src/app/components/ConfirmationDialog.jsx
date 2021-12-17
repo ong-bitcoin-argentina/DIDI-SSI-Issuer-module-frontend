@@ -25,7 +25,7 @@ const ConfirmationDialog = ({ modalOpen, setModalOpen, onDelete, title, message,
       <DialogActions>
         <DefaultButton funct={close} otherClass="DangerButtonOutlined" name={Messages.LIST.DIALOG.CANCEL} />
         <DefaultButton
-          funct={() => onDelete()}
+          funct={onDelete}
           name={confirm}
         />
       </DialogActions>
