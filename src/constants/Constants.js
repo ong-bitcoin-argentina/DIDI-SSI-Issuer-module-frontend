@@ -15,7 +15,13 @@ module.exports = {
 		REGISTER: {
 			CREATE: API + "/register",
 			GET: API + "/register",
-			GET_ALL_BLOCKCHAINS: API + "/register/all/blockchain"
+			GET_ALL_BLOCKCHAINS: API + "/register/all/blockchain",
+			PRESENTATION: (did) => `${API}/register/shareRequests/${did}`,
+			GET_PRESENTATION: (did, id) => `${API}/register/${did}/shareRequests/${id}`
+		},
+		PRESENTATION: {
+			GET_ALL: `${API}/shareRequest/all`,
+			DELETE: (id) => `${API}/shareRequests/${id}`,
 		},
 		IMAGE: {
 			GET: (id) => `${API}/image/${id}`

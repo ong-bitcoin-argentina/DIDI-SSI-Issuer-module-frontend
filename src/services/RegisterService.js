@@ -2,7 +2,7 @@ import Constants from "../constants/Constants";
 import { fetchData, options, optionsBodyMultipart } from "./utils";
 
 const { DONE } = Constants.STATUS;
-const { GET, GET_ALL_BLOCKCHAINS, CREATE } = Constants.API_ROUTES.REGISTER;
+const { GET, GET_ALL_BLOCKCHAINS, CREATE, PRESENTATION, GET_PRESENTATION } = Constants.API_ROUTES.REGISTER;
 export default class RegisterService {
 	static getAll(params = { status: DONE }) {
 		const url = new URL(GET);
@@ -33,5 +33,17 @@ export default class RegisterService {
 
 	static revoke(did) {
 		return fetchData(options("DELETE"), `${CREATE}/${did}`);
+	}
+
+	static createPresentation(data, did) {
+		return fetchData(optionsBodyMultipart("POST", data), PRESENTATION(did));
+	}
+
+	static getPresentationByDid(did) {
+		return fetchData(options("GET"), PRESENTATION(did));
+	}
+
+	static getPresentationById(did, id) {
+		return fetchData(options("GET"), GET_PRESENTATION(did, id));
 	}
 }
