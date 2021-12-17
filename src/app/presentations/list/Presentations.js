@@ -153,7 +153,7 @@ const Presentation = () => {
 						setModalOpen={setDeleteModalOpen}
 						onDelete={() => onDelete()}
 						title={Messages.LIST.DIALOG.DELETE_CERT_TITLE}
-						message={Messages.LIST.DIALOG.DELETE_CONFIRMATION(presentationSelected.name)}
+						message={Messages.LIST.DIALOG.DELETE_PRESENTATION_CONF(presentationSelected.name)}
 						confirm={Messages.LIST.DIALOG.DELETE}
 					/>
 				</>	: null}
