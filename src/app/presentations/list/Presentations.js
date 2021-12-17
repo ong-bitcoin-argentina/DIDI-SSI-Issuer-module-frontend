@@ -9,8 +9,11 @@ import { getPresentationAllColumns, getPresentationData } from "./PresentationTa
 import "./Presentations.scss";
 import { presentations } from "./pres";
 import { filter, filterByDates } from "../../../services/utils";
+import PresentationService from "../../../services/PresentationService";
+import RegisterService from "../../../services/RegisterService";
 import DescriptionGrid from "../../components/DescriptionGrid";
 import OpenModalButton from "../../setting/open-modal-button";
+import ConfirmationDialog from "../../components/ConfirmationDialog";
 import CreatePresentationModal from "../../components/CreatePresentationModal";
 import PresentationDetails from "../../components/PresentationDetails";
 
@@ -46,6 +49,7 @@ const Presentation = () => {
 		const getPresentations = async () => {
 			setLoading(true);
 			try {
+				const token = Cookie.get("token");
 				// const data = await PresentationService.getAll({})(token);
 				setData(presentations);
 				setFilteredData(data);
@@ -54,7 +58,6 @@ const Presentation = () => {
 			}
 			setLoading(false);
 		};
-	
 		getPresentations();
 	}, [data]);
 
@@ -73,8 +76,31 @@ const Presentation = () => {
 	};
 
 	const createPresentation = (presentation) => {
-		console.log(presentation)
+		setLoading(true);
+		try {
+			const token = Cookie.get("token");
+			// await RegisterService.createPresentation(presentation)(token)
+			// setData(presentations);
+			// setFilteredData(data);
+		} catch (error) {
+			setError(error.message);
+		}
+		setLoading(false);
 		setModalOpen(false);
+	};
+
+	const onDelete = async () => {
+		setLoading(true);
+		try {
+			const token = Cookie.get("token");
+			await PresentationService.delete(presentationSelected._id)(token)
+			setData(presentations);
+			setFilteredData(data);
+		} catch (error) {
+			setError(error.message);
+		}
+		setLoading(false);
+		setDeleteModalOpen(false);
 	};
 
 	return (
@@ -116,11 +142,21 @@ const Presentation = () => {
 				required
 			/>
 			{presentationSelected ? 
-				<PresentationDetails 
-					modalOpen={detailModalOpen}
-					setModalOpen={setDetailModalOpen}
-					presentation={presentationSelected}
-				/> : null}
+				<>
+					<PresentationDetails
+						modalOpen={detailModalOpen}
+						setModalOpen={setDetailModalOpen}
+						presentation={presentationSelected}
+					/> 
+					<ConfirmationDialog
+						modalOpen={deleteModalOpen}
+						setModalOpen={setDeleteModalOpen}
+						onDelete={() => onDelete()}
+						title={Messages.LIST.DIALOG.DELETE_CERT_TITLE}
+						message={Messages.LIST.DIALOG.DELETE_CONFIRMATION(presentationSelected.name)}
+						confirm={Messages.LIST.DIALOG.DELETE}
+					/>
+				</>	: null}
 		</>
 	);
 };

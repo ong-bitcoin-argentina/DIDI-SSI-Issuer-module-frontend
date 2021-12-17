@@ -76,7 +76,9 @@ module.exports = {
 				return "Renombrar emisor (El nombre actual es '" + name + "'):";
 			},
 			DELETE_CONFIRMATION: title => `¿Está seguro que desea eliminar ${title}?`,
+			DELETE_PRESENTATION_CONF: title => `¿Está seguro que desea eliminar la presentación ${title}?`,
 			DELETE_CERT_TITLE: "Borrar Credencial",
+			DELETE_PRESENTATION_TITLE: "Borrar Presentación",
 			DELETE_TEMPLATE_TITLE: "Borrar Modelo",
 			DELETE_DELEGATE_TITLE: "Borrar Delegado",
 			REVOKE_CERT_TITLE: "Revocar Credencial",

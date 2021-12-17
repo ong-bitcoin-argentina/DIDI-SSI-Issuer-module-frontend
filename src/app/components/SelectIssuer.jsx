@@ -62,7 +62,7 @@ const SelectIssuers = ({ setIssuers, issuers }) => {
           funct={() => addIssuer()} 
           name={'Agregar emisor'}
           type="otherClass" 
-          disabled={issuer.did === '' || issuer.url === ''} 
+          disabled={issuer.did === ''} 
         />
       </div>
     </div>

@@ -26,8 +26,8 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
 	const close = () => {
 		setModalOpen(false);
 	};
-  let certificates = []
-  Object.entries(claims.verifiable).forEach(([key, value]) => certificates.push({
+  let credentials = []
+  Object.entries(claims.verifiable).forEach(([key, value]) => credentials.push({
     [CERT_CATEGORIES[key]]: {
       value
     }
@@ -46,12 +46,11 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
             <strong>Credenciales: </strong>
           </Typography>
           <List dense={true} disablePadding={true} >
-            {certificates.map((cert) => {
-              const entries = Object.entries(cert);
+            {credentials.map((cred) => {
+              const entries = Object.entries(cred);
               const key = entries[0][0];
               const { value } = entries[0][1];
               const { reason, essential, iss } = value; 
-              console.log(essential)
               const required = essential ? 'Si' : 'No';
               return (
                 <>
