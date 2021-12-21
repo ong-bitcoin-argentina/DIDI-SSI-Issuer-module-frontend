@@ -1,6 +1,5 @@
-import React  from "react";
+import React from "react";
 import { 
-  FormControl,
   Select,
   Typography,
   ListItemText,
@@ -12,7 +11,7 @@ import {
 import { CRED_CATEGORIES, VC_CATEGORIES } from "../presentations/list/constants";
 import SelectIssuers from "./SelectIssuer";
 
-const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClaim, selectedCategories, issuers }) => {
+const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClaim, issuers, selectedCategories }) => {
   const { category, reason, required } = newClaim;
 
   const handleSelectChange = (event) => {
@@ -35,8 +34,7 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
   });
 
 	return (
-    <div className="Data">
-      <FormControl sx={{ m: 1, width: 300 }}>
+    <div className="Data" sx={{ m: 1, width: 300 }}>
         {categories.length > 0 ? 
           <>
             <Typography variant="subtitle1">Seleccione credenciales</Typography>
@@ -47,8 +45,8 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
               onChange={handleSelectChange}
               renderValue={(selected) => CRED_CATEGORIES[selected] || selected}
             >
-            {categories.map((claim) => (
-              <MenuItem key={claim} value={claim}>
+            {categories.map((claim, index) => (
+              <MenuItem key={index} value={claim}>
                 <ListItemText primary={CRED_CATEGORIES[claim] || claim} />
               </MenuItem>
             ))}
@@ -74,7 +72,6 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
             <SelectIssuers issuers={issuers} setIssuers={setIssuers} />
           </>
           : <Typography variant="subtitle1">Se seleccionaron todas las categorias disponibles, haga click en crear para finalizar.</Typography>}
-      </FormControl>
     </div>
 	);
 };

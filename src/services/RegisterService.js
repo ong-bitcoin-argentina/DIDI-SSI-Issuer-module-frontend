@@ -1,5 +1,5 @@
 import Constants from "../constants/Constants";
-import { fetchData, options, optionsBodyMultipart } from "./utils";
+import { fetchData, options, optionsBody, optionsBodyMultipart } from "./utils";
 
 const { DONE } = Constants.STATUS;
 const { GET, GET_ALL_BLOCKCHAINS, CREATE, PRESENTATION, GET_PRESENTATION } = Constants.API_ROUTES.REGISTER;
@@ -35,8 +35,9 @@ export default class RegisterService {
 		return fetchData(options("DELETE"), `${CREATE}/${did}`);
 	}
 
-	static createPresentation(data, did) {
-		return fetchData(optionsBodyMultipart("POST", data), PRESENTATION(did));
+	static createPresentation(presentation) {
+		const { name, registerDid, claims, callback, iat } = presentation;
+		return fetchData(optionsBody("POST", { name, claims, callback, iat}), PRESENTATION(registerDid));
 	}
 
 	static getPresentationByDid(did) {

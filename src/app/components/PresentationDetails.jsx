@@ -50,7 +50,7 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
               const entries = Object.entries(cred);
               const key = entries[0][0];
               const { value } = entries[0][1];
-              const { reason, essential, iss } = value; 
+              const { reason, essential, issuers } = value; 
               const required = essential ? 'Si' : 'No';
               return (
                 <>
@@ -64,7 +64,7 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
                   <ListItem>
                     <List dense={true} disablePadding={true} >
                       <ListItemText primary={'- Emisores autorizados: '} />
-                      {iss.map(issuer => {
+                      {issuers.map(issuer => {
                         return (
                           <>
                             <ListItem>

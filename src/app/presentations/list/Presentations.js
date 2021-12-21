@@ -7,7 +7,6 @@ import Constants from '../../../constants/Constants';
 import Messages, { TAB_TEXT } from "../../../constants/Messages";
 import { getPresentationAllColumns, getPresentationData } from "./PresentationTableHelper";
 import "./Presentations.scss";
-import { presentations } from "./pres";
 import { filter, filterByDates } from "../../../services/utils";
 import PresentationService from "../../../services/PresentationService";
 import RegisterService from "../../../services/RegisterService";
@@ -31,8 +30,6 @@ const Presentation = () => {
 	const [data, setData] = useState([]);
 	const [error, setError] = useState("");
 
-	const ifNotElements = data.length === 0;
-
 	useEffect(() => {
 		const { name, created } = filters;
 		const result = data.filter(
@@ -43,23 +40,22 @@ const Presentation = () => {
 		setFilteredData(result);
 	}, [filters, data]);
 
-  // TODO: mandar a otro archivo
+	const getPresentations = async () => {
+		setLoading(true);
+		const token = Cookie.get("token");
+		try {
+			setData(await PresentationService.getAll()(token));
+			setFilteredData(data);
+		} catch (error) {
+			setError(error.message);
+		}
+		setLoading(false);
+	};
 
 	useEffect(() => {
-		const getPresentations = async () => {
-			setLoading(true);
-			try {
-				const token = Cookie.get("token");
-				// const data = await PresentationService.getAll({})(token);
-				setData(presentations);
-				setFilteredData(data);
-			} catch (error) {
-				setError(error.message);
-			}
-			setLoading(false);
-		};
 		getPresentations();
-	}, [data]);
+	}, []);
+
 
 	const selectPresentation = setModalFn => presentation => {
 		setPresentationSelected(presentation);
@@ -75,16 +71,15 @@ const Presentation = () => {
 		setFilters(prev => ({ ...prev, [key]: value }));
 	};
 
-	const createPresentation = (presentation) => {
+	const createPresentation = async (presentation) => {
 		setLoading(true);
 		try {
 			const token = Cookie.get("token");
-			// await RegisterService.createPresentation(presentation)(token)
-			// setData(presentations);
-			// setFilteredData(data);
+			await RegisterService.createPresentation(presentation)(token);
 		} catch (error) {
 			setError(error.message);
 		}
+		getPresentations();
 		setLoading(false);
 		setModalOpen(false);
 	};
@@ -93,8 +88,9 @@ const Presentation = () => {
 		setLoading(true);
 		try {
 			const token = Cookie.get("token");
-			await PresentationService.delete(presentationSelected._id)(token)
-			setData(presentations);
+			const { _id } = presentationSelected;
+			await PresentationService.delete(_id)(token);
+			getPresentations();
 			setFilteredData(data);
 		} catch (error) {
 			setError(error.message);
@@ -105,7 +101,7 @@ const Presentation = () => {
 
 	return (
 		<>
-			{!loading && !ifNotElements && (
+			{!loading && (
 				<DescriptionGrid title={TITLE} description={DESCRIPTION}>
 					<OpenModalButton setModalOpen={setModalOpen} title="Crear Presentacion" />
 				</DescriptionGrid>
@@ -139,7 +135,6 @@ const Presentation = () => {
 				open={modalOpen}
 				close={() => setModalOpen(false)}
 				onSubmit={createPresentation}
-				required
 			/>
 			{presentationSelected ? 
 				<>

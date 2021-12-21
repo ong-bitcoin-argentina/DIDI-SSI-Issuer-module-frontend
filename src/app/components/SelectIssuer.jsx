@@ -30,9 +30,9 @@ const SelectIssuers = ({ setIssuers, issuers }) => {
         <strong>Emisores: </strong>
       </Typography>
       <List dense={true} disablePadding={true} >
-        {issuers.map(iss => {
+        {issuers.map((iss, index) => {
           return (
-            <ListItem divider={true}>
+            <ListItem divider={true} key={index}>
               <ListItemText primary={`-${iss.did}`} />
             </ListItem>
           )})}
@@ -51,7 +51,7 @@ const SelectIssuers = ({ setIssuers, issuers }) => {
         key={'issuerUrl'}
         name={'issuerUrl'}
         style={{ marginBottom: "15px" }}
-        label={'Url del emisor'}
+        label={'Url del emisor (opcional)'}
         value={issuer.url}
         onChange={handleChange}
         type={'text'}
@@ -59,7 +59,7 @@ const SelectIssuers = ({ setIssuers, issuers }) => {
       />
       <div style={{ display: 'flex' }}>
         <DefaultButton 
-          funct={() => addIssuer()} 
+          funct={addIssuer} 
           name={'Agregar emisor'}
           type="otherClass" 
           disabled={issuer.did === ''} 

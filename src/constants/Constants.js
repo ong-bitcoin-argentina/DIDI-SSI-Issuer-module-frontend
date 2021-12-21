@@ -21,7 +21,7 @@ module.exports = {
 		},
 		PRESENTATION: {
 			GET_ALL: `${API}/shareRequest/all`,
-			DELETE: (id) => `${API}/shareRequests/${id}`,
+			DELETE: (id) => `${API}/shareRequest/${id}`,
 		},
 		IMAGE: {
 			GET: (id) => `${API}/image/${id}`
