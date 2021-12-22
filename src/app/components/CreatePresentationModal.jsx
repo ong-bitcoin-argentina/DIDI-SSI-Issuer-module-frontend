@@ -41,7 +41,7 @@ const CreatePresentationModal = ({ open, close, onSubmit, title }) => {
 		setLoading(true);
 		const token = Cookie.get("token");
 		try {
-			setRegisters(await RegisterService.getAll({})(token));
+			setRegisters(await RegisterService.getAll({ status: "Creado" })(token));
 		} catch (error) {
 			setError(error.message);
 		}

@@ -116,20 +116,20 @@ const Presentation = () => {
 					<CircularProgress />
 				</div>
 			)) ||
-					<ReactTable
-						sortable={true}
-						previousText={Messages.LIST.TABLE.PREV}
-						nextText={Messages.LIST.TABLE.NEXT}
-						data={filteredData.map(presentation => 
-							getPresentationData(
-								presentation,
-								selectPresentation(setDetailModalOpen),
-								selectPresentation(setDeleteModalOpen)
-							))}
-						columns={getPresentationAllColumns(onFilterChange, onDateRangeFilterChange)}
-						minRows={Constants.CERTIFICATES.TABLE.MIN_ROWS}
-						defaultPageSize={5}
-					/>}
+				<ReactTable
+					sortable={true}
+					previousText={Messages.LIST.TABLE.PREV}
+					nextText={Messages.LIST.TABLE.NEXT}
+					data={filteredData.map(presentation => 
+						getPresentationData(
+							presentation,
+							selectPresentation(setDetailModalOpen),
+							selectPresentation(setDeleteModalOpen)
+						))}
+					columns={getPresentationAllColumns(onFilterChange, onDateRangeFilterChange)}
+					minRows={Constants.CERTIFICATES.TABLE.MIN_ROWS}
+					defaultPageSize={5}
+				/>}
 			<CreatePresentationModal
 				title="Crear"
 				open={modalOpen}
