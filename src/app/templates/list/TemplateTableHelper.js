@@ -27,7 +27,7 @@ class TemplateTableHelpers {
 						}}
 					>
 						<Tooltip title={!validateAccess(Write_Templates) ? "Ver" : "Editar"} placement="top" arrow>
-							{!validateAccess(Write_Templates) ? <Visibility fontSize="medium" /> : <EditIcon fontSize="medium" />}
+							{!validateAccess(Write_Templates) ? <Visibility fontSize="default" /> : <EditIcon fontSize="default" />}
 						</Tooltip>
 					</div>
 					{validateAccess(Delete_Templates) && (
@@ -38,7 +38,7 @@ class TemplateTableHelpers {
 							}}
 						>
 							<Tooltip title="Borrar" placement="top" arrow>
-								<DeleteIcon fontSize="medium" />
+								<DeleteIcon fontSize="default" />
 							</Tooltip>
 							{/* {Messages.LIST.BUTTONS.DELETE} */}
 						</div>

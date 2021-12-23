@@ -11,6 +11,9 @@ const {
 	Delete_Certs,
 	Read_Delegates,
 	Write_Delegates,
+	Read_Presentations,
+	Write_Presentations,
+	Delete_Presentations,
 	Read_Dids_Registers,
 	Write_Dids_Registers,
 	Read_Profiles,
@@ -37,6 +40,11 @@ const ACCESS_ALLOWED = {
 	// Permisos para Delegaciones
 	Read_Delegates: [Read_Delegates, Write_Delegates],
 	Write_Delegates: [Write_Delegates],
+
+	// Permisos para Presentaciones
+	Read_Presentations: [Read_Presentations, Write_Delegates, Delete_Presentations],
+	Write_Presentations: [Write_Presentations],
+	Delete_Presentations: [Delete_Presentations],
 
 	// Permisos para Registro de DIDs
 	Read_Dids_Registers: [Read_Dids_Registers, Write_Dids_Registers],

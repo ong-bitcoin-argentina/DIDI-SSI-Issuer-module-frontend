@@ -16,28 +16,28 @@ export const PENDING_ACTIONS = ({ cert, onEmmit, onEdit, onDelete }) => [
 		action: () => onEdit(cert._id),
 		label: VIEW,
 		enabled: validateAccess(Read_Certs),
-		iconComponent: <Visibility fontSize="medium" />
+		iconComponent: <Visibility fontSize="default" />
 	},
 	{
 		className: "EmmitAction",
 		action: () => onEmmit(cert._id),
 		label: EMMIT,
 		enabled: validateAccess(Write_Certs),
-		iconComponent: <AssignmentTurnedIn fontSize="medium" />
+		iconComponent: <AssignmentTurnedIn fontSize="default" />
 	},
 	{
 		className: "EditAction",
 		action: () => onEdit(cert._id),
 		label: EDIT,
 		enabled: validateAccess(Write_Certs),
-		iconComponent: <Edit fontSize="medium" />
+		iconComponent: <Edit fontSize="default" />
 	},
 	{
 		className: "DeleteAction",
 		action: () => onDelete(cert._id),
 		label: DELETE,
 		enabled: validateAccess(Delete_Certs),
-		iconComponent: <Delete fontSize="medium" />
+		iconComponent: <Delete fontSize="default" />
 	}
 ];
 
@@ -45,14 +45,14 @@ export const EMMITED_ACTIONS = ({ cert, onView, onRevoke }) => [
 	{
 		className: "EditAction",
 		action: () => onView(cert._id),
-		iconComponent: <Visibility fontSize="medium" />,
+		iconComponent: <Visibility fontSize="default" />,
 		label: VIEW,
 		enabled: true
 	},
 	{
 		className: "DeleteAction",
 		action: () => onRevoke(cert),
-		iconComponent: <AssignmentLate fontSize="medium" />,
+		iconComponent: <AssignmentLate fontSize="default" />,
 		label: REVOKE,
 		enabled: validateAccess(Delete_Certs)
 	}
@@ -62,7 +62,7 @@ export const REVOKED_ACTIONS = ({ cert, onView }) => [
 	{
 		className: "EditAction",
 		action: () => onView(cert._id),
-		iconComponent: <Visibility fontSize="medium" />,
+		iconComponent: <Visibility fontSize="default" />,
 		label: VIEW
 	}
 ];

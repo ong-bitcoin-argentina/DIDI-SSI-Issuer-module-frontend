@@ -76,7 +76,9 @@ module.exports = {
 				return "Renombrar emisor (El nombre actual es '" + name + "'):";
 			},
 			DELETE_CONFIRMATION: title => `¿Está seguro que desea eliminar ${title}?`,
+			DELETE_PRESENTATION_CONF: title => `¿Está seguro que desea eliminar la presentación ${title}?`,
 			DELETE_CERT_TITLE: "Borrar Credencial",
+			DELETE_PRESENTATION_TITLE: "Borrar Presentación",
 			DELETE_TEMPLATE_TITLE: "Borrar Modelo",
 			DELETE_DELEGATE_TITLE: "Borrar Delegado",
 			REVOKE_CERT_TITLE: "Revocar Credencial",
@@ -122,6 +124,7 @@ module.exports = {
 			TO_TEMPLATES: "Templates",
 			CREATE_TEMPLATE: "Crear Modelo de Credencial",
 			CREATE_CERT: "Crear Credencial",
+			CREATE_SHARE_REQ: "Crear Modelo de Presentación",
 			EMMIT_SELECTED: "Emitir Seleccionados",
 			DELETE_SELECETED: "Eliminar Credenciales Seleccionadas",
 			EMMIT: "Emitir",
@@ -132,7 +135,8 @@ module.exports = {
 			EXIT: "Salir",
 			USERS: "Usuarios",
 			CONFIG: "Configuración",
-			PROFILE: "Perfiles"
+			PROFILE: "Perfiles",
+			PRESENTATIONS: "Presentaciones",
 		}
 	},
 	QR: {
@@ -158,6 +162,10 @@ module.exports = {
 		TEMPLATES: {
 			TITLE: "Templates",
 			DESCRIPTION: "Creación de modelos de credenciales que luego se utilizarán al crear y emitir una credencial."
+		},
+		PRESENTATIONS: {
+			TITLE: "Presentaciones",
+			DESCRIPTION: "Creación de modelos de presentaciones para asociadas a un emisor.",
 		},
 		CERTIFICATES_PENDING: {
 			TITLE: "Credenciales Pendientes",
@@ -192,7 +200,7 @@ module.exports = {
 		SETTING: {
 			TITLE: "Configuración",
 			DESCRIPTION:
-				"Registro de DIDs de este emisor en la/s blockchain/s que se deseen verificar las credenciales a emitir."
+				"Registro de emisores delegados en la Blockchain, habilitados a emitir credenciales."
 		}
 	}
 };

@@ -120,11 +120,11 @@ export default class InputDialog extends Component {
 					{selectNames.length !== 0 &&
 						selectNames.map(({ name, label, options }, key) => {
 							return (
-								<Grid style={{ marginTop: "25px" }}>
+								<Grid key={`select-${key}`} style={{ marginTop: "25px" }}>
 									<InputLabel id={`${label}-select-label`}>{label}</InputLabel>
 									<Select
 										labelId={`${label}-select-label`}
-										key={"select-" + key}
+										key={`select-${key}`}
 										id={name}
 										name={name}
 										defaultValue={registerIdDefault || undefined}

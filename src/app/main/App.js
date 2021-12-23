@@ -22,6 +22,7 @@ class App extends Component {
 						<Route exact path={ROUTES.CERTIFICATES_PENDING} component={Main} />
 						<Route exact path={ROUTES.CERTIFICATES} component={Main} />
 						<Route exact path={ROUTES.CERTIFICATES_REVOKED} component={Main} />
+						<Route exact path={ROUTES.PRESENTATIONS} component={Main} />
 						<Route path={ROUTES.EDIT_TEMPLATE} component={Template} />
 						<Route path={ROUTES.EDIT_CERT} component={Certificate} />
 						<Route path={ROUTES.QR_REQUEST} component={Participants} />

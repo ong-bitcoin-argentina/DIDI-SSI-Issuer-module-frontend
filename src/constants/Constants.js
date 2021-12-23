@@ -15,7 +15,13 @@ module.exports = {
 		REGISTER: {
 			CREATE: API + "/register",
 			GET: API + "/register",
-			GET_ALL_BLOCKCHAINS: API + "/register/all/blockchain"
+			GET_ALL_BLOCKCHAINS: API + "/register/all/blockchain",
+			PRESENTATION: (did) => `${API}/register/shareRequests/${did}`,
+			GET_PRESENTATION: (did, id) => `${API}/register/${did}/shareRequests/${id}`
+		},
+		PRESENTATION: {
+			GET_ALL: `${API}/shareRequest/all`,
+			DELETE: (id) => `${API}/shareRequest/${id}`,
 		},
 		IMAGE: {
 			GET: (id) => `${API}/image/${id}`
@@ -86,6 +92,7 @@ module.exports = {
 		LIST: "/list",
 		TEMPLATES: "/templates",
 		EDIT_TEMPLATE: "/templates/edit/",
+		PRESENTATIONS: "/presentations",
 		CERTIFICATES_PENDING: "/certificates-pending",
 		CERTIFICATES: "/certificates",
 		CERTIFICATES_REVOKED: "/certificates-revoked",
@@ -108,6 +115,19 @@ module.exports = {
 			PAGE_SIZE: 10,
 			MIN_ROWS: 3
 		}
+	},
+
+	PRESENTATIONS: {
+		TABLE: {
+			PAGE_SIZE: 10,
+			MIN_ROWS: 3
+		},
+
+		ICONS: {
+			ADD_BUTTON: "add",
+			OK: "check_circle_outline",
+			MISSING: "highlight_off"
+		},
 	},
 
 	TEMPLATES: {
@@ -266,6 +286,11 @@ module.exports = {
 		Read_Delegates: "Read_Delegates",
 		Write_Delegates: "Write_Delegates",
 
+		// Permisos para Presentaciones
+		Read_Presentations: "Read_Presentations",
+		Write_Presentations: "Write_Presentations",
+		Delete_Presentations: "Delete_Presentations",
+
 		// Permisos para Registro de DIDs
 		Read_Dids_Registers: "Read_Dids_Registers",
 		Write_Dids_Registers: "Write_Dids_Registers",
@@ -297,6 +322,11 @@ module.exports = {
 		// Permisos para Delegaciones
 		Read_Delegates: "Visualizar Delegaciones",
 		Write_Delegates: "Crear/Editar Delegaciones",
+
+		// Permisos para Presentaciones
+		Read_Presentations: "Visualizar Presentaciones",
+		Write_Presentations: "Crear/Editar Presentaciones",
+		Delete_Presentations: "Eliminar Presentaciones",
 
 		// Permisos para Registro de DIDs
 		Read_Dids_Registers: "Visualizar Registros de Dids",

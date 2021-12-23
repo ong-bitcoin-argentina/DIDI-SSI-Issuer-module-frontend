@@ -13,6 +13,8 @@ import "react-tabs/style/react-tabs.css";
 import Templates from "../templates/list/Templates";
 import TemplateTableHelper from "../templates/list/TemplateTableHelper";
 
+import Presentation from "../presentations/list/Presentations";
+
 import Certificates from "../certificates/list/Certificates";
 import CertificateTableHelper from "../certificates/list/CertificateTableHelper";
 
@@ -56,7 +58,8 @@ const {
 	TO_CERTIFICATES_PENDING,
 	USERS,
 	CONFIG,
-	PROFILE
+	PROFILE,
+	PRESENTATIONS,
 } = Messages.LIST.BUTTONS;
 
 const {
@@ -64,6 +67,7 @@ const {
 	Read_Templates,
 	Read_Certs,
 	Read_Delegates,
+	Read_Presentations,
 	Read_Dids_Registers,
 	Read_Profiles,
 	Read_Users
@@ -813,11 +817,12 @@ class Main extends Component {
 						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 1}>{TO_CERTIFICATES_PENDING}</Tab>}
 						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 2}>{TO_CERTIFICATES}</Tab>}
 						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 3}>{TO_REVOKED_CERTIFICATES}</Tab>}
-						{validateAccess(Read_Dids_Registers) && <Tab disabled={loading && tabIndex !== 4}>{TO_QR}</Tab>}
-						{validateAccess(Read_Delegates) && <Tab disabled={loading && tabIndex !== 5}>{DELEGATES}</Tab>}
-						{validateAccess(Read_Profiles) && <Tab disabled={loading && tabIndex !== 6}>{PROFILE}</Tab>}
-						{validateAccess(Read_Users) && <Tab disabled={loading && tabIndex !== 7}>{USERS}</Tab>}
-						{validateAccess(Admin) && <Tab disabled={loading && tabIndex !== 8}>{CONFIG}</Tab>}
+						{validateAccess(Read_Presentations) && <Tab disabled={loading && tabIndex !== 4}>{PRESENTATIONS}</Tab>}
+						{validateAccess(Read_Dids_Registers) && <Tab disabled={loading && tabIndex !== 5}>{TO_QR}</Tab>}
+						{validateAccess(Read_Delegates) && <Tab disabled={loading && tabIndex !== 6}>{DELEGATES}</Tab>}
+						{validateAccess(Read_Profiles) && <Tab disabled={loading && tabIndex !== 7}>{PROFILE}</Tab>}
+						{validateAccess(Read_Users) && <Tab disabled={loading && tabIndex !== 8}>{USERS}</Tab>}
+						{validateAccess(Admin) && <Tab disabled={loading && tabIndex !== 9}>{CONFIG}</Tab>}
 					</TabList>
 
 					{validateAccess(Read_Templates) && (
@@ -859,10 +864,15 @@ class Main extends Component {
 							</TabPanel>
 						</>
 					)}
+					{validateAccess(Admin) && (
+						<TabPanel>
+							<Presentation />
+						</TabPanel>
+					)}
 					{validateAccess(Read_Dids_Registers) && (
 						<TabPanel>
 							<Participants
-								selected={this.state.tabIndex === 4}
+								selected={this.state.tabIndex === 5}
 								loading={loading}
 								templates={this.state.templates}
 								participants={this.state.participants}
@@ -878,7 +888,7 @@ class Main extends Component {
 							<Delegates
 								onRef={ref => (this.delegatesSection = ref)}
 								loading={loading}
-								selected={this.state.tabIndex === 5}
+								selected={this.state.tabIndex === 6}
 								delegates={this.state.delegates}
 								columns={this.state.delegateColumns}
 								onRename={this.onIssuerRename}
