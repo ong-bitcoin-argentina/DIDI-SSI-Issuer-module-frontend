@@ -134,9 +134,9 @@ const CreatePresentationModal = ({ open, close, onSubmit, title }) => {
 										<strong>Credenciales: </strong>
 									</Typography>
 									<List dense={true} disablePadding={true} >
-										{newPresentation.claims.map((claim, index) => {
+										{newPresentation.claims.map((claim) => {
 											return (
-												<ListItem key={index}>
+												<ListItem key={claim[0]}>
 													<ListItemText
 														primaryTypographyProps={{ style: { fontSize: 18 } }}
 														primary={`- ${CRED_CATEGORIES[claim[0]] || claim[0]}`}

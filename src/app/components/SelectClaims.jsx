@@ -45,8 +45,8 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
               onChange={handleSelectChange}
               renderValue={(selected) => CRED_CATEGORIES[selected] || selected}
             >
-            {categories.map((claim, index) => (
-              <MenuItem key={index} value={claim}>
+            {categories.map((claim) => (
+              <MenuItem key={claim} value={claim}>
                 <ListItemText primary={CRED_CATEGORIES[claim] || claim} />
               </MenuItem>
             ))}
