@@ -268,7 +268,7 @@ module.exports = {
 		}
 	},
 
-	DATE_FORMAT: "YYYY-MM-DD",
+	DATE_FORMAT: "DD/MM/YYYY - h:mm",
 	ROLES: {
 		Admin: "Admin",
 
