@@ -39,7 +39,7 @@ export const getPresentationAllColumns = (handleFilter, onDateRangeFilterChange)
 			Header: (
 				<DateRangeFilter label="fecha de creacion" onChange={value => onDateRangeFilterChange(value, "created")} />
 			),
-			accessor: "iat",
+			accessor: "onCreated",
 			width: 220
 		},
 		...getPresentationColums
@@ -49,12 +49,12 @@ export const getPresentationAllColumns = (handleFilter, onDateRangeFilterChange)
 const formatDate = date => (date ? moment(date).format(DATE_FORMAT) : "-");
 
 export const getPresentationData = (presentation, onView, onDelete) => {
-	const { iat, claims } = presentation;
+	const { createdOn, claims } = presentation;
 	const credentials = Object.keys(claims.verifiable).map(cred => CRED_CATEGORIES[cred] || cred);
 
 	return {
 		...presentation,
-		onCreated: <div style={{ textAlign: "center" }}>{formatDate(iat)}</div>,
+		onCreated: <div style={{ textAlign: "center" }}>{formatDate(createdOn)}</div>,
 		claims: credentials.map((cred, index) => index < credentials.length - 1 ? `${cred} - ` : `${cred}`),
 		actions: (
 			<div className="Actions">
