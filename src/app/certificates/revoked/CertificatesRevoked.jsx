@@ -63,11 +63,10 @@ const CertificatesRevoked = () => {
 	}, []);
 
 	useEffect(() => {
-		const { firstName, lastName, certName, blockchain } = filters;
+		const { did, certName, blockchain } = filters;
 		const result = data.filter(
 			row =>
-				filter(row, "firstName", firstName) &&
-				filter(row, "lastName", lastName) &&
+				filter(row, "did", did) &&
 				filter(row, "certName", certName) &&
 				filter(row, "blockchain", blockchain)
 		);

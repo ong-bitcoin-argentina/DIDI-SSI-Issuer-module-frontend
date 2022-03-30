@@ -5,7 +5,7 @@ import { Edit, Delete, AssignmentTurnedIn, Visibility, AssignmentLate } from "@m
 import { validateAccess } from "./Roles";
 import Constants from "./Constants";
 
-const { LAST_NAME, NAME } = Messages.LIST.TABLE;
+const { DID } = Messages.LIST.TABLE;
 const { EMMIT, DELETE, EDIT, VIEW, REVOKE } = Messages.LIST.BUTTONS;
 
 const { Write_Certs, Delete_Certs, Read_Certs } = Constants.ROLES;
@@ -69,26 +69,17 @@ export const REVOKED_ACTIONS = ({ cert, onView }) => [
 
 export const BASE_COLUMNS = [
 	{
-		label: LAST_NAME,
-		accessor: "lastName"
-	},
-	{
-		label: NAME,
-		accessor: "firstName"
+		label: DID,
+		accessor: "did"
 	}
 ];
 
-export const EMMITED_COLUMNS = ({ onLastNameFilterChange, onFirstNameFilterChange }) => [
+export const EMMITED_COLUMNS = ({ onDidFilterChange }) => [
 	{
-		label: LAST_NAME,
-		action: e => onLastNameFilterChange(e),
-		accessor: "lastName"
+		label: DID,
+		action: e => onDidFilterChange(e),
+		accessor: "did"
 	},
-	{
-		label: NAME,
-		action: e => onFirstNameFilterChange(e),
-		accessor: "firstName"
-	}
 ];
 
 export const REVOCATION_REASONS_PLAIN = {
