@@ -634,7 +634,6 @@ class Main extends Component {
 		const filter = event.target.value;
 		this.updateFiltererCertificates(
 			filter,
-			this.state.didFilter,
 			this.state.templateFilter,
 			this.state.blockchainFilter
 		);
