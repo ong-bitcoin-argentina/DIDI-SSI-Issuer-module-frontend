@@ -53,11 +53,10 @@ const CertificatesEmmited = () => {
 	}, []);
 
 	useEffect(() => {
-		const { firstName, lastName, certName, start, end, blockchain } = filters;
+		const { did, certName, start, end, blockchain } = filters;
 		const result = data.filter(
 			row =>
-				filter(row, "firstName", firstName) &&
-				filter(row, "lastName", lastName) &&
+				filter(row, "did", did) &&
 				filter(row, "certName", certName) &&
 				filter(row, "blockchain", blockchain) &&
 				filterByDates(row, start, end)

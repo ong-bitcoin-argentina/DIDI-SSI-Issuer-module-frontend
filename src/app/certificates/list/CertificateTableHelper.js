@@ -28,8 +28,6 @@ class CertificateTableHelper {
 		blockchain: cert.blockchain ? cert.blockchain.toUpperCase() : "RSK",
 		certName: cert.name,
 		createdOn: cert.emmitedOn ? moment(cert.emmitedOn).format(DATE_FORMAT) : "-",
-		firstName: cert.firstName,
-		lastName: cert.lastName,
 		did: cert.did
 	});
 
@@ -126,14 +124,13 @@ class CertificateTableHelper {
 		allSelectedCerts,
 		onCertificateSelectAllToggle,
 		onTemplateFilterChange,
-		onFirstNameFilterChange,
-		onLastNameFilterChange,
+		onDidFilterChange,
 		onBlockchainFilterChange,
 		isLoading
 	) {
 		const certNames = [...new Set(certificates.map(cert => cert.certName))];
 
-		const COLUMNS = EMMITED_COLUMNS({ onLastNameFilterChange, onFirstNameFilterChange });
+		const COLUMNS = EMMITED_COLUMNS({ onDidFilterChange });
 
 		const LIST_COLUMNS = [
 			...COLUMNS.map(item => ({

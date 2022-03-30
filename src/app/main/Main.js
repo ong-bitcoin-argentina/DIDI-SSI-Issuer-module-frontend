@@ -417,8 +417,7 @@ class Main extends Component {
 			allSelected,
 			this.onCertificateSelectAllToggle,
 			this.onTemplateFilterChange,
-			this.onFirstNameFilterChange,
-			this.onLastNameFilterChange,
+			this.onDidFilterChange,
 			this.onBlockchainFilterChange,
 			() => this.state.loading
 		);
@@ -532,7 +531,7 @@ class Main extends Component {
 			token,
 			async function (certs) {
 				self.updateSelectedCertsState(certs, {});
-				self.setState({ lastNameFilter: "", firstNameFilter: "", loading: false });
+				self.setState({ didFilter: "", loading: false });
 			},
 			function (err) {
 				self.setState({ error: err });
@@ -630,36 +629,23 @@ class Main extends Component {
 		);
 	};
 
-	// filtro por nombre
-	onFirstNameFilterChange = event => {
+	// filtro por did
+	onDidFilterChange = event => {
 		const filter = event.target.value;
 		this.updateFiltererCertificates(
 			filter,
-			this.state.lastNameFilter,
+			this.state.didFilter,
 			this.state.templateFilter,
 			this.state.blockchainFilter
 		);
-		this.setState({ firstNameFilter: filter });
-	};
-
-	// filtro por apellido
-	onLastNameFilterChange = event => {
-		const filter = event.target.value;
-		this.updateFiltererCertificates(
-			this.state.firstNameFilter,
-			filter,
-			this.state.templateFilter,
-			this.state.blockchainFilter
-		);
-		this.setState({ lastNameFilter: filter });
+		this.setState({ didFilter: filter });
 	};
 
 	// filtro por modelo de credencial
 	onTemplateFilterChange = event => {
 		const filter = event.target.value;
 		this.updateFiltererCertificates(
-			this.state.firstNameFilter,
-			this.state.lastNameFilter,
+			this.state.didFilter,
 			filter,
 			this.state.blockchainFilter
 		);
@@ -669,8 +655,7 @@ class Main extends Component {
 	onBlockchainFilterChange = event => {
 		const filter = event.target.value;
 		this.updateFiltererCertificates(
-			this.state.firstNameFilter,
-			this.state.lastNameFilter,
+			this.state.didFilter,
 			this.state.templateFilter,
 			filter
 		);
@@ -678,18 +663,12 @@ class Main extends Component {
 	};
 
 	// actualizar tabla en funcion de los filtros
-	updateFiltererCertificates = (firstNameFilter, lastNameFilter, templateFilter, blockchainFilter) => {
+	updateFiltererCertificates = (didFilter, templateFilter, blockchainFilter) => {
 		let cert = this.state.certificates;
 
-		if (firstNameFilter && firstNameFilter !== "") {
+		if (didFilter && didFilter !== "") {
 			cert = cert.filter(certData => {
-				return certData.firstName.toLowerCase().includes(firstNameFilter.toLowerCase());
-			});
-		}
-
-		if (lastNameFilter && lastNameFilter !== "") {
-			cert = cert.filter(certData => {
-				return certData.lastName.toLowerCase().includes(lastNameFilter.toLowerCase());
+				return certData.did.toLowerCase().includes(didFilter.toLowerCase());
 			});
 		}
 
