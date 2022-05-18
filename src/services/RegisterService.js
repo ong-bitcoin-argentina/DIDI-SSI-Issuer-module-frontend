@@ -41,6 +41,7 @@ export default class RegisterService {
 	}
 
 	static getPresentationByDid(did) {
+		console.log("xxxxxxxxxxxxxxxxxxxgetPresentationByDid=========", JSON.stringify(did));
 		return fetchData(options("GET"), PRESENTATION(did));
 	}
 

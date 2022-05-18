@@ -8,6 +8,13 @@ import DefaultButton from "./default-button";
 import CollapseMessageError from "./CollapseMessageError/CollapseMessageError";
 import placeholder from '../../images/placeholder.png';
 import Image from '../components/Image';
+import ReactTable from "react-table-6";
+import Messages from "../../constants/Messages";
+import { getShareReqColumns, getShareReqData } from "./register-table-helper";
+import Cookie from "js-cookie";
+import RegisterService from "../../services/RegisterService";
+import PresentationDetails from "../components/PresentationDetails";
+
 
 const TITLE = "Detalles del Registro";
 
@@ -22,12 +29,97 @@ const KeyValue = ({ field, value }) => (
 );
 
 const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleRevoke }) => {
+
+	const [detailModalOpen, setDetailModalOpen] = useState(false);
+	const [presentationSelected, setPresentationSelected] = useState();
+
+	const selectPresentation = setModalFn => presentation => {
+		console.log("presentation==================" + JSON.stringify(presentation));
+		setPresentationSelected(presentation);
+		setModalFn(true);
+	};
+
+	const [shareRequests, setShareRequests] = useState([]);
+
+	const token = Cookie.get("token");
+
+	const getData = async (loadingName, setData, fetch_) => {
+		setLoading(l => ({ ...l, [loadingName]: true }));
+		const data = await fetch_(token);
+		setLoading(l => ({ ...l, [loadingName]: false }));
+		setData(data);
+	};
+
+	const getShareRequestsListData = async () => {
+		getData("shareRequestListLoading", setShareRequests, RegisterService.getPresentationByDid({ did: register.did }));
+	};
+
+	useEffect(() => {
+		console.log("GHOLALALLALAL ANTES DE IFFFFFFFFFF");
+		if (register) { 
+			//getShareRequestsListData();
+			console.log("GHOLALALLALAL DENTROOOOOOO");
+		 };
+		console.log("GHOLALALLALAL DESPUES DE IFFFFFFFFFF");
+	}, [register]);
+
+
+
+	const getShareRequestByIdData = async () => {
+		getData("shareRequestDetailLoading", setShareRequests, await RegisterService.getPresentationById({ did: register.did, id: "" }));
+	};
+	// TODO remove fake data
+	const shareReqData = [{
+		claims:{
+			verifiable:{
+			   legalAddress:{
+				  reason:"se necesita",
+				  issuers:[
+					 {
+						"did":"did:ethr:lacchain:0x6e0acabd9e3a7034902d74af6c0fac62d5200658",
+						"url":""
+					 }
+				  ],
+				  "required":true
+			   }
+			}
+		},
+		createdOn: moment().format(DATE_FORMAT),
+
+		name: 'Share request 1',
+		credencial: {
+			name: 'documento',
+			razon: 'razon',
+		}
+	}, {
+		claims:{
+			verifiable:{
+			   legalAddress:{
+				  reason:"se necesita",
+				  issuers:[
+					 {
+						"did":"did:ethr:lacchain:0x6e0acabd9e3a7034902d74af6c0fac62d5200658",
+						"url":""
+					 }
+				  ],
+				  "required":true
+			   }
+			}
+		},
+		createdOn: moment().format(DATE_FORMAT),
+		name: 'Share request 3',
+		credencial: {
+			name: 'documento',
+			razon: 'razon',
+		}
+	}]
+
 	const [image, setImage] = useState({
 		src: "",
 		alt: "Issuer Image",
 	});
 	const [loading, setLoading] = useState(false);
-	const { 
+	const {
 		did,
 		name,
 		createdOn,
@@ -49,7 +141,7 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 			console.log(error);
 		} finally {
 			setLoading(false);
-	 }
+		}
 	};
 
 	useEffect(() => {
@@ -81,6 +173,23 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 					{blockHash && <KeyValue field="Hash de Transacción" value={blockHash} />}
 					<Image loading={loading} image={image} />
 					{messageError && <CollapseMessageError messageError={messageError} blockchain={blockchain} status={status} />}
+
+					<KeyValue field="Presentaciones" value={""} />
+					<ReactTable style={{ marginTop: "0.5em" }}
+						sortable={true}
+						previousText={Messages.LIST.TABLE.PREV}
+						nextText={Messages.LIST.TABLE.NEXT}
+
+						data={shareReqData.map(register =>
+							getShareReqData(
+								register,
+								selectPresentation(setDetailModalOpen)
+								)
+						)}
+						columns={getShareReqColumns()}
+						minRows={Constants.CERTIFICATES.TABLE.MIN_ROWS}
+						defaultPageSize={5}
+					/>
 				</Grid>
 				{!statusNotAllowed.includes(status) && (
 					<Grid container direction="row">
@@ -101,6 +210,16 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 			<DialogActions style={{ padding: "2em 25px" }}>
 				<DefaultButton funct={close} name="Cerrar" />
 			</DialogActions>
+			{presentationSelected ?
+				<>
+					<PresentationDetails
+						modalOpen={detailModalOpen}
+						setModalOpen={setDetailModalOpen}
+						presentation={presentationSelected}
+					/>
+				</> : null
+			}
+
 		</Dialog>
 	);
 };
