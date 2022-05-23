@@ -50,7 +50,7 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
               const entries = Object.entries(cred);
               const key = entries[0][0];
               const { value } = entries[0][1];
-              const { reason, essential, issuers } = value; 
+              const { reason, essential, iss:issuers } = value; 
               const required = essential ? 'Si' : 'No';
               return (
                 <>

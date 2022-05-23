@@ -104,7 +104,7 @@ const CreatePresentationModal = ({ open, close, onSubmit, title }) => {
 		setNewPresentation(presentation => {
 			return ({
 					...presentation,
-					claims: [...presentation.claims, [category, { reason, issuers, required }]],
+					claims: [...presentation.claims, [category, { reason, iss:issuers, required }]],
 				})
 		});
 		setSelectedCategories([...selectedCategories, category]);
