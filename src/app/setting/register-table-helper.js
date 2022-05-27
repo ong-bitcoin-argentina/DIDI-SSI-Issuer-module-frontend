@@ -22,7 +22,6 @@ const COLUMNS_NAME = [
 	}
 ];
 
-
 const COLORES = {
 	[ERROR]: "#EB5757",
 	[CREATING]: "#F2994A",
@@ -115,7 +114,6 @@ export const getRegisterData = (register, onView, onEdit, onRetry) => {
 export const getShareReqData = (register, onView) => {
 	return {
 		...register,
-	
 		actions: (
 			<div className="Actions">
 				<Action handle={() => onView(register)} title="Ver" Icon={VisibilityIcon} color={EDIT_COLOR} />
@@ -124,22 +122,26 @@ export const getShareReqData = (register, onView) => {
 	};
 };
 
-export const getShareReqColumns = (d) => {
+export const getShareReqColumns = d => {
 	return [
+		// {
+		// 	Header: 'Nombre',
+		// 	accessor: 'name'
+		// },
 		{
-			Header: 'Name',
-			accessor: 'name' // String-based value accessors!
-		}, {
-			id: 'createdOn', // Required because our accessor is not a string
-			Header: 'Fecha de creación',
-			accessor: d => d.createdOn // Custom value accessors!
-		}, {
+			id: "createdAt",
+			Header: "Fecha",
+			accessor: d => formatDate(d.createdAt)
+		},
+
+		{
+			id: "actions",
 			Header: (
 				<div className="HeaderText">
 					<p>Actions</p>
 				</div>
 			),
-			accessor: 'actions',
+			accessor: "actions",
 			width: 60
 		}
 	];
