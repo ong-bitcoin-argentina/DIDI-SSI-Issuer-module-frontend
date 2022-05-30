@@ -37,11 +37,10 @@ export default class RegisterService {
 
 	static createPresentation(presentation) {
 		const { name, registerDid, claims, callback, iat } = presentation;
-		return fetchData(optionsBody("POST", { name, claims, callback, iat}), PRESENTATION(registerDid));
+		return fetchData(optionsBody("POST", { name, claims, callback, iat }), PRESENTATION(registerDid));
 	}
 
 	static getPresentationByDid(did) {
-		console.log("xxxxxxxxxxxxxxxxxxxgetPresentationByDid=========", JSON.stringify(did));
 		return fetchData(options("GET"), PRESENTATION(did));
 	}
 
