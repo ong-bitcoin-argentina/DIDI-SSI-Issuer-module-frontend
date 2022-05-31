@@ -27,7 +27,6 @@ const KeyValue = ({ field, value }) => {
 			<Typography>
 				<b>{field}</b>: {value}
 			</Typography>
-			)
 		</>
 	);
 };
