@@ -110,3 +110,39 @@ export const getRegisterData = (register, onView, onEdit, onRetry) => {
 		)
 	};
 };
+
+export const getShareReqData = (register, onView) => {
+	return {
+		...register,
+		actions: (
+			<div className="Actions">
+				<Action handle={() => onView(register)} title="Ver" Icon={VisibilityIcon} color={EDIT_COLOR} />
+			</div>
+		)
+	};
+};
+
+export const getShareReqColumns = d => {
+	return [
+		// {
+		// 	Header: 'Nombre',
+		// 	accessor: 'name'
+		// },
+		{
+			id: "createdAt",
+			Header: "Fecha",
+			accessor: d => formatDate(d.createdAt)
+		},
+
+		{
+			id: "actions",
+			Header: (
+				<div className="HeaderText">
+					<p>Actions</p>
+				</div>
+			),
+			accessor: "actions",
+			width: 60
+		}
+	];
+};
