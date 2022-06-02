@@ -1,13 +1,19 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Constants, { DATE_FORMAT } from "../../constants/Constants";
-import ImageService from '../../services/ImageService';
+import ImageService from "../../services/ImageService";
 import moment from "moment";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "./default-button";
 import CollapseMessageError from "./CollapseMessageError/CollapseMessageError";
-import placeholder from '../../images/placeholder.png';
-import Image from '../components/Image';
+import placeholder from "../../images/placeholder.png";
+import Image from "../components/Image";
+import ReactTable from "react-table-6";
+import Messages from "../../constants/Messages";
+import { getShareReqColumns, getShareReqData } from "./register-table-helper";
+import Cookie from "js-cookie";
+import RegisterService from "../../services/RegisterService";
+import PresentationDetails from "../components/PresentationDetails";
 
 const TITLE = "Detalles del Registro";
 
@@ -15,32 +21,49 @@ const formatDate = date => (date ? moment(date).format(DATE_FORMAT) : "-");
 
 const { CREATING, ERROR, REVOKING, REVOKED } = Constants.STATUS;
 
-const KeyValue = ({ field, value }) => (
-	<Typography variant="subtitle2">
-		<b>{field}</b>: {value}
-	</Typography>
-);
+const KeyValue = ({ field, value }) => {
+	return (
+		<>
+			<Typography>
+				<b>{field}</b>: {value}
+			</Typography>
+		</>
+	);
+};
 
 const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleRevoke }) => {
+	const [detailModalOpen, setDetailModalOpen] = useState(false);
+	const [presentationSelected, setPresentationSelected] = useState();
+
+	const selectPresentation = setModalFn => presentation => {
+		setPresentationSelected(presentation);
+		setModalFn(true);
+	};
+
+	const [shareRequests, setShareRequests] = useState([]);
+
+	const token = Cookie.get("token");
+
+	const getData = async (loadingName, setData, fetch_) => {
+		setLoading(l => ({ ...l, [loadingName]: true }));
+		const data = await fetch_(token);
+		setLoading(l => ({ ...l, [loadingName]: false }));
+		setData(data);
+	};
+
+	const getShareRequestsListData = async () => {
+		getData("shareRequestListLoading", setShareRequests, await RegisterService.getPresentationByDid(register.did));
+	};
+
 	const [image, setImage] = useState({
 		src: "",
-		alt: "Issuer Image",
+		alt: "Issuer Image"
 	});
 	const [loading, setLoading] = useState(false);
-	const { 
-		did,
-		name,
-		createdOn,
-		expireOn,
-		blockHash,
-		messageError,
-		status,
-		blockchain,
-		description,
-		imageId,
-	} = register;
+	const { did, name, createdOn, expireOn, blockHash, messageError, status, blockchain, description, imageId } =
+		register;
 
-	const fetchImage = async (id) => {
+	const fetchImage = async id => {
 		try {
 			setLoading(true);
 			const img = await ImageService.getImage(id);
@@ -49,7 +72,7 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 			console.log(error);
 		} finally {
 			setLoading(false);
-	 }
+		}
 	};
 
 	useEffect(() => {
@@ -63,6 +86,19 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 	const close = () => {
 		setModalOpen(false);
 	};
+
+	const prepareDataForTable = shareRequests => {
+		return shareRequests?.list.map(shareReq =>
+			getShareReqData(
+				{ ...shareReq.payload, name: shareReq?.name, createdAt: shareReq.createdAt },
+				selectPresentation(setDetailModalOpen)
+			)
+		);
+	};
+
+	useEffect(() => {
+		register?.did && getShareRequestsListData();
+	}, [register]);
 
 	return (
 		<Dialog open={modalOpen} onClose={close}>
@@ -81,6 +117,18 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 					{blockHash && <KeyValue field="Hash de Transacción" value={blockHash} />}
 					<Image loading={loading} image={image} />
 					{messageError && <CollapseMessageError messageError={messageError} blockchain={blockchain} status={status} />}
+
+					<KeyValue field="Presentaciones" value={""} />
+					<ReactTable
+						style={{ marginTop: "0.5em" }}
+						sortable={true}
+						previousText={Messages.LIST.TABLE.PREV}
+						nextText={Messages.LIST.TABLE.NEXT}
+						data={shareRequests?.list && prepareDataForTable(shareRequests)}
+						columns={getShareReqColumns()}
+						minRows={Constants.CERTIFICATES.TABLE.MIN_ROWS}
+						defaultPageSize={5}
+					/>
 				</Grid>
 				{!statusNotAllowed.includes(status) && (
 					<Grid container direction="row">
@@ -101,6 +149,15 @@ const ModalDetail = ({ modalOpen, setModalOpen, register, handleRefresh, handleR
 			<DialogActions style={{ padding: "2em 25px" }}>
 				<DefaultButton funct={close} name="Cerrar" />
 			</DialogActions>
+			{presentationSelected ? (
+				<>
+					<PresentationDetails
+						modalOpen={detailModalOpen}
+						setModalOpen={setDetailModalOpen}
+						presentation={presentationSelected}
+					/>
+				</>
+			) : null}
 		</Dialog>
 	);
 };

@@ -37,7 +37,7 @@ export default class RegisterService {
 
 	static createPresentation(presentation) {
 		const { name, registerDid, claims, callback, iat } = presentation;
-		return fetchData(optionsBody("POST", { name, claims, callback, iat}), PRESENTATION(registerDid));
+		return fetchData(optionsBody("POST", { name, claims, callback, iat }), PRESENTATION(registerDid));
 	}
 
 	static getPresentationByDid(did) {
