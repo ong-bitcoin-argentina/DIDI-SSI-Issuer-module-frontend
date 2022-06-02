@@ -36,6 +36,10 @@ export const getPresentationAllColumns = (handleFilter, onDateRangeFilterChange)
 			accessor: "claims"
 		},
 		{
+			Header: "Emisor",
+			accessor: "registerId.did"
+		},
+		{
 			Header: (
 				<DateRangeFilter label="fecha de creacion" onChange={value => onDateRangeFilterChange(value, "created")} />
 			),
