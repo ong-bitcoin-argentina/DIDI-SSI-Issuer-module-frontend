@@ -124,10 +124,10 @@ export const getShareReqData = (register, onView) => {
 
 export const getShareReqColumns = d => {
 	return [
-		// {
-		// 	Header: 'Nombre',
-		// 	accessor: 'name'
-		// },
+		{
+			Header: 'Nombre',
+			accessor: 'name'
+		},
 		{
 			id: "createdAt",
 			Header: "Fecha",
