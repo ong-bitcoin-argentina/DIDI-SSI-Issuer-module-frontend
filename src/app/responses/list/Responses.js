@@ -32,8 +32,8 @@ const Response = () => {
 		const parsedVal = val && val.toLowerCase();
 		return !parsedVal || item[vkey[0]][vkey[1]]?.toLowerCase().includes(parsedVal);
 	}
-	const filterStatus = (item, key, status, error) => {
-		const nstatus = !!error ? 'error' : (status?.toLowerCase());
+	const filterStatus = (item, key, status, errorMessage) => {
+		const nstatus = !!errorMessage ? 'error' : (status?.toLowerCase());
 		const itemstatus = item?.errorMessage ? 'error' : item[key].toLowerCase()
 		return !status || itemstatus === nstatus;
 	}
@@ -56,8 +56,8 @@ const Response = () => {
 		try {
 			setData(await ResponseService.getAll()(token));
 			setFilteredData(data);
-		} catch (error) {
-			setError(error.message);
+		} catch (e) {
+			setError(e.message);
 		}
 		setLoading(false);
 	};
@@ -89,25 +89,21 @@ const Response = () => {
 	const onConfirm = async () => {
 		setLoading(true);
 		try {
-			/*const token = Cookie.get("token");
-			const { _id } = responseSelected;
-			await ResponseService.denegate(_id)(token);
-			*/
 			getResponses();
 			setFilteredData(data);
-		} catch (error) {
-			setError(error.message);
+		} catch (e) {
+			setError(e.message);
 		}
 		setLoading(false);
 		setDenyModalOpen(false);
 	};
 	const getResponseExpandData = (obj) => {
 		const responseId = obj.row._id;
-		const token = Cookie.get("token");
-		const loadData = (id, token) => (ResponseService.getByIdDecoded(id)(token)).then((data) => {
-			return data;
+		const tokenUser = Cookie.get("token");
+		const loadData = (id, tokenUser) => (ResponseService.getByIdDecoded(id)(tokenUser)).then((responseData) => {
+			return responseData;
 		});
-		return <TableSubComponent id={responseId} loadData={loadData(responseId, token)} />;
+		return <TableSubComponent loadData={loadData(responseId, tokenUser)} />;
 	};
 
 	return (

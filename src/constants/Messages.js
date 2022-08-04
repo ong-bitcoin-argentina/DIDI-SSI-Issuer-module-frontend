@@ -76,7 +76,7 @@ module.exports = {
 				dni: "DNI",
 				givenName: "Nombre",
 			};
-			const name = Object.entries(names).filter(([key, value]) => (key === origin));
+			const name = Object.entries(names).filter(([key, ]) => (key === origin));
 			return (name ? name[0][1] : origin);
 		},
 	},

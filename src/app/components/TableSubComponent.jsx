@@ -3,7 +3,7 @@ import KeyValue from "./KeyValue";
 import { CircularProgress, Grid } from "@material-ui/core";
 import { CREDENTIAL } from "../../constants/Messages";
 
-const TableSubComponent = ({ id, loadData }) => {
+const TableSubComponent = ({ loadData }) => {
 	const [loading, setloading] = useState(true);
 	const [data, setData] = useState();
 
