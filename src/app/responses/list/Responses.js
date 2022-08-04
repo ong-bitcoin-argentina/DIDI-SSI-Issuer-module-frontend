@@ -99,11 +99,11 @@ const Response = () => {
 	};
 	const getResponseExpandData = (obj) => {
 		const responseId = obj.row._id;
-		const tokenUser = Cookie.get("token");
+		const token = Cookie.get("token");
 		const loadData = (id, tokenUser) => (ResponseService.getByIdDecoded(id)(tokenUser)).then((responseData) => {
 			return responseData;
 		});
-		return <TableSubComponent loadData={loadData(responseId, tokenUser)} />;
+		return <TableSubComponent loadData={loadData(responseId, token)} />;
 	};
 
 	return (
