@@ -14,6 +14,7 @@ import Templates from "../templates/list/Templates";
 import TemplateTableHelper from "../templates/list/TemplateTableHelper";
 
 import Presentation from "../presentations/list/Presentations";
+import Response from "../responses/list/Responses";
 
 import Certificates from "../certificates/list/Certificates";
 import CertificateTableHelper from "../certificates/list/CertificateTableHelper";
@@ -60,6 +61,7 @@ const {
 	CONFIG,
 	PROFILE,
 	PRESENTATIONS,
+	RESPONSES,
 } = Messages.LIST.BUTTONS;
 
 const {
@@ -68,9 +70,10 @@ const {
 	Read_Certs,
 	Read_Delegates,
 	Read_Presentations,
+	Read_Responses,
 	Read_Dids_Registers,
 	Read_Profiles,
-	Read_Users
+	Read_Users,
 } = Constants.ROLES;
 
 class Main extends Component {
@@ -796,6 +799,7 @@ class Main extends Component {
 						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 2}>{TO_CERTIFICATES}</Tab>}
 						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 3}>{TO_REVOKED_CERTIFICATES}</Tab>}
 						{validateAccess(Read_Presentations) && <Tab disabled={loading && tabIndex !== 4}>{PRESENTATIONS}</Tab>}
+						{validateAccess(Read_Responses) && <Tab disabled={loading && tabIndex !== 10}>{RESPONSES}</Tab>}
 						{validateAccess(Read_Dids_Registers) && <Tab disabled={loading && tabIndex !== 5}>{TO_QR}</Tab>}
 						{validateAccess(Read_Delegates) && <Tab disabled={loading && tabIndex !== 6}>{DELEGATES}</Tab>}
 						{validateAccess(Read_Profiles) && <Tab disabled={loading && tabIndex !== 7}>{PROFILE}</Tab>}
@@ -845,6 +849,11 @@ class Main extends Component {
 					{validateAccess(Admin) && (
 						<TabPanel>
 							<Presentation />
+						</TabPanel>
+					)}
+					{validateAccess(Read_Responses) && (
+						<TabPanel>
+							<Response />
 						</TabPanel>
 					)}
 					{validateAccess(Read_Dids_Registers) && (

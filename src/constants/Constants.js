@@ -23,6 +23,10 @@ module.exports = {
 			GET_ALL: `${API}/shareRequest/all`,
 			DELETE: (id) => `${API}/shareRequest/${id}`,
 		},
+		RESPONSE: {
+			GET_ALL: `${API}/shareResponse/all`,
+			GET_DECODED: (id) => `${API}/shareResponse/${id}/decoded`
+		},
 		IMAGE: {
 			GET: (id) => `${API}/image/${id}`
 		},
@@ -291,6 +295,11 @@ module.exports = {
 		Write_Presentations: "Write_Presentations",
 		Delete_Presentations: "Delete_Presentations",
 
+		// Permisos para Presentaciones
+		Read_Responses: "Read_Responses",
+		Write_Responses: "Write_Responses",
+		Delete_Responses: "Delete_Responses",
+
 		// Permisos para Registro de DIDs
 		Read_Dids_Registers: "Read_Dids_Registers",
 		Write_Dids_Registers: "Write_Dids_Registers",
@@ -328,6 +337,11 @@ module.exports = {
 		Write_Presentations: "Crear/Editar Presentaciones",
 		Delete_Presentations: "Eliminar Presentaciones",
 
+		// Permisos para Respuestas a Presentaciones
+		Read_Responses: "Visualizar Respuestas a Presentaciones",
+		Write_Responses: "Crear/Editar Respuestas a Presentaciones",
+		Delete_Responses: "Eliminar Respuestas a Presentaciones",
+
 		// Permisos para Registro de DIDs
 		Read_Dids_Registers: "Visualizar Registros de Dids",
 		Write_Dids_Registers: "Crear/Editar Registros de Dids",
@@ -345,6 +359,8 @@ module.exports = {
 
 	BLOCKCHAINS: ["BFA", "RSK", "LACCHAIN"],
 
+	RESPONSE_STATUS: ["Recibido", "Credenciales Verificadas", "Emisor Verificado", "Procesado", "Emitido", "Denegado", "Error"],
+	
 	STATUS: {
 		DONE: "Creado",
 		ERROR: "Error",

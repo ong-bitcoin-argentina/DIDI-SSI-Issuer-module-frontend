@@ -23,5 +23,21 @@
                 color: white;
             }
         }
+        .errorMessage {
+            text-align: center;
+            font-size: 1.5em;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #333333;
+            .material-icons {
+                background: #EB5757;
+                border-radius: 5em;
+                padding: 0.5em;
+                color: white;
+            }
+        }
     }
 }
