@@ -98,7 +98,7 @@ const Response = () => {
 		setDenyModalOpen(false);
 	};
 	const getResponseExpandData = (obj) => {
-		const responseId = obj.row._id;
+		const responseId = obj.row._original._id;
 		const token = Cookie.get("token");
 		const loadData = (id, tokenUser) => (ResponseService.getByIdDecoded(id)(tokenUser)).then((responseData) => {
 			return responseData;

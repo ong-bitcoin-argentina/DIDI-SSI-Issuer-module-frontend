@@ -29,7 +29,7 @@ export const getResponseAllColumns = (handleFilter, onDateRangeFilterChange, onS
 	return [
 		{
 			Header: <InputFilter label="Identificador" onChange={handleFilter} field="id" />,
-			accessor: "_id"
+			accessor: "id"
 		},
 		{
 			Header: (
