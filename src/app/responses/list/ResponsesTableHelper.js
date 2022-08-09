@@ -56,18 +56,9 @@ export const getResponseAllColumns = (handleFilter, onDateRangeFilterChange, onS
 
 const formatDate = date => (date ? moment(date).format(DATE_FORMAT) : "-");
 
-export const getResponseData = (response, onCreateCredencial, onDeny) => {
+export const getResponseData = (response, onShowError) => {
 	const { createdOn, process_status, errorMessage } = response;
-	const errorAction = (!!errorMessage ? <Action handle={() => onDeny(response)} title="Ver Error" Icon={Error} color="#EB5757" /> : "")
-	const actions = (
-		errorAction === "" ? 
-			<>
-				<Action handle={() => onCreateCredencial(response)} title="Crear Credencial" Icon={AssignmentTurnedIn} color="#0ca120" />
-				<Action handle={() => onDeny(response)} title="Denegar" Icon={AssignmentLate} color="#EB5757" />
-			</>
-		: 
-			""
-	);
+	const errorAction = (!!errorMessage ? <Action handle={() => onShowError(response)} title="Ver Error" Icon={Error} color="#EB5757" /> : "")
 	return {
 		...response,
 		onCreated: <div style={{ textAlign: "center" }}>{formatDate(createdOn)}</div>,
@@ -76,7 +67,6 @@ export const getResponseData = (response, onCreateCredencial, onDeny) => {
 		actions: (
 			<div className="Actions">
 				{errorAction}
-				{actions}
 			</div>
 		)
 	};

@@ -128,8 +128,7 @@ const Response = () => {
 					data={filteredData.map(response => 
 						getResponseData(
 							response,
-							selectResponse(setErrorModalOpen),
-							selectResponse(setDenyModalOpen)
+							selectResponse(setErrorModalOpen)
 						))}
 					columns={getResponseAllColumns(onFilterChange, onDateRangeFilterChange, onStatusFilterChange)}
 					minRows={Constants.CERTIFICATES.TABLE.MIN_ROWS}
