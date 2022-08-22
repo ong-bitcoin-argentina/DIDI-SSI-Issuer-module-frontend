@@ -14,6 +14,9 @@ const {
 	Read_Presentations,
 	Write_Presentations,
 	Delete_Presentations,
+	Read_Responses,
+	Write_Responses,
+	Delete_Responses,
 	Read_Dids_Registers,
 	Write_Dids_Registers,
 	Read_Profiles,
@@ -45,6 +48,11 @@ const ACCESS_ALLOWED = {
 	Read_Presentations: [Read_Presentations, Write_Delegates, Delete_Presentations],
 	Write_Presentations: [Write_Presentations],
 	Delete_Presentations: [Delete_Presentations],
+
+	// Permisos para Respuestas a Presentaciones
+	Read_Responses: [Read_Responses, Write_Delegates, Delete_Presentations],
+	Write_Responses: [Write_Responses],
+	Delete_Responses: [Delete_Responses],
 
 	// Permisos para Registro de DIDs
 	Read_Dids_Registers: [Read_Dids_Registers, Write_Dids_Registers],

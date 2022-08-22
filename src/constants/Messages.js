@@ -67,6 +67,19 @@ module.exports = {
 			DELETE: "Borrar"
 		}
 	},
+	CREDENTIAL: {
+		TRANSLATE_NAMES: (origin) => {
+			const names = {
+				credentialName: "Credential",
+				benefitHolderType: "Tipo Beneficiario",
+				familyName: "Apellido",
+				dni: "DNI",
+				givenName: "Nombre",
+			};
+			const name = Object.entries(names).filter(([key, ]) => (key === origin));
+			return (name ? name[0][1] : origin);
+		},
+	},
 	LIST: {
 		MENU: {
 			TITLE: "Menu"
@@ -75,6 +88,10 @@ module.exports = {
 			ISSUER_RENAME_TITLE: name => {
 				return "Renombrar emisor (El nombre actual es '" + name + "'):";
 			},
+			ERROR_TITLE: "Mensaje de Error",
+			DENY_TITLE: "Denegar Solicitud de Credencial",
+			DENY_TITLE_BUTTON: "Denegar",
+			DENY_MESSAGE: (code, name) => `¿Está seguro que desea denegar la solicitud ${code} de la presentación ${name}?`,
 			DELETE_CONFIRMATION: title => `¿Está seguro que desea eliminar ${title}?`,
 			DELETE_PRESENTATION_CONF: title => `¿Está seguro que desea eliminar la presentación ${title}?`,
 			DELETE_CERT_TITLE: "Borrar Credencial",
@@ -137,6 +154,7 @@ module.exports = {
 			CONFIG: "Configuración",
 			PROFILE: "Perfiles",
 			PRESENTATIONS: "Presentaciones",
+			RESPONSES: "Respuestas",
 		}
 	},
 	QR: {
@@ -166,6 +184,10 @@ module.exports = {
 		PRESENTATIONS: {
 			TITLE: "Presentaciones",
 			DESCRIPTION: "Creación de modelos de presentaciones para asociadas a un emisor.",
+		},
+		RESPONSES: {
+			TITLE: "Respuestas a Presentaciones",
+			DESCRIPTION: "Listado de respuestas de usuarios a presentaciones para emision de credenciales.",
 		},
 		CERTIFICATES_PENDING: {
 			TITLE: "Credenciales Pendientes",
