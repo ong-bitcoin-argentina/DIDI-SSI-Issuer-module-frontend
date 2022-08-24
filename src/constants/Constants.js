@@ -58,6 +58,11 @@ module.exports = {
 			},
 			GET_DIDS: API + "/participant/dids"
 		},
+		SHARERESPONSE: {
+			SEARCH: term => { 
+				return API + "/shareResponse/searchCredentials/" + term 
+			}
+		},
 		CERTIFICATES: {
 			CREATE: API + "/cert",
 			EDIT: id => {
@@ -254,6 +259,7 @@ module.exports = {
 		EDIT: {
 			PARTICIPANT_SELECT: "SELECCIONAR PARTICIPANTE",
 			SPLIT: "GENERAR MICROCREDENCIALES",
+			SEARCH_CREDENTIAL: "BUSCAR CREDENCIALES",
 			TEMPLATE_SELECT: "CREDENCIAL"
 		},
 		TABLE: {

@@ -145,7 +145,7 @@ class Template extends Component {
 		this.setState(({ template }) => ({
 			template: {
 				...template,
-				previewDate: event.target.value,
+				previewData: event.target.value,
 			}
 		}))
 	};
