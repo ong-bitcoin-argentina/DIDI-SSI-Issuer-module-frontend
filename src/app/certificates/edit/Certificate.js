@@ -809,6 +809,20 @@ class Certificate extends Component {
 		);
 	};
 
+	updateCertData = (value) => {
+		let cert = this.state.cert;
+		for (let c of cert.data.cert) {
+			const data = value.credential[0].data.find(d => d.hasOwnProperty(c.name));
+			if(data)
+				c.value = data[c.name];
+		}
+		for (let p of cert.data.participant) {
+			let data = p.find(d => d.name === 'DID');
+			if(data)
+				data.value = value.did;
+		}
+	};
+
 	// muestra la seccion de seleccion de microcredenciales
 	renderSearchDID = () => {
 		let dids = this.state.dids == null ? [] : this.state.dids;
@@ -830,17 +844,7 @@ class Certificate extends Component {
 					}}
 					getOptionSelected={option => option.did}
 					onChange={(_, value) => {
-						let cert = this.state.cert;
-						for (let c of cert.data.cert) {
-							const data = value.credential[0].data.find(d => d.hasOwnProperty(c.name));
-							if(data)
-								c.value = data[c.name];
-						}
-						for (let p of cert.data.participant) {
-							let data = p.find(d => d.name === 'DID');
-							if(data)
-								data.value = value.did;
-						}
+						this.updateCertData(value);
 					}}
 					onInputChange={(_, value) => {
 						if(value.trim().length <= 3) {
