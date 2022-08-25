@@ -17,14 +17,12 @@ import PropTypes from "prop-types";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "../setting/default-button";
 import SelectClaims from "./SelectClaims";
-import { CRED_CATEGORIES } from "../presentations/list/constants";
 import RegisterService from "../../services/RegisterService";
 import Cookie from "js-cookie";
 
-
 const TITLE = "Nueva Presentación";
 
-const CreatePresentationModal = ({ open, close, onSubmit, title }) => {
+const CreatePresentationModal = ({ open, close, onSubmit, title, cred_categories }) => {
 	const [newPresentation, setNewPresentation] = useState({ name: '', callback: '', claims: []});
 	const [selectedName, setSelectedName] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -113,7 +111,7 @@ const CreatePresentationModal = ({ open, close, onSubmit, title }) => {
 		setIssuers([]);
 		setRequired(false);
 	};
-
+	
 	return (
 		<Dialog open={open}>
 			<DialogTitle id="form-dialog-title">
@@ -139,7 +137,7 @@ const CreatePresentationModal = ({ open, close, onSubmit, title }) => {
 												<ListItem key={claim[0]}>
 													<ListItemText
 														primaryTypographyProps={{ style: { fontSize: 18 } }}
-														primary={`- ${CRED_CATEGORIES[claim[0]] || claim[0]}`}
+														primary={`- ${cred_categories && cred_categories.hasOwnProperty(claim[0]) ? cred_categories[claim[0]] : claim[0]}`}
 													/>
 												</ListItem>
 											)})}
@@ -156,6 +154,7 @@ const CreatePresentationModal = ({ open, close, onSubmit, title }) => {
 										}}
 										issuers={issuers}
 										selectedCategories={selectedCategories}
+										cred_categories={cred_categories}
 									/>
 								</>
 							: 

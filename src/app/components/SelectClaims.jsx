@@ -8,10 +8,10 @@ import {
   Checkbox,
 } from "@material-ui/core";
 
-import { CRED_CATEGORIES, VC_CATEGORIES } from "../presentations/list/constants";
+import { VC_CATEGORIES } from "../presentations/list/constants";
 import SelectIssuers from "./SelectIssuer";
 
-const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClaim, issuers, selectedCategories }) => {
+const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClaim, issuers, selectedCategories, cred_categories }) => {
   const { category, reason, required } = newClaim;
 
   const handleSelectChange = (event) => {
@@ -29,7 +29,7 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
     setRequired(event.target.checked);
   }
 
-  const categories = VC_CATEGORIES.filter(category => {
+  const categories = Object.keys(cred_categories).filter(category => {
     return !selectedCategories.includes(category)
   });
 
@@ -43,11 +43,11 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
               id="selectClaims"
               value={category}
               onChange={handleSelectChange}
-              renderValue={(selected) => CRED_CATEGORIES[selected] || selected}
+              renderValue={(selected) => (cred_categories && cred_categories.hasOwnProperty(selected) ? cred_categories[selected] : selected)}
             >
             {categories.map((claim) => (
               <MenuItem key={claim} value={claim}>
-                <ListItemText primary={CRED_CATEGORIES[claim] || claim} />
+                <ListItemText primary={cred_categories && cred_categories.hasOwnProperty(claim) ? cred_categories[claim] : claim} />
               </MenuItem>
             ))}
             </Select>

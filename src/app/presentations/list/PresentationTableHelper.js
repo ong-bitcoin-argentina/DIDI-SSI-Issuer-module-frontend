@@ -5,7 +5,6 @@ import { Delete, Visibility } from "@material-ui/icons"
 import InputFilter from "../../components/InputFilter";
 import Action from "../../utils/Action";
 import DateRangeFilter from "../../components/DateRangeFilter/DateRangeFilter";
-import { CRED_CATEGORIES } from "./constants";
 
 const COLUMNS_NAME = [
 	{
@@ -52,9 +51,9 @@ export const getPresentationAllColumns = (handleFilter, onDateRangeFilterChange)
 
 const formatDate = date => (date ? moment(date).format(DATE_FORMAT) : "-");
 
-export const getPresentationData = (presentation, onView, onDelete) => {
+export const getPresentationData = (presentation, onView, onDelete, cred_categories) => {
 	const { createdOn, claims } = presentation;
-	const credentials = Object.keys(claims.verifiable).map(cred => CRED_CATEGORIES[cred] || cred);
+	const credentials = Object.keys(claims.verifiable).map(cred => cred_categories && cred_categories.hasOwnProperty(cred) ? cred_categories[cred] : cred);
 
 	return {
 		...presentation,
