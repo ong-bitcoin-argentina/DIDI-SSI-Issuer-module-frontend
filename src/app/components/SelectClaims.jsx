@@ -8,7 +8,6 @@ import {
   Checkbox,
 } from "@material-ui/core";
 
-import { VC_CATEGORIES } from "../presentations/list/constants";
 import SelectIssuers from "./SelectIssuer";
 
 const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClaim, issuers, selectedCategories, cred_categories }) => {
