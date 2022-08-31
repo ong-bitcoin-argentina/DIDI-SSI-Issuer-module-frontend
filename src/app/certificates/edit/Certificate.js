@@ -5,6 +5,7 @@ import "./Certificate.scss";
 import CertificateService from "../../../services/CertificateService";
 import TemplateService from "../../../services/TemplateService";
 import ParticipantService from "../../../services/ParticipantService";
+import CredentialService from "../../../services/CredentialService";
 
 import ReactFileReader from "react-file-reader";
 import DataRenderer from "../../utils/DataRenderer";
@@ -153,6 +154,28 @@ class Certificate extends Component {
 				function (participants) {
 					self.setState({
 						participants: participants,
+						error: false
+					});
+					resolve();
+				},
+				function (err) {
+					reject(err);
+				}
+			);
+		});
+	};
+
+	// carga lista de dids by term
+	getSearchDID = function (term) {
+		const self = this;
+		const token = Cookie.get("token");
+		return new Promise(function (resolve, reject) {
+			CredentialService.search(
+				token,
+				term,
+				function (dids) {
+					self.setState({
+						dids: dids,
 						error: false
 					});
 					resolve();
@@ -786,6 +809,59 @@ class Certificate extends Component {
 		);
 	};
 
+	updateCertData = (value) => {
+		let cert = this.state.cert;
+		for (let c of cert.data.cert) {
+			const data = value.credential[0].data.find(d => d.hasOwnProperty(c.name));
+			if(data)
+				c.value = data[c.name];
+		}
+		for (let p of cert.data.participant) {
+			let data = p.find(d => d.name === 'DID');
+			if(data)
+				data.value = value.did;
+		}
+	};
+
+	// muestra la seccion de seleccion de microcredenciales
+	renderSearchDID = () => {
+		let dids = this.state.dids == null ? [] : this.state.dids;
+
+		return (
+			<div className="Data">
+				<div className="DataName">{Constants.CERTIFICATES.EDIT.SEARCH_CREDENTIAL}</div>
+				<div className="DataElem">
+					<Autocomplete
+					options={dids}
+					filterOptions={x => x}
+					getOptionLabel={option => {
+						const personalData = option.credential[0].data.find(d => d.hasOwnProperty('Credencial'));
+						const emailData = option.credential[0].data.find(d => d.hasOwnProperty('email'));
+						const phoneData = option.credential[0].data.find(d => d.hasOwnProperty('phoneNumber'));
+						return (personalData ? `${personalData['Nombre(s)']} ${personalData['Apellido(s)']} ${personalData['Numero de Identidad']} ` : "") +
+						(emailData ? `${emailData['email']} ` : "") +
+						(phoneData ? `${phoneData['phoneNumber']} ` : "")
+					}}
+					getOptionSelected={option => option.did}
+					onChange={(_, value) => {
+						this.updateCertData(value);
+					}}
+					onInputChange={(_, value) => {
+						if(value.trim().length <= 3) {
+							this.setState({
+								dids: []
+							});
+							return;
+						}
+						this.getSearchDID(value);
+					}}
+					renderInput={params => <TextField {...params} variant="standard" label={""} placeholder="" fullWidth />}
+					/>
+				</div>
+			</div>
+		);
+	};
+
 	// muestra la seccion de seleccion de microcredenciales
 	renderSplit = cert => {
 		const allData = cert.data.cert
@@ -894,6 +970,7 @@ class Certificate extends Component {
 		return (
 			<div className="CertSectionContent">
 				{!viewing && this.renderSplit(cert)}
+				{!viewing && this.renderSearchDID()}
 				{this.renderSection(cert, certData, Constants.TEMPLATES.DATA_TYPES.CERT)}
 				{this.renderSection(cert, othersData, Constants.TEMPLATES.DATA_TYPES.OTHERS)}
 
