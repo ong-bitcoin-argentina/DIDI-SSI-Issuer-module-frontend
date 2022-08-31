@@ -34,7 +34,7 @@ const Response = () => {
 	}
 	const filterStatus = (item, key, status, errorMessage) => {
 		const nstatus = !!errorMessage ? 'error' : (status?.toLowerCase());
-		const itemstatus = item?.errorMessage ? 'error' : item[key].toLowerCase()
+		const itemstatus = item?.errorMessage ? 'error' : item[key]?.toLowerCase();
 		return !status || itemstatus === nstatus;
 	}
 
@@ -98,7 +98,7 @@ const Response = () => {
 		setDenyModalOpen(false);
 	};
 	const getResponseExpandData = (obj) => {
-		const responseId = obj.row._id;
+		const responseId = obj.row._original._id;
 		const token = Cookie.get("token");
 		const loadData = (id, tokenUser) => (ResponseService.getByIdDecoded(id)(tokenUser)).then((responseData) => {
 			return responseData;
@@ -128,8 +128,7 @@ const Response = () => {
 					data={filteredData.map(response => 
 						getResponseData(
 							response,
-							selectResponse(setErrorModalOpen),
-							selectResponse(setDenyModalOpen)
+							selectResponse(setErrorModalOpen)
 						))}
 					columns={getResponseAllColumns(onFilterChange, onDateRangeFilterChange, onStatusFilterChange)}
 					minRows={Constants.CERTIFICATES.TABLE.MIN_ROWS}
@@ -149,7 +148,7 @@ const Response = () => {
 						setModalOpen={setDenyModalOpen}
 						onConfirm={() => onConfirm()}
 						title={Messages.LIST.DIALOG.DENY_TITLE}
-						message={Messages.LIST.DIALOG.DENY_MESSAGE(responseSelected._id, responseSelected.shareRequestId.name)}
+						message={Messages.LIST.DIALOG.DENY_MESSAGE(responseSelected?._id, responseSelected?.shareRequestId?.name)}
 						confirm={Messages.LIST.DIALOG.DENY_TITLE_BUTTON}
 					/>
 				</>	: null}
