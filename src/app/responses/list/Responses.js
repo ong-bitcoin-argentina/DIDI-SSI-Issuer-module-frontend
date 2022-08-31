@@ -34,7 +34,7 @@ const Response = () => {
 	}
 	const filterStatus = (item, key, status, errorMessage) => {
 		const nstatus = !!errorMessage ? 'error' : (status?.toLowerCase());
-		const itemstatus = item?.errorMessage ? 'error' : item[key].toLowerCase()
+		const itemstatus = item?.errorMessage ? 'error' : item[key]?.toLowerCase();
 		return !status || itemstatus === nstatus;
 	}
 
@@ -148,7 +148,7 @@ const Response = () => {
 						setModalOpen={setDenyModalOpen}
 						onConfirm={() => onConfirm()}
 						title={Messages.LIST.DIALOG.DENY_TITLE}
-						message={Messages.LIST.DIALOG.DENY_MESSAGE(responseSelected._id, responseSelected.shareRequestId.name)}
+						message={Messages.LIST.DIALOG.DENY_MESSAGE(responseSelected?._id, responseSelected?.shareRequestId?.name)}
 						confirm={Messages.LIST.DIALOG.DENY_TITLE_BUTTON}
 					/>
 				</>	: null}

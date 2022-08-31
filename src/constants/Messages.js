@@ -77,7 +77,7 @@ module.exports = {
 				givenName: "Nombre",
 			};
 			const name = Object.entries(names).filter(([key, ]) => (key === origin));
-			return (name ? name[0][1] : origin);
+			return (!name.length ? origin : name[0][1] );
 		},
 	},
 	LIST: {
