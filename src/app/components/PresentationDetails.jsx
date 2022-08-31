@@ -14,7 +14,6 @@ import moment from "moment";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "../setting/default-button";
 import { DATE_FORMAT } from "../../constants/Constants";
-import { CRED_CATEGORIES } from "../presentations/list/constants";
 const TITLE = "Detalle de la Presentación";
 
 const formatDate = date => (date ? moment(date).format(DATE_FORMAT) : "-");
@@ -25,7 +24,7 @@ const KeyValue = ({ field, value }) => (
 	</Typography>
 );
 
-const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
+const PresentationDetails = ({ modalOpen, setModalOpen, presentation, cred_categories }) => {
 	const { name, createdOn, createdAt, claims } = presentation ? presentation : null;
 
 	const createdOnDate = createdOn || createdAt;
@@ -34,14 +33,14 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
 		setModalOpen(false);
 	};
 	let credentials = [];
-	Object.entries(claims.verifiable).forEach(([key, value]) =>
-		credentials.push({
-			[CRED_CATEGORIES[key] || key]: {
+  Object.entries(claims.verifiable).forEach(([key, value]) =>
+    credentials.push({
+			[key]: {
 				value
 			}
 		})
 	);
-
+  
 	return (
     <Dialog open={modalOpen} onClose={close}>
       <DialogTitle id="form-dialog-title">
@@ -59,8 +58,9 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
               const entries = Object.entries(cred);
               const key = entries[0][0];
               const { value } = entries[0][1];
-              const { reason, required:essential, iss:issuers } = value; 
+              const { reason, required:essential, iss } = value; 
               const required = essential ? 'Si' : 'No';
+              const issuers = iss ? iss : value.issuers;
               return (
                 <>
                   <ListItemText primary={`- ${key}: `} />

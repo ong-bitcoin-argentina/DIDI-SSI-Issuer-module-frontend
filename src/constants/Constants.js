@@ -5,6 +5,7 @@ module.exports = {
 	VERSION,
 	API_ROUTES: {
 		LOGIN: API + "/user/login",
+		TRANSLATE: API + "/translate",
 		USER: {
 			GET_ALL: API + "/user/all",
 			DELETE: id => API + "/user/" + id,
