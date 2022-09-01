@@ -4,7 +4,7 @@ import Cookie from "js-cookie";
 import { CircularProgress } from "@material-ui/core";
 
 import Constants from '../../../constants/Constants';
-import Messages, { TAB_TEXT } from "../../../constants/Messages";
+import Messages from "../../../constants/Messages";
 import { getPresentationAllColumns, getPresentationData } from "./PresentationTableHelper";
 import "./Presentations.scss";
 import { filter, filterByDates } from "../../../services/utils";
@@ -17,7 +17,7 @@ import ConfirmationDialog from "../../components/ConfirmationDialog";
 import CreatePresentationModal from "../../components/CreatePresentationModal";
 import PresentationDetails from "../../components/PresentationDetails";
 
-const { TITLE, DESCRIPTION } = TAB_TEXT.PRESENTATIONS;
+const { TITLE, DESCRIPTION } = Messages.TAB_TEXT.PRESENTATIONS;
 
 const Presentation = () => {
 	const [loading, setLoading] = useState(false);

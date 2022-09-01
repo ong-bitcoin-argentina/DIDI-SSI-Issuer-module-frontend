@@ -1,4 +1,4 @@
-module.exports = {
+const Messages = {
 	LOGIN: {
 		WELCOME: "Bienvenido al",
 		WELCOME_2: "Emisor de Credenciales Web",
@@ -226,3 +226,5 @@ module.exports = {
 		}
 	}
 };
+
+export default Messages;
