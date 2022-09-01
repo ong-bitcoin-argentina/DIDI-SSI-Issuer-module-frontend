@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import KeyValue from "./KeyValue";
 import { CircularProgress, Grid } from "@material-ui/core";
-import { CREDENTIAL } from "../../constants/Messages";
+import Messages from "../../constants/Messages";
 
 const TableSubComponent = ({ loadData }) => {
 	const [loading, setloading] = useState(true);
@@ -26,7 +26,7 @@ const TableSubComponent = ({ loadData }) => {
 					data.decoded.payload.vc.map((vc) => {
 						return Object.values(vc.vc.credentialSubject).map((d) => {
 							return Object.keys(d.data).map((key) => {
-								return <Grid item xs={6}><KeyValue field={CREDENTIAL.TRANSLATE_NAMES(key)} value={d.data[key]} /></Grid>
+								return <Grid item xs={6}><KeyValue field={Messages.CREDENTIAL.TRANSLATE_NAMES(key)} value={d.data[key]} /></Grid>
 							});
 						})
 					})

@@ -4,7 +4,7 @@ import Cookie from "js-cookie";
 import { CircularProgress } from "@material-ui/core";
 
 import Constants from '../../../constants/Constants';
-import Messages, { TAB_TEXT } from "../../../constants/Messages";
+import Messages from "../../../constants/Messages";
 import { getResponseAllColumns, getResponseData } from "./ResponsesTableHelper";
 import "./Responses.scss";
 import { filter, filterByDates } from "../../../services/utils";
@@ -14,7 +14,7 @@ import MessageDialog from "../../components/MessageDialog";
 import TableSubComponent from "../../components/TableSubComponent";
 import ConfirmationDenegateDialog from "../../components/ConfirmationDenegateDialog";
 
-const { TITLE, DESCRIPTION } = TAB_TEXT.RESPONSES;
+const { TITLE, DESCRIPTION } = Messages.TAB_TEXT.RESPONSES;
 
 const Response = () => {
 	const [loading, setLoading] = useState(false);
