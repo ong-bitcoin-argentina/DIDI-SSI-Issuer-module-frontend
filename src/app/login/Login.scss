@@ -31,49 +31,69 @@
 		background-color: $white;
 
 		.Content {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			height: 250px;
+			min-width: 30%;
+			max-width: 435px;
+			box-sizing: border-box;
+			border: 1px solid rgba(155, 155, 155, 0.3);
+			background-color: rgba(255, 255, 255, 0.8);
+			border-radius: 5px;
+			padding: 19px !important;
 			.LoginSubtitle {
-				@include regular-text($body, $grey-5);
+				@include regular-text($h1, $grey-5);
 				text-transform: uppercase;
+				font-family: "poppins-light";
 				letter-spacing: 2px;
 				margin-bottom: 0.5em;
 			}
 
 			.LoginTitle {
 				@include light-text($h1, $secondary-color);
+				text-transform: uppercase;
+				font-family: "poppins-light";
 			}
 
 			.LoginForm {
-				margin-top: 1em;
-				width: 50%;
-				align-items: center;
 				display: flex;
 				flex-direction: column;
+				margin-top: 1.5rem;
 
+				.LoginLabel {
+					@include regular-text($h4, $black);
+					width: 100%;
+					padding-bottom: 0.5rem;
+				}
 				.LoginInput {
 					@include regular-text($button, $black);
 					margin: 0 0 10px 0;
-					padding: 2px 10px;
-					width: 300px;
-					height: 30px;
+					padding: 0.5rem 0.7rem;
+					width: 100%;
 					border-radius: 4px;
 					border: 1px solid $grey-3;
+					margin-bottom: 1rem;
 				}
 
 				.LoginButton {
-					@include regular-text($button, $white);
+					@include regular-text($h3, $white);
 					border: none;
 					border-radius: 4px;
 					background-color: $secondary-color;
 					color: $white;
-					width: 320px;
-					height: 40px;
+					width: 100%;
+					height: 2.5rem;
 				}
 			}
+		}
+	}
+}
+
+@media only screen and (max-width: 960px) {
+	.Login {
+		flex-wrap: wrap;
+		.RightContainer {
+			width: 100%;
+		}
+		.LeftContainer {
+			width: 100%;
 		}
 	}
 }
