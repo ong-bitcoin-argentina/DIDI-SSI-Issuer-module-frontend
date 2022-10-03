@@ -8,9 +8,8 @@ import Constants from "../../constants/Constants";
 import Messages from "../../constants/Messages";
 
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-// import "react-tabs/style/react-tabs.css";
-import notVisible from "../../images/notVisible.png"
-import visible from "../../images/visible.png"
+import notVisible from "../../images/notVisible.png";
+import visible from "../../images/visible.png";
 
 import Templates from "../templates/list/Templates";
 import TemplateTableHelper from "../templates/list/TemplateTableHelper";
