@@ -41,7 +41,6 @@
 			.LoginSubtitle {
 				@include regular-text($h1, $grey-5);
 				text-transform: uppercase;
-				font-family: "poppins-light";
 				letter-spacing: 2px;
 				margin-bottom: 0.5em;
 			}
@@ -49,7 +48,6 @@
 			.LoginTitle {
 				@include light-text($h1, $secondary-color);
 				text-transform: uppercase;
-				font-family: "poppins-light";
 			}
 
 			.LoginForm {
