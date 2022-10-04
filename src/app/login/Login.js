@@ -9,7 +9,7 @@ import Constants from "../../constants/Constants";
 import Messages from "../../constants/Messages";
 
 import logoApp from "../../images/ai-di-logo.svg";
-
+import logoLogin from "../../images/arrow-right.svg"
 class Login extends Component {
 	constructor(props) {
 		super(props);
@@ -65,9 +65,12 @@ class Login extends Component {
 							<input className="LoginInput" type="text" onChange={this.updateName} placeholder="Nombre de usuario"></input>
 							<label  className="LoginLabel" htmlFor="password">Contraseña</label>
 							<input className="LoginInput" type="password" onChange={this.updatePass} placeholder="Contraseña" autoComplete="on" ></input>
-							<button className="LoginButton" type="submit" value="Submit">
-								{Messages.LOGIN.BUTTONS.ENTER}
-							</button>
+							<div className="buttonBox">
+								<text className="buttonText" htmlFor="text">{Messages.LOGIN.BUTTONS.ENTER}</text>
+								<button className="LoginButton" type="submit" value="Submit">
+									<img src={logoLogin} alt="logo" />
+								</button>
+							</div>
 						</form>
 						{this.state.error && <div className="errMsg">{this.state.error.message}</div>}
 						{/*this.state.token*/}
