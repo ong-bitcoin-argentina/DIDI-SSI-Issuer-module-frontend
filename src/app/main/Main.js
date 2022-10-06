@@ -792,21 +792,17 @@ class Main extends Component {
 				<Tabs selectedIndex={selectedIndex} onSelect={tabIndex => this.setState({ tabIndex, error: false })}>
 					{this.renderRenameDialog()}
 					{this.renderActions(loading)}
-
 					<TabList>
-						{validateAccess(Read_Templates) && <Tab disabled={loading && tabIndex !== 0}>{TO_TEMPLATES}</Tab>}
-						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 1}>{TO_CERTIFICATES_PENDING}</Tab>}
-						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 2}>{TO_CERTIFICATES}</Tab>}
-						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 3}>{TO_REVOKED_CERTIFICATES}</Tab>}
-						{validateAccess(Read_Presentations) && <Tab disabled={loading && tabIndex !== 4}>{PRESENTATIONS}</Tab>}
-						{validateAccess(Read_Responses) && <Tab disabled={loading && tabIndex !== 10}>{RESPONSES}</Tab>}
-						{validateAccess(Read_Dids_Registers) && <Tab disabled={loading && tabIndex !== 5}>{TO_QR}</Tab>}
-						{validateAccess(Read_Delegates) && <Tab disabled={loading && tabIndex !== 6}>{DELEGATES}</Tab>}
-						{validateAccess(Read_Profiles) && <Tab disabled={loading && tabIndex !== 7}>{PROFILE}</Tab>}
-						{validateAccess(Read_Users) && <Tab disabled={loading && tabIndex !== 8}>{USERS}</Tab>}
-						{validateAccess(Admin) && <Tab disabled={loading && tabIndex !== 9}>{CONFIG}</Tab>}
+					{validateAccess(Read_Templates) && <Tab disabled={loading && tabIndex !== 0}>{TO_TEMPLATES}</Tab>}
+					{validateAccess(Read_Certs) && <Tab>{TO_CERTIFICATES}</Tab>}
+					{validateAccess(Read_Presentations) && <Tab disabled={loading && tabIndex !== 4}>{PRESENTATIONS}</Tab>}
+					{validateAccess(Read_Responses) && <Tab disabled={loading && tabIndex !== 10}>{RESPONSES}</Tab>}
+					{validateAccess(Read_Dids_Registers) && <Tab disabled={loading && tabIndex !== 5}>{TO_QR}</Tab>}
+					{validateAccess(Read_Delegates) && <Tab disabled={loading && tabIndex !== 6}>{DELEGATES}</Tab>}
+					{validateAccess(Read_Profiles) && <Tab disabled={loading && tabIndex !== 7}>{PROFILE}</Tab>}
+					{validateAccess(Read_Users) && <Tab disabled={loading && tabIndex !== 8}>{USERS}</Tab>}
+					{validateAccess(Admin) && <Tab disabled={loading && tabIndex !== 9}>{CONFIG}</Tab>}
 					</TabList>
-
 					{validateAccess(Read_Templates) && (
 						<TabPanel>
 							<Templates
@@ -821,8 +817,18 @@ class Main extends Component {
 							/>
 						</TabPanel>
 					)}
-					{validateAccess(Read_Certs) && (
+					<TabPanel>
+						<Tabs forceRenderTabPanel>
+							<TabList>
+							{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 2}>{TO_CERTIFICATES}</Tab>}
+							{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 1}>{TO_CERTIFICATES_PENDING}</Tab>}
+							{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 3}>{TO_REVOKED_CERTIFICATES}</Tab>}
+							</TabList>
+							{validateAccess(Read_Certs) && (
 						<>
+							<TabPanel>
+								<CertificatesEmmited />
+							</TabPanel>
 							<TabPanel>
 								<Certificates
 									onRef={ref => (this.certificatesSection = ref)}
@@ -839,13 +845,13 @@ class Main extends Component {
 								/>
 							</TabPanel>
 							<TabPanel>
-								<CertificatesEmmited />
-							</TabPanel>
-							<TabPanel>
 								<CertificatesRevoked />
 							</TabPanel>
 						</>
 					)}
+
+						</Tabs>
+					</TabPanel>
 					{validateAccess(Admin) && (
 						<TabPanel>
 							<Presentation />
@@ -901,7 +907,7 @@ class Main extends Component {
 							<Setting />
 						</TabPanel>
 					)}
-				</Tabs>
+ 				 </Tabs>
 			</div>
 		);
 	}
