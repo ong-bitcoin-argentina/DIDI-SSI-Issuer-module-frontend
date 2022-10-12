@@ -5,25 +5,26 @@ import {
 	DialogContent,
 	DialogTitle,
 	Grid,
-	List,
-	ListItem,
 	ListItemText,
 	MenuItem,
 	Select,
 	TextField,
 	Typography
 } from "@material-ui/core";
+import ReactTable from "react-table-6";
+import "react-table-6/react-table.css";
 import PropTypes from "prop-types";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "../setting/default-button";
 import SelectClaims from "./SelectClaims";
 import RegisterService from "../../services/RegisterService";
 import Cookie from "js-cookie";
+import { API_ROUTES } from "../../constants/Constants";
 
 const TITLE = "Nueva Presentación";
 
 const CreatePresentationModal = ({ open, close, onSubmit, title, cred_categories }) => {
-	const [newPresentation, setNewPresentation] = useState({ name: '', callback: '', claims: []});
+	const [newPresentation, setNewPresentation] = useState({ name: '', callback: API_ROUTES.PATH, claims: []});
 	const [selectedName, setSelectedName] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
@@ -52,7 +53,7 @@ const CreatePresentationModal = ({ open, close, onSubmit, title, cred_categories
 
 
 	const resetState = () => {
-		setNewPresentation({ name: '', callback: '', claims: []});
+		setNewPresentation({ name: '', callback: API_ROUTES.PATH, claims: []});
 		setSelectedName(false);
 		setCategory('');
 		setReason('');
@@ -111,6 +112,20 @@ const CreatePresentationModal = ({ open, close, onSubmit, title, cred_categories
 		setIssuers([]);
 		setRequired(false);
 	};
+
+	const columns = [{
+			Header: 'Credencial',
+			accessor: 'cred'
+		},
+		{
+			Header: 'Requerida',
+			accessor: 'required_str',
+		},
+		{
+			Header: 'Cant.Emisores',
+			accessor: 'iss_count'
+		},
+	];
 	
 	return (
 		<Dialog open={open}>
@@ -131,31 +146,41 @@ const CreatePresentationModal = ({ open, close, onSubmit, title, cred_categories
 									<Typography variant="h6">
 										<strong>Credenciales: </strong>
 									</Typography>
-									<List dense={true} disablePadding={true} >
-										{newPresentation.claims.map((claim) => {
-											return (
-												<ListItem key={claim[0]}>
-													<ListItemText
-														primaryTypographyProps={{ style: { fontSize: 18 } }}
-														primary={`- ${cred_categories && cred_categories.hasOwnProperty(claim[0]) ? cred_categories[claim[0]] : claim[0]}`}
-													/>
-												</ListItem>
-											)})}
-									</List>
-									<SelectClaims 
-										setCategory={setCategory}
-										setReason={setReason}
-										setRequired={setRequired}
-										setIssuers={setIssuers}
-										newClaim={{
-											category,
-											reason,
-											required,
-										}}
-										issuers={issuers}
-										selectedCategories={selectedCategories}
-										cred_categories={cred_categories}
+									<ReactTable
+										sortable={false}
+										data={newPresentation.claims}
+										columns={columns}
+										minRows={1}
+										noDataText={"Agregue Credenciales a esta presentación"}
+										showPagination={false}
+										loading={false}
+										resolveData={data => data.map(claim => {
+											claim.cred = `${cred_categories && cred_categories.hasOwnProperty(claim[0]) ? cred_categories[claim[0]] : claim[0]}`;
+											claim.required_str = claim[1].required ? 'requerido' : '';
+											claim.iss_count = claim[1].iss.length;
+											return claim;
+										})}
+										style={{ textAlign: "center" }}
 									/>
+									<div className="DataCredenciales">
+										<Typography variant="h7">
+											<strong>Nueva Credencial</strong>
+										</Typography>
+										<SelectClaims 
+											setCategory={setCategory}
+											setReason={setReason}
+											setRequired={setRequired}
+											setIssuers={setIssuers}
+											newClaim={{
+												category,
+												reason,
+												required,
+											}}
+											issuers={issuers}
+											selectedCategories={selectedCategories}
+											cred_categories={cred_categories}
+										/>
+									</div>
 								</>
 							: 
 								<>
@@ -177,6 +202,7 @@ const CreatePresentationModal = ({ open, close, onSubmit, title, cred_categories
 										name={'callback'}
 										required={true}
 										type={'text'}
+										value={newPresentation.callback}
 										fullWidth
 									/>
 									{registers && (

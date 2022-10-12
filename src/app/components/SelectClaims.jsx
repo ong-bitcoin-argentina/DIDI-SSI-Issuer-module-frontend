@@ -36,7 +36,7 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
     <div className="Data" sx={{ m: 1, width: 300 }}>
         {categories.length > 0 ? 
           <>
-            <Typography variant="subtitle1">Seleccione credenciales</Typography>
+            <Typography variant="subtitle1">Seleccione tipo de credencial</Typography>
             <Select
               labelId="selectClaims"
               id="selectClaims"

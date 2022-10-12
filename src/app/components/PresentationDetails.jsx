@@ -26,8 +26,8 @@ const KeyValue = ({ field, value }) => (
 
 const PresentationDetails = ({ modalOpen, setModalOpen, presentation, cred_categories }) => {
 	const { name, createdOn, createdAt, claims } = presentation ? presentation : null;
-
-	const createdOnDate = createdOn || createdAt;
+  
+  const createdOnDate = createdOn || createdAt;
 	const formattedCreationDate = formatDate(createdOnDate);
 	const close = () => {
 		setModalOpen(false);
@@ -61,9 +61,10 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation, cred_categ
               const { reason, required:essential, iss } = value; 
               const required = essential ? 'Si' : 'No';
               const issuers = iss ? iss : value.issuers;
+              const credName = `${cred_categories && cred_categories.hasOwnProperty(key) ? cred_categories[key] : key}`;
               return (
                 <>
-                  <ListItemText primary={`- ${key}: `} />
+                  <ListItemText primary={`- ${credName}: `} />
                   <ListItem>
                     <ListItemText secondary={`- Razón: ${reason}`} />
                   </ListItem>
