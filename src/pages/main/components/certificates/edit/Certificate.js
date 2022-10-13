@@ -55,8 +55,8 @@ class Certificate extends Component {
 				await this.getTemplates(token);
 				if (id) {
 					await this.getCert(token, id);
-					await self.getTemplate(token);
-					await self.getParticipants();
+					await this.getTemplate(token);
+					await this.getParticipants();
 				}
 				await this.getDefaultTemplate();
 			} catch (err) {
@@ -500,7 +500,7 @@ class Certificate extends Component {
 							participants: participants,
 							template: template,
 							error: false,
-							cert: self.certFromTemplate(template),
+							cert: this.certFromTemplate(template),
 							loading: false,
 							action: "creating"
 						});
