@@ -15,7 +15,7 @@ const ClipBoardInput = ({ label, value, handleChange, name, type }) => {
 
 	const copy = () => {
 		myInput.current.select();
-		document.execCommand("copy");
+		navigator.clipboard.writeText(value);
 		setOpenNotification(true);
 	};
 
