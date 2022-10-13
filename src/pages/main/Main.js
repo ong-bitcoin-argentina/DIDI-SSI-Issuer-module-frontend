@@ -913,19 +913,6 @@ class Main extends Component {
 		return (
 			<div className="ActionsMenu">
 				<button onClick={this.toggleShowMenu}>{Messages.LIST.MENU.TITLE}</button>
-				{false && (
-					<div className="ActionsMenuItems">
-						<button
-							disabled={loading}
-							onClick={() => {
-								if (this.renameDialog) this.renameDialog.open();
-							}}
-						>
-							{Messages.EDIT.BUTTONS.RENAME_ISSUER}
-						</button>
-						<button onClick={this.onLogout}>{Messages.EDIT.BUTTONS.EXIT}</button>
-					</div>
-				)}
 			</div>
 		);
 	};
