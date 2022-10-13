@@ -128,7 +128,7 @@ const CreatePresentationModal = ({ open, close, onSubmit, title, cred_categories
 	];
 	
 	return (
-		<Dialog open={open}>
+		<Dialog open={open} class="presentationDialog">
 			<DialogTitle id="form-dialog-title">
 				<ModalTitle title={`${title} ${TITLE}`} />
 			</DialogTitle>
@@ -144,8 +144,9 @@ const CreatePresentationModal = ({ open, close, onSubmit, title, cred_categories
 										<strong>Emisor: </strong>{register.name}
 									</Typography>
 									<Typography variant="h6">
-										<strong>Credenciales: </strong>
+										<strong>Credenciales:</strong>
 									</Typography>
+									<Typography class="subtitle">Agregue Credenciales a esta presentación</Typography>
 									<ReactTable
 										sortable={false}
 										data={newPresentation.claims}

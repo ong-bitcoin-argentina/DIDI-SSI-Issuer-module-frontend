@@ -53,11 +53,12 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
             <TextField
               key={'reason'}
               name={'reason'}
-              style={{ marginTop: "25px", marginBottom: "30px" }}
+              style={{ marginTop: "0px", marginBottom: "10px" }}
               label={'Porque se solicita'}
               value={reason}
               onChange={handleChange}
               type={'text'}
+              size={"small"}
               fullWidth
             /> 
             <div style={{ display: "flex" }}>

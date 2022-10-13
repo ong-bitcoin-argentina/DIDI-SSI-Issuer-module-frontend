@@ -40,6 +40,7 @@ const SelectIssuers = ({ setIssuers, issuers }) => {
       <Typography variant="subtitle1">
         <strong>Emisores: </strong>
       </Typography>
+      <Typography class="subtitle">Agregue Emisores a la credencial</Typography>
       <ReactTable
         sortable={false}
         data={issuers}
@@ -54,21 +55,23 @@ const SelectIssuers = ({ setIssuers, issuers }) => {
         <TextField
           key={'issuerDid'}
           name={'issuerDid'}
-          style={{ marginBottom: "5px" }}
+          style={{ marginBottom: "0px" }}
           label={'Did del emisor'}
           value={issuer.did}
           onChange={handleChange}
           type={'text'}
+          size={"small"}
           fullWidth
         />
         <TextField
           key={'issuerUrl'}
           name={'issuerUrl'}
-          style={{ marginBottom: "15px" }}
+          style={{ marginBottom: "5px" }}
           label={'Url del emisor (opcional)'}
           value={issuer.url}
           onChange={handleChange}
           type={'text'}
+          size={"small"}
           fullWidth
         />
         <div style={{ display: 'flex' }}>
