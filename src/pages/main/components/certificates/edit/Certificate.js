@@ -354,9 +354,6 @@ class Certificate extends Component {
 					dataElem.value = value;
 					return true;
 				case Constants.TEMPLATES.TYPES.PARAGRAPH:
-					if (!value) return false;
-					dataElem.value = value;
-					return true;
 				case Constants.TEMPLATES.TYPES.TEXT:
 					if (!value) return false;
 					dataElem.value = value;
