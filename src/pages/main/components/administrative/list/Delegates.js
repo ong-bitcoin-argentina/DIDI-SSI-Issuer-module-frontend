@@ -44,10 +44,6 @@ class Delegates extends Component {
 		this.props.onRef(undefined);
 	}
 
-	// abrir dialogo de borrado
-	openDeleteDialog = () => {
-		if (this.deleteDialog) this.deleteDialog.open();
-	};
 
 	// mostrar pantalla de delegacion
 	render() {
