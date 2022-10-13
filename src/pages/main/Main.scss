@@ -304,10 +304,6 @@
 	@include regular-text($button, $white);
 }
 
-@-moz-document url-prefix() {
-	.CreateDelegateText {
-	}
-}
 
 // @media (max-width: 1150px) {
 // 	.TemplateTable,
