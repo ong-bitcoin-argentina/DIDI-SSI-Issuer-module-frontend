@@ -316,7 +316,7 @@ class Template extends Component {
 							<FormControlLabel
 								disabled={!validateAccess(Write_Templates)}
 								value="1"
-								checked={radioValue === "1"}
+								checked={radioValue == "1"}
 								control={<Radio />}
 							/>
 							<img src={preview1} className="PreviewFieldTypeImage" alt="type 1" />
@@ -326,7 +326,7 @@ class Template extends Component {
 							<FormControlLabel
 								disabled={!validateAccess(Write_Templates)}
 								value="2"
-								checked={radioValue === "2"}
+								checked={radioValue == "2"}
 								control={<Radio />}
 							/>
 							<img src={preview2} className="PreviewFieldTypeImage" alt="type 2" />
@@ -336,7 +336,7 @@ class Template extends Component {
 							<FormControlLabel
 								disabled={!validateAccess(Write_Templates)}
 								value="3"
-								checked={radioValue === "3"}
+								checked={radioValue == "3"}
 								control={<Radio />}
 							/>
 							<img src={preview3} className="PreviewFieldTypeImage" alt="type 3" />
