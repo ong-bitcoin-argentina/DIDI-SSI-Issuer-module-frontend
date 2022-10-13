@@ -268,13 +268,6 @@ class Main extends Component {
 		);
 	};
 
-	// abrir dialogo de confirmacion para revocacion de credenciales
-	onCertificateRevoke = id => {
-		if (this.certificatesSection) {
-			this.setState({ selectedCertId: id });
-			this.certificatesSection.openRevokeDialog();
-		}
-	};
 
 	// abrir dialogo de confirmacion para borrado de credenciales
 	onCertificateDeleteDialogOpen = id => {
