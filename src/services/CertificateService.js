@@ -1,5 +1,5 @@
-import Constants from "../constants/Constants";
-import { options } from "../constants/Requests";
+import Constants from "../utils/constants/Constants";
+import { options } from "../utils/constants/Requests";
 import { fetchData, options as fetchOptions, optionsBody } from "./utils";
 const { GET_ALL, GET_EMMITED, GET_PENDING, GET_REVOKED, DELETE } = Constants.API_ROUTES.CERTIFICATES;
 

@@ -1,4 +1,4 @@
-import Constants from "../constants/Constants";
+import Constants from "../utils/constants/Constants";
 
 export default class DefautValueService {
 	static async create(token, body) {

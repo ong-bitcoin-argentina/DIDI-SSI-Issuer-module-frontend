@@ -1,4 +1,4 @@
-import Constants from "../constants/Constants";
+import Constants from "../utils/constants/Constants";
 
 export default class CredentialService {
 	static search(token, term, cb, errCb) {

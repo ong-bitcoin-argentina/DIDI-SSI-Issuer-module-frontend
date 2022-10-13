@@ -1,4 +1,4 @@
-import Constants from "../constants/Constants";
+import Constants from "../utils/constants/Constants";
 import { fetchData, optionsBody } from "./utils";
 
 export default class DelegateService {

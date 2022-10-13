@@ -1,4 +1,4 @@
-import Constants from "../constants/Constants";
+import Constants from "../utils/constants/Constants";
 import { fetchData, options } from "./utils";
 
 const { GET_ALL, DELETE } = Constants.API_ROUTES.PRESENTATION;

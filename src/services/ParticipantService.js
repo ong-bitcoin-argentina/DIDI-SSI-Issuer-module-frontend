@@ -1,4 +1,4 @@
-import Constants from "../constants/Constants";
+import Constants from "../utils/constants/Constants";
 
 export default class ParticipantService {
 	static getGlobal(token, cb, errCb) {
