@@ -54,7 +54,7 @@ class Certificate extends Component {
 			try {
 				await this.getTemplates(token);
 				if (id) {
-					await self.getCert(token, id);
+					await this.getCert(token, id);
 					await self.getTemplate(token);
 					await self.getParticipants();
 				}
