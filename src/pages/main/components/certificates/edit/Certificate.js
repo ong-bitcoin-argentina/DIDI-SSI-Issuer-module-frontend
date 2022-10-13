@@ -375,7 +375,7 @@ class Certificate extends Component {
 		};
 
 		const self = this;
-		var reader = new FileReader();
+		let reader = new FileReader();
 		// iterar los campos de la credencial y asignar los valores correspondiente del csv
 		reader.onload = function (e) {
 			const participant = [];
