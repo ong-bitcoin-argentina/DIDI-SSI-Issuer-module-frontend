@@ -1,4 +1,4 @@
-import Constants from "../constants/Constants";
+import Constants from "../utils/constants/Constants";
 import { fetchData, options, optionsBody } from "./utils";
 
 const { PROFILE } = Constants.API_ROUTES;

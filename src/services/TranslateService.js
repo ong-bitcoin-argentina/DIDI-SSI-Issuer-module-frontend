@@ -1,4 +1,4 @@
-import Constants from "../constants/Constants";
+import Constants from "../utils/constants/Constants";
 
 const { TRANSLATE } = Constants.API_ROUTES;
 export default class TranslateService {

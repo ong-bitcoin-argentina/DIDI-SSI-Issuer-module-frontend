@@ -1,4 +1,4 @@
-import Constants from "../constants/Constants";
+import Constants from "../utils/constants/Constants";
 import { fetchImage } from "./utils";
 
 const { IMAGE } = Constants.API_ROUTES;
