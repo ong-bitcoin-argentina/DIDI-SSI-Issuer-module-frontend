@@ -52,7 +52,7 @@ class Certificate extends Component {
 			self.setState({ loading: true });
 
 			try {
-				await self.getTemplates(token);
+				await this.getTemplates(token);
 				if (id) {
 					await self.getCert(token, id);
 					await self.getTemplate(token);
