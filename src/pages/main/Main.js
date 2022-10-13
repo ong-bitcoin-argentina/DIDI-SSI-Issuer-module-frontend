@@ -107,6 +107,16 @@ class Main extends Component {
 		};
 	}
 
+	// cargar credenciales
+	componentDidMount() {
+		const splitPath = this.props.history.location.pathname.split("/");
+		const path = splitPath[splitPath.length - 1];
+		let tabIndex = TABS[path];
+
+		this.setState({ loading: true, tabIndex });
+		this.setAllData();
+	}
+
 	setAllData = async () => {
 		const self = this;
 		const token = Cookie.get("token");
@@ -159,19 +169,7 @@ class Main extends Component {
 		self.setState({ loading: false });
 	};
 
-	// cargar credenciales
-	componentDidMount() {
-		const splitPath = this.props.history.location.pathname.split("/");
-		const path = splitPath[splitPath.length - 1];
-		let tabIndex = TABS[path];
-
-		const self = this;
-
-		self.setState({ loading: true, tabIndex });
-
-		self.setAllData();
-	}
-
+	
 	// seleccionar credencial a pedir para el participante
 	onParticipantSelectToggle = (id, type, value) => {
 		const allSelectedParticipants = this.state.allSelectedParticipants;
