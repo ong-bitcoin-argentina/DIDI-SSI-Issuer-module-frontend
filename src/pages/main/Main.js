@@ -673,7 +673,6 @@ class Main extends Component {
 			});
 		}
 
-		// cert = cert.filter(item => item.createdOn === "-");
 
 		this.setState({ filteredCertificates: cert }, () => this.updateFilterData(this.state.selectedCerts));
 	};
