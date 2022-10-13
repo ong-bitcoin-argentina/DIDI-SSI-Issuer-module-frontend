@@ -58,7 +58,7 @@ class Certificate extends Component {
 					await self.getTemplate(token);
 					await self.getParticipants();
 				}
-				await self.getDefaultTemplate();
+				await this.getDefaultTemplate();
 			} catch (err) {
 				self.setState({ error: err });
 				console.log(err);
