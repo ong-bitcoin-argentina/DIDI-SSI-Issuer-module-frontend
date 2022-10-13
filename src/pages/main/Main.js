@@ -118,29 +118,28 @@ class Main extends Component {
 	}
 
 	setAllData = async () => {
-		const self = this;
 		const token = Cookie.get("token");
 
 		try {
 			if (validateAccess(Read_Dids_Registers)) {
 				const parts = await ParticipantService.getGlobalAsync(token);
-				const allSelectedParticipants = self.state.allSelectedParticipants;
-				const selectedParticipants = self.state.selectedParticipants;
-				self.updateSelectedParticipantsState(parts, selectedParticipants, allSelectedParticipants);
-				self.setState({
+				const allSelectedParticipants = this.state.allSelectedParticipants;
+				const selectedParticipants = this.state.selectedParticipants;
+				this.updateSelectedParticipantsState(parts, selectedParticipants, allSelectedParticipants);
+				this.setState({
 					loading: false
 				});
 			}
 
 			if (validateAccess(Read_Templates)) {
-				self.getTemplatesData();
+				this.getTemplatesData();
 			}
 
 			if (validateAccess(Read_Certs)) {
 				const certs = await CertificateService.getPendingAsync(token);
-				const selectedCerts = self.state.selectedCerts;
-				self.updateSelectedCertsState(certs, selectedCerts);
-				self.setState({
+				const selectedCerts = this.state.selectedCerts;
+				this.updateSelectedCertsState(certs, selectedCerts);
+				this.setState({
 					loading: false
 				});
 			}
@@ -150,13 +149,13 @@ class Main extends Component {
 				delegates = delegates.map(delegate => {
 					return DelegatesTableHelper.getDelegatesData(
 						delegate,
-						self.onDelegateDeleteDialogOpen,
-						() => self.state.loading
+						this.onDelegateDeleteDialogOpen,
+						() => this.state.loading
 					);
 				});
 				const delegateColumns = DelegatesTableHelper.getDelegatesColumns();
 
-				self.setState({
+				this.setState({
 					delegateColumns: delegateColumns,
 					delegates: delegates,
 					error: false,
@@ -164,9 +163,9 @@ class Main extends Component {
 				});
 			}
 		} catch (err) {
-			self.setState({ error: err, loading: false });
+			this.setState({ error: err, loading: false });
 		}
-		self.setState({ loading: false });
+		this.setState({ loading: false });
 	};
 
 	
@@ -289,7 +288,6 @@ class Main extends Component {
 	onCertificateDelete = async () => {
 		const id = this.state.selectedCertId;
 		const token = Cookie.get("token");
-		const self = this;
 
 		const certs = this.state.certificates
 			.map(v => {
@@ -299,22 +297,22 @@ class Main extends Component {
 				return ({ ...v, ...overwriteKeys })
 			});
 
-		self.setState({
+		this.setState({
 			certs, loading: true
 		});
 
 		try {
 			await CertificateService.delete(id)(token);
-			const certiticate = self.state.certs.filter(t => t._id !== id);
-			self.setState({
+			const certiticate = this.state.certs.filter(t => t._id !== id);
+			this.setState({
 				certs: certiticate,
 				loading: false,
 				error: false
 			});
-			self.updateSelectedCertsState(certs, {});
-			self.onCertificateSelectAllToggle(false);
+			this.updateSelectedCertsState(certs, {});
+			this.onCertificateSelectAllToggle(false);
 		} catch (error) {
-			self.setState({ error: error, loading: false });
+			this.setState({ error: error, loading: false });
 		}
 	};
 
@@ -360,7 +358,7 @@ class Main extends Component {
 			);
 			self.setState({ error: err, loading: false });
 		} else {
-			self.getCertificates();
+			this.getCertificates();
 			self.setState({ error: false, tabIndex: 0 });
 			self.setState({ tabIndex: 1 });
 		}
@@ -517,7 +515,7 @@ class Main extends Component {
 					self.setState({ error: err, loading: false });
 				} else {
 					self.setState({ tabIndex: 2, error: false, loading: false });
-					self.getCertificates();
+					this.getCertificates();
 				}
 			})
 			.catch(function (err) {
@@ -527,15 +525,14 @@ class Main extends Component {
 
 	getCertificates = () => {
 		const token = Cookie.get("token");
-		const self = this;
 		CertificateService.getAll(
 			token,
 			async function (certs) {
-				self.updateSelectedCertsState(certs, {});
-				self.setState({ didFilter: "", loading: false });
+				this.updateSelectedCertsState(certs, {});
+				this.setState({ didFilter: "", loading: false });
 			},
 			function (err) {
-				self.setState({ error: err });
+				this.setState({ error: err });
 				console.log(err);
 			}
 		);
@@ -560,7 +557,7 @@ class Main extends Component {
 			id,
 			async function (_) {
 				self.setState({ tabIndex: 2, error: false, loading: false });
-				self.getCertificates();
+				this.getCertificates();
 			},
 			function (err) {
 				console.log(err);
@@ -580,8 +577,8 @@ class Main extends Component {
 		const templates = (await TemplateService.getAllAsync(token)).map(template =>
 			TemplateTableHelper.getTemplateData(
 				template,
-				self.onTemplateEdit,
-				self.onTemplateDeleteDialogOpen,
+				this.onTemplateEdit,
+				this.onTemplateDeleteDialogOpen,
 				() => self.state.loading
 			)
 		);
@@ -596,10 +593,9 @@ class Main extends Component {
 	// crear templates
 	onTemplateCreate = async data => {
 		const token = Cookie.get("token");
-		const self = this;
 
 		await TemplateService.create(data)(token);
-		self.getTemplatesData();
+		this.getTemplatesData();
 	};
 
 	// abrir dialogo de borrado
@@ -710,7 +706,7 @@ class Main extends Component {
 		const delegates = self.state.delegates;
 		const data_ = DelegatesTableHelper.getDelegatesData(
 			delegate,
-			self.onDelegateDeleteDialogOpen,
+			this.onDelegateDeleteDialogOpen,
 			() => self.state.loading
 		);
 		delegates.push(data_);
