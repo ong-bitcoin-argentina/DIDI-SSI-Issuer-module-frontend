@@ -51,6 +51,7 @@ const TABS = {
 };
 
 const {
+	CERTIFICATES,
 	TO_CERTIFICATES,
 	TO_REVOKED_CERTIFICATES,
 	TO_QR,
@@ -775,8 +776,7 @@ class Main extends Component {
 					{this.renderRenameDialog()}
 					{this.renderActions(loading)}
 					<TabList>
-						{validateAccess(Read_Templates) && <Tab disabled={loading && tabIndex !== 0}>{TO_TEMPLATES}</Tab>}
-						{validateAccess(Read_Certs) && <Tab>{TO_CERTIFICATES}</Tab>}
+						{validateAccess(Read_Certs) && <Tab>{CERTIFICATES}</Tab>}
 						{validateAccess(Read_Presentations) && <Tab disabled={loading && tabIndex !== 4}>{PRESENTATIONS}</Tab>}
 						{validateAccess(Read_Responses) && <Tab disabled={loading && tabIndex !== 10}>{RESPONSES}</Tab>}
 						{validateAccess(Read_Dids_Registers) && <Tab disabled={loading && tabIndex !== 5}>{TO_QR}</Tab>}
@@ -785,20 +785,6 @@ class Main extends Component {
 						{validateAccess(Read_Users) && <Tab disabled={loading && tabIndex !== 8}>{USERS}</Tab>}
 						{validateAccess(Admin) && <Tab disabled={loading && tabIndex !== 9}>{CONFIG}</Tab>}
 					</TabList>
-					{validateAccess(Read_Templates) && (
-						<TabPanel>
-							<Templates
-								onRef={ref => (this.templatesSection = ref)}
-								selected={tabIndex === 0}
-								templates={this.state.templates}
-								columns={this.state.templateColumns}
-								loading={loading}
-								error={error}
-								onCreate={this.onTemplateCreate}
-								onDelete={this.onTemplateDelete}
-							/>
-						</TabPanel>
-					)}
 					<TabPanel>
 						<Tabs forceRenderTabPanel>
 							<TabList>
@@ -809,6 +795,7 @@ class Main extends Component {
 								{validateAccess(Read_Certs) && (
 									<Tab disabled={loading && tabIndex !== 3}>{TO_REVOKED_CERTIFICATES}</Tab>
 								)}
+								{validateAccess(Read_Templates) && <Tab disabled={loading && tabIndex !== 0}>{TO_TEMPLATES}</Tab>}
 							</TabList>
 							{validateAccess(Read_Certs) && (
 								<>
@@ -834,6 +821,20 @@ class Main extends Component {
 										<CertificatesRevoked />
 									</TabPanel>
 								</>
+							)}
+							{validateAccess(Read_Templates) && (
+								<TabPanel>
+									<Templates
+										onRef={ref => (this.templatesSection = ref)}
+										selected={tabIndex === 0}
+										templates={this.state.templates}
+										columns={this.state.templateColumns}
+										loading={loading}
+										error={error}
+										onCreate={this.onTemplateCreate}
+										onDelete={this.onTemplateDelete}
+									/>
+								</TabPanel>
 							)}
 						</Tabs>
 					</TabPanel>

@@ -134,11 +134,12 @@ const Messages = {
 		BUTTONS: {
 			CREATE_DELEGATE: "Crear Delegado",
 			DELEGATES: "Delegados",
-			TO_QR: "Registro de DIDs",
-			TO_CERTIFICATES_PENDING: "Credenciales Pendientes",
-			TO_CERTIFICATES: "Credenciales",
-			TO_REVOKED_CERTIFICATES: "Credenciales Revocadas",
-			TO_TEMPLATES: "Templates",
+			TO_QR: "Registro de Personas",
+			TO_CERTIFICATES_PENDING: "Pendientes",
+			CERTIFICATES: "Credenciales",
+			TO_CERTIFICATES: "Activas",
+			TO_REVOKED_CERTIFICATES: "Revocadas",
+			TO_TEMPLATES: "Modelos de credencial",
 			CREATE_TEMPLATE: "Crear Modelo de Credencial",
 			CREATE_CERT: "Crear Credencial",
 			CREATE_SHARE_REQ: "Crear Modelo de Presentación",
@@ -153,7 +154,7 @@ const Messages = {
 			USERS: "Usuarios",
 			CONFIG: "Configuración",
 			PROFILE: "Perfiles",
-			PRESENTATIONS: "Presentaciones",
+			PRESENTATIONS: "Requerimientos",
 			RESPONSES: "Respuestas",
 		}
 	},
@@ -178,16 +179,16 @@ const Messages = {
 	},
 	TAB_TEXT: {
 		TEMPLATES: {
-			TITLE: "Templates",
+			TITLE: "Modelos de credencial",
 			DESCRIPTION: "Creación de modelos de credenciales que luego se utilizarán al crear y emitir una credencial."
 		},
 		PRESENTATIONS: {
-			TITLE: "Presentaciones",
-			DESCRIPTION: "Creación de modelos de presentaciones para asociadas a un emisor.",
+			TITLE: "Requerimientos",
+			DESCRIPTION: "Creación de modelos de requerimientos para asociadas a un emisor.",
 		},
 		RESPONSES: {
-			TITLE: "Respuestas a Presentaciones",
-			DESCRIPTION: "Listado de respuestas de usuarios a presentaciones para emision de credenciales.",
+			TITLE: "Respuestas a Requerimientos",
+			DESCRIPTION: "Listado de respuestas de usuarios a requerimientos para emision de credenciales.",
 		},
 		CERTIFICATES_PENDING: {
 			TITLE: "Credenciales Pendientes",
@@ -203,7 +204,7 @@ const Messages = {
 			DESCRIPTION: "Listado de credenciales revocadas."
 		},
 		REGISTER_DIDS: {
-			TITLE: "Registro de DIDs",
+			TITLE: "Registro de Personas",
 			DESCRIPTION: "Registro de DIDs receptores para la emisión de credenciales."
 		},
 		DELEGATES: {

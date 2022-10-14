@@ -106,7 +106,7 @@ const Presentation = () => {
 		<>
 			{!loading && (
 				<DescriptionGrid title={TITLE} description={DESCRIPTION}>
-					<OpenModalButton setModalOpen={setModalOpen} title="Crear Presentacion" />
+					<OpenModalButton setModalOpen={setModalOpen} title="Crear Requerimiento" />
 				</DescriptionGrid>
 			)}
 			{error && (
