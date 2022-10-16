@@ -51,6 +51,7 @@ const TABS = {
 };
 
 const {
+	CERTIFICATES,
 	TO_CERTIFICATES,
 	TO_REVOKED_CERTIFICATES,
 	TO_QR,
@@ -61,7 +62,7 @@ const {
 	CONFIG,
 	PROFILE,
 	PRESENTATIONS,
-	RESPONSES,
+	RESPONSES
 } = Messages.LIST.BUTTONS;
 
 const {
@@ -73,7 +74,7 @@ const {
 	Read_Responses,
 	Read_Dids_Registers,
 	Read_Profiles,
-	Read_Users,
+	Read_Users
 } = Constants.ROLES;
 
 class Main extends Component {
@@ -181,8 +182,8 @@ class Main extends Component {
 				...selectedParticipants,
 				[type]: {
 					...selectedParticipants[type],
-					[id]: value,
-				},
+					[id]: value
+				}
 			}
 		}));
 		this.updateSelectedParticipantsState(this.state.parts, selectedParticipants, allSelectedParticipants);
@@ -293,16 +294,14 @@ class Main extends Component {
 		const token = Cookie.get("token");
 		const self = this;
 
-		const certs = this.state.certificates
-			.map(v => {
-				const overwriteKeys = v._id === id
-					? { actions: <div></div>, selected: <div></div> } 
-					: {};
-				return ({ ...v, ...overwriteKeys })
-			});
+		const certs = this.state.certificates.map(v => {
+			const overwriteKeys = v._id === id ? { actions: <div></div>, selected: <div></div> } : {};
+			return { ...v, ...overwriteKeys };
+		});
 
 		self.setState({
-			certs, loading: true
+			certs,
+			loading: true
 		});
 
 		try {
@@ -327,16 +326,14 @@ class Main extends Component {
 
 		if (selectedCerts.length === 0) return;
 
-		const certs = this.state.certificates
-		.map(v => {
-			const overwriteKeys = selectedCerts.indexOf(v._id) > -1 
-				? { actions: <div></div>, selected: <div></div> } 
-				: {};
-			return ({ ...v, ...overwriteKeys })
+		const certs = this.state.certificates.map(v => {
+			const overwriteKeys = selectedCerts.indexOf(v._id) > -1 ? { actions: <div></div>, selected: <div></div> } : {};
+			return { ...v, ...overwriteKeys };
 		});
 
 		this.setState({
-			certs, loading: true
+			certs,
+			loading: true
 		});
 
 		const self = this;
@@ -472,13 +469,10 @@ class Main extends Component {
 
 		if (toEmmit.length === 0) return;
 
-		const certs = this.state.certificates
-			.map(v => {
-				const overwriteKeys = toEmmit.indexOf(v._id) > -1 
-					? { actions: <div></div>, selected: <div></div> } 
-					: {};
-				return ({ ...v, ...overwriteKeys })
-			});
+		const certs = this.state.certificates.map(v => {
+			const overwriteKeys = toEmmit.indexOf(v._id) > -1 ? { actions: <div></div>, selected: <div></div> } : {};
+			return { ...v, ...overwriteKeys };
+		});
 
 		this.setState({ certs, loading: true });
 
@@ -549,14 +543,15 @@ class Main extends Component {
 		const self = this;
 
 		const certs = self.state.certificates.map(v => {
-			if (v._id !== id) return {...v};
-			return {...v, actions: <div></div>, selected: <div></div> };
+			if (v._id !== id) return { ...v };
+			return { ...v, actions: <div></div>, selected: <div></div> };
 		});
 
 		self.setState({
-			certs, loading: true
+			certs,
+			loading: true
 		});
-		
+
 		CertificateService.emmit(
 			token,
 			id,
@@ -635,32 +630,20 @@ class Main extends Component {
 	// filtro por did
 	onDidFilterChange = event => {
 		const filter = event.target.value;
-		this.updateFiltererCertificates(
-			filter,
-			this.state.templateFilter,
-			this.state.blockchainFilter
-		);
+		this.updateFiltererCertificates(filter, this.state.templateFilter, this.state.blockchainFilter);
 		this.setState({ didFilter: filter });
 	};
 
 	// filtro por modelo de credencial
 	onTemplateFilterChange = event => {
 		const filter = event.target.value;
-		this.updateFiltererCertificates(
-			this.state.didFilter,
-			filter,
-			this.state.blockchainFilter
-		);
+		this.updateFiltererCertificates(this.state.didFilter, filter, this.state.blockchainFilter);
 		this.setState({ templateFilter: filter });
 	};
 
 	onBlockchainFilterChange = event => {
 		const filter = event.target.value;
-		this.updateFiltererCertificates(
-			this.state.didFilter,
-			this.state.templateFilter,
-			filter
-		);
+		this.updateFiltererCertificates(this.state.didFilter, this.state.templateFilter, filter);
 		this.setState({ blockchainFilter: filter });
 	};
 
@@ -792,12 +775,8 @@ class Main extends Component {
 				<Tabs selectedIndex={selectedIndex} onSelect={tabIndex => this.setState({ tabIndex, error: false })}>
 					{this.renderRenameDialog()}
 					{this.renderActions(loading)}
-
 					<TabList>
-						{validateAccess(Read_Templates) && <Tab disabled={loading && tabIndex !== 0}>{TO_TEMPLATES}</Tab>}
-						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 1}>{TO_CERTIFICATES_PENDING}</Tab>}
-						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 2}>{TO_CERTIFICATES}</Tab>}
-						{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 3}>{TO_REVOKED_CERTIFICATES}</Tab>}
+						{validateAccess(Read_Certs) && <Tab>{CERTIFICATES}</Tab>}
 						{validateAccess(Read_Presentations) && <Tab disabled={loading && tabIndex !== 4}>{PRESENTATIONS}</Tab>}
 						{validateAccess(Read_Responses) && <Tab disabled={loading && tabIndex !== 10}>{RESPONSES}</Tab>}
 						{validateAccess(Read_Dids_Registers) && <Tab disabled={loading && tabIndex !== 5}>{TO_QR}</Tab>}
@@ -806,46 +785,59 @@ class Main extends Component {
 						{validateAccess(Read_Users) && <Tab disabled={loading && tabIndex !== 8}>{USERS}</Tab>}
 						{validateAccess(Admin) && <Tab disabled={loading && tabIndex !== 9}>{CONFIG}</Tab>}
 					</TabList>
-
-					{validateAccess(Read_Templates) && (
-						<TabPanel>
-							<Templates
-								onRef={ref => (this.templatesSection = ref)}
-								selected={tabIndex === 0}
-								templates={this.state.templates}
-								columns={this.state.templateColumns}
-								loading={loading}
-								error={error}
-								onCreate={this.onTemplateCreate}
-								onDelete={this.onTemplateDelete}
-							/>
-						</TabPanel>
-					)}
-					{validateAccess(Read_Certs) && (
-						<>
-							<TabPanel>
-								<Certificates
-									onRef={ref => (this.certificatesSection = ref)}
-									selected={tabIndex === 1}
-									certificates={this.state.filteredCertificates}
-									columns={this.state.certColumns}
-									loading={loading}
-									onMultiEmmit={this.onCertificateMultiEmmit}
-									onDelete={this.onCertificateDelete}
-									error={error}
-									onDeleteSelects={this.onDeleteSelects}
-									selectedCerts={this.getSelectedCerts()}
-									allCertificates={this.state.certificates}
-								/>
-							</TabPanel>
-							<TabPanel>
-								<CertificatesEmmited />
-							</TabPanel>
-							<TabPanel>
-								<CertificatesRevoked />
-							</TabPanel>
-						</>
-					)}
+					<TabPanel>
+						<Tabs forceRenderTabPanel>
+							<TabList>
+								{validateAccess(Read_Certs) && <Tab disabled={loading && tabIndex !== 2}>{TO_CERTIFICATES}</Tab>}
+								{validateAccess(Read_Certs) && (
+									<Tab disabled={loading && tabIndex !== 1}>{TO_CERTIFICATES_PENDING}</Tab>
+								)}
+								{validateAccess(Read_Certs) && (
+									<Tab disabled={loading && tabIndex !== 3}>{TO_REVOKED_CERTIFICATES}</Tab>
+								)}
+								{validateAccess(Read_Templates) && <Tab disabled={loading && tabIndex !== 0}>{TO_TEMPLATES}</Tab>}
+							</TabList>
+							{validateAccess(Read_Certs) && (
+								<>
+									<TabPanel>
+										<CertificatesEmmited />
+									</TabPanel>
+									<TabPanel>
+										<Certificates
+											onRef={ref => (this.certificatesSection = ref)}
+											selected={tabIndex === 1}
+											certificates={this.state.filteredCertificates}
+											columns={this.state.certColumns}
+											loading={loading}
+											onMultiEmmit={this.onCertificateMultiEmmit}
+											onDelete={this.onCertificateDelete}
+											error={error}
+											onDeleteSelects={this.onDeleteSelects}
+											selectedCerts={this.getSelectedCerts()}
+											allCertificates={this.state.certificates}
+										/>
+									</TabPanel>
+									<TabPanel>
+										<CertificatesRevoked />
+									</TabPanel>
+								</>
+							)}
+							{validateAccess(Read_Templates) && (
+								<TabPanel>
+									<Templates
+										onRef={ref => (this.templatesSection = ref)}
+										selected={tabIndex === 0}
+										templates={this.state.templates}
+										columns={this.state.templateColumns}
+										loading={loading}
+										error={error}
+										onCreate={this.onTemplateCreate}
+										onDelete={this.onTemplateDelete}
+									/>
+								</TabPanel>
+							)}
+						</Tabs>
+					</TabPanel>
 					{validateAccess(Admin) && (
 						<TabPanel>
 							<Presentation />
