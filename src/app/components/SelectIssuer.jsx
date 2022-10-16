@@ -1,12 +1,23 @@
 import React, { useState }  from "react";
-import { Typography, TextField, List, ListItem, ListItemText } from "@material-ui/core";
+import { Typography, TextField } from "@material-ui/core";
 import DefaultButton from "../setting/default-button";
+import ReactTable from "react-table-6";
+import "react-table-6/react-table.css";
 
 const SelectIssuers = ({ setIssuers, issuers }) => {
   const [issuer, setIssuer] = useState({
     did: '',
     url: '',
   });
+  
+  const columns = [{
+      Header: 'DID',
+      accessor: 'did'
+    }, {
+      Header: 'URL',
+      accessor: 'url',
+    },
+  ];
 
   const handleChange = (event) => {
     const {
@@ -25,45 +36,52 @@ const SelectIssuers = ({ setIssuers, issuers }) => {
   }
 
 	return (
-    <div className="Data">
+    <div className="Data DataEmisores">
       <Typography variant="subtitle1">
         <strong>Emisores: </strong>
       </Typography>
-      <List dense={true} disablePadding={true} >
-        {issuers.map((iss, index) => {
-          return (
-            <ListItem divider={true} key={index}>
-              <ListItemText primary={`-${iss.did}`} />
-            </ListItem>
-          )})}
-      </List>
-      <TextField
-        key={'issuerDid'}
-        name={'issuerDid'}
-        style={{ marginBottom: "5px" }}
-        label={'Did del emisor'}
-        value={issuer.did}
-        onChange={handleChange}
-        type={'text'}
-        fullWidth
-      />
-      <TextField
-        key={'issuerUrl'}
-        name={'issuerUrl'}
-        style={{ marginBottom: "15px" }}
-        label={'Url del emisor (opcional)'}
-        value={issuer.url}
-        onChange={handleChange}
-        type={'text'}
-        fullWidth
-      />
-      <div style={{ display: 'flex' }}>
-        <DefaultButton 
-          funct={addIssuer} 
-          name={'Agregar emisor'}
-          type="otherClass" 
-          disabled={issuer.did === ''} 
+      <Typography class="subtitle">Agregue Emisores a la credencial</Typography>
+      <ReactTable
+        sortable={false}
+        data={issuers}
+        columns={columns}
+        minRows={1}
+        noDataText={"Agregue Emisores a la credencial"}
+        showPagination={false}
+        loading={false}
+        style={{ textAlign: "center" }}
+			/>
+      <div className="formDataEmisor">
+        <TextField
+          key={'issuerDid'}
+          name={'issuerDid'}
+          style={{ marginBottom: "0px" }}
+          label={'Did del emisor'}
+          value={issuer.did}
+          onChange={handleChange}
+          type={'text'}
+          size={"small"}
+          fullWidth
         />
+        <TextField
+          key={'issuerUrl'}
+          name={'issuerUrl'}
+          style={{ marginBottom: "5px" }}
+          label={'Url del emisor (opcional)'}
+          value={issuer.url}
+          onChange={handleChange}
+          type={'text'}
+          size={"small"}
+          fullWidth
+        />
+        <div style={{ display: 'flex' }}>
+          <DefaultButton 
+            funct={addIssuer} 
+            name={'Agregar emisor'}
+            type="otherClass" 
+            disabled={issuer.did === ''} 
+          />
+        </div>
       </div>
     </div>
 	);

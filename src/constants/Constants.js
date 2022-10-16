@@ -4,6 +4,7 @@ const VERSION = process.env.REACT_APP_VERSION;
 module.exports = {
 	VERSION,
 	API_ROUTES: {
+		PATH: API,
 		LOGIN: API + "/user/login",
 		TRANSLATE: API + "/translate",
 		USER: {

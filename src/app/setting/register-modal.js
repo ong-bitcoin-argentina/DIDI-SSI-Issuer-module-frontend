@@ -58,6 +58,7 @@ const RegisterModal = ({ modalOpen, setModalOpen, onSuccess, blockchains }) => {
 		try {
 			const token = Cookie.get("token");
 			const { did, blockchain } = newRegister;
+			console.log(newRegister);
 			const formData = new FormData();
 			Object.entries(newRegister).forEach(([k,v]) => formData.append(k, v));
 			formData.set('did', `did:ethr:${blockchain}:${did}`);

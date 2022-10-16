@@ -36,7 +36,7 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
     <div className="Data" sx={{ m: 1, width: 300 }}>
         {categories.length > 0 ? 
           <>
-            <Typography variant="subtitle1">Seleccione credenciales</Typography>
+            <Typography variant="subtitle1">Seleccione tipo de credencial</Typography>
             <Select
               labelId="selectClaims"
               id="selectClaims"
@@ -53,11 +53,12 @@ const SelectClaims = ({ setCategory, setReason, setRequired, setIssuers, newClai
             <TextField
               key={'reason'}
               name={'reason'}
-              style={{ marginTop: "25px", marginBottom: "30px" }}
+              style={{ marginTop: "0px", marginBottom: "10px" }}
               label={'Porque se solicita'}
               value={reason}
               onChange={handleChange}
               type={'text'}
+              size={"small"}
               fullWidth
             /> 
             <div style={{ display: "flex" }}>
