@@ -39,7 +39,7 @@ export const getResponseAllColumns = (handleFilter, onDateRangeFilterChange, onS
 			width: 220
 		},
 		{
-			Header: <InputFilter label="Presentación" onChange={handleFilter} field="shareRequestName" />,
+			Header: <InputFilter label="Requerimiento" onChange={handleFilter} field="shareRequestName" />,
 			accessor: "shareRequestId.name"
 		},
 		{

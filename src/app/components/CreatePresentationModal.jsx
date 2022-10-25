@@ -21,7 +21,7 @@ import RegisterService from "../../services/RegisterService";
 import Cookie from "js-cookie";
 import { API_ROUTES } from "../../constants/Constants";
 
-const TITLE = "Nueva Presentación";
+const TITLE = "Nuevo Requerimiento";
 
 const CreatePresentationModal = ({ open, close, onSubmit, title, cred_categories }) => {
 	const [newPresentation, setNewPresentation] = useState({ name: '', callback: API_ROUTES.PATH, claims: []});
@@ -146,13 +146,13 @@ const CreatePresentationModal = ({ open, close, onSubmit, title, cred_categories
 									<Typography variant="h6">
 										<strong>Credenciales:</strong>
 									</Typography>
-									<Typography class="subtitle">Agregue Credenciales a esta presentación</Typography>
+									<Typography class="subtitle">Agregue Credenciales a este requerimiento</Typography>
 									<ReactTable
 										sortable={false}
 										data={newPresentation.claims}
 										columns={columns}
 										minRows={1}
-										noDataText={"Agregue Credenciales a esta presentación"}
+										noDataText={"Agregue Credenciales a este requerimiento"}
 										showPagination={false}
 										loading={false}
 										resolveData={data => data.map(claim => {
