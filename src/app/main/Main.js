@@ -781,9 +781,9 @@ class Main extends Component {
 						{validateAccess(Read_Responses) && <Tab disabled={loading && tabIndex !== 10}>{RESPONSES}</Tab>}
 						{validateAccess(Read_Dids_Registers) && <Tab disabled={loading && tabIndex !== 5}>{TO_QR}</Tab>}
 						{validateAccess(Read_Delegates) && <Tab disabled={loading && tabIndex !== 6}>{DELEGATES}</Tab>}
-						{validateAccess(Read_Profiles) && <Tab disabled={loading && tabIndex !== 7}>{PROFILE}</Tab>}
-						{validateAccess(Read_Users) && <Tab disabled={loading && tabIndex !== 8}>{USERS}</Tab>}
-						{validateAccess(Admin) && <Tab disabled={loading && tabIndex !== 9}>{CONFIG}</Tab>}
+						{(validateAccess(Admin) || validateAccess(Read_Profiles) || validateAccess(Read_Users)) && (
+							<Tab>{CONFIG}</Tab>
+						)}
 					</TabList>
 					<TabPanel>
 						<Tabs forceRenderTabPanel>
@@ -878,21 +878,30 @@ class Main extends Component {
 							/>
 						</TabPanel>
 					)}
-					{validateAccess(Read_Profiles) && (
-						<TabPanel>
-							<Profile />
-						</TabPanel>
-					)}
-					{validateAccess(Read_Users) && (
-						<TabPanel>
-							<UserList />
-						</TabPanel>
-					)}
-					{validateAccess(Admin) && (
-						<TabPanel>
-							<Setting />
-						</TabPanel>
-					)}
+					<TabPanel>
+						<Tabs forceRenderTabPanel>
+							<TabList>
+								{validateAccess(Read_Profiles) && <Tab disabled={loading && tabIndex !== 7}>{PROFILE}</Tab>}
+								{validateAccess(Read_Users) && <Tab disabled={loading && tabIndex !== 8}>{USERS}</Tab>}
+								{validateAccess(Admin) && <Tab disabled={loading && tabIndex !== 9}>{CONFIG}</Tab>}
+							</TabList>
+							{validateAccess(Read_Profiles) && (
+								<TabPanel>
+									<Profile />
+								</TabPanel>
+							)}
+							{validateAccess(Read_Users) && (
+								<TabPanel>
+									<UserList />
+								</TabPanel>
+							)}
+							{validateAccess(Admin) && (
+								<TabPanel>
+									<Setting />
+								</TabPanel>
+							)}
+						</Tabs>
+					</TabPanel>
 				</Tabs>
 			</div>
 		);
