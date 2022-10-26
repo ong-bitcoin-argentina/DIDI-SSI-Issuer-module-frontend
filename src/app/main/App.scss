@@ -106,3 +106,44 @@ body {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 }
+
+.rt-noData {
+	border: 1px solid #66666659;
+	padding: 5px !important;
+}
+
+.DataEmisores {
+	border-radius: 5px;
+	border: 1px solid #6666664a;
+	padding: 13px;
+	margin-bottom: 0px;
+}
+
+.formDataEmisor {
+	background-color: #66666635;
+	padding: 10px;
+	margin: 5px;
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+.DataCredenciales {
+	margin-top: 5px;
+	border-radius: 5px;
+	border: 1px solid #6666664a;
+	padding: 13px;
+	padding-bottom: 0px;
+}
+
+.presentationDialog .rt-noData {
+	display: none !important;
+}
+
+.presentationDialog .Data {
+	margin: 0px;
+	margin-bottom: 5px;
+}
+
+.presentationDialog .subtitle {
+	color: #666;
+}

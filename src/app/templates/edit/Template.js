@@ -28,6 +28,7 @@ import { validateAccess } from "../../../constants/Roles";
 import preview1 from "./Preview/1.png";
 import preview2 from "./Preview/2.png";
 import preview3 from "./Preview/3.png";
+import preview5 from "./Preview/5.png";
 
 const { Write_Templates } = Constants.ROLES;
 
@@ -145,7 +146,7 @@ class Template extends Component {
 		this.setState(({ template }) => ({
 			template: {
 				...template,
-				previewDate: event.target.value,
+				previewData: event.target.value,
 			}
 		}))
 	};
@@ -297,8 +298,7 @@ class Template extends Component {
 			.map(elementData => elementData.name);
 
 		const radioValue = this.state.radioValue;
-		const missing = Constants.TEMPLATES.PREVIEW_ELEMS_LENGTH[radioValue] - this.state.template.previewData.length;
-
+		const missing = radioValue != "5" ? Constants.TEMPLATES.PREVIEW_ELEMS_LENGTH[radioValue] - this.state.template.previewData.length : 0;
 		return (
 			<div className="Template-Type mb-2">
 				<h2 className="DataTitle">{Messages.EDIT.DATA.PREVIEW}</h2>
@@ -340,6 +340,16 @@ class Template extends Component {
 								control={<Radio />}
 							/>
 							<img src={preview3} className="PreviewFieldTypeImage" alt="type 3" />
+						</div>
+
+						<div className="PreviewFieldItem">
+							<FormControlLabel
+								disabled={!validateAccess(Write_Templates)}
+								value="5"
+								checked={radioValue == "5"}
+								control={<Radio />}
+							/>
+							<img src={preview5} className="PreviewFieldTypeImage" alt="type 5" />
 						</div>
 					</RadioGroup>
 				</div>

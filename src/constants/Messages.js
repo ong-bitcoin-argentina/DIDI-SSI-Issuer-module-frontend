@@ -1,4 +1,4 @@
-module.exports = {
+const Messages = {
 	LOGIN: {
 		WELCOME: "Bienvenido al",
 		WELCOME_2: "Emisor de Credenciales Web",
@@ -67,6 +67,19 @@ module.exports = {
 			DELETE: "Borrar"
 		}
 	},
+	CREDENTIAL: {
+		TRANSLATE_NAMES: (origin) => {
+			const names = {
+				credentialName: "Credential",
+				benefitHolderType: "Tipo Beneficiario",
+				familyName: "Apellido",
+				dni: "DNI",
+				givenName: "Nombre",
+			};
+			const name = Object.entries(names).filter(([key, ]) => (key === origin));
+			return (!name.length ? origin : name[0][1] );
+		},
+	},
 	LIST: {
 		MENU: {
 			TITLE: "Menu"
@@ -75,10 +88,14 @@ module.exports = {
 			ISSUER_RENAME_TITLE: name => {
 				return "Renombrar emisor (El nombre actual es '" + name + "'):";
 			},
+			ERROR_TITLE: "Mensaje de Error",
+			DENY_TITLE: "Denegar Solicitud de Credencial",
+			DENY_TITLE_BUTTON: "Denegar",
+			DENY_MESSAGE: (code, name) => `¿Está seguro que desea denegar la solicitud ${code} del requerimiento ${name}?`,
 			DELETE_CONFIRMATION: title => `¿Está seguro que desea eliminar ${title}?`,
-			DELETE_PRESENTATION_CONF: title => `¿Está seguro que desea eliminar la presentación ${title}?`,
+			DELETE_PRESENTATION_CONF: title => `¿Está seguro que desea eliminar el requerimiento ${title}?`,
 			DELETE_CERT_TITLE: "Borrar Credencial",
-			DELETE_PRESENTATION_TITLE: "Borrar Presentación",
+			DELETE_PRESENTATION_TITLE: "Borrar Requerimiento",
 			DELETE_TEMPLATE_TITLE: "Borrar Modelo",
 			DELETE_DELEGATE_TITLE: "Borrar Delegado",
 			REVOKE_CERT_TITLE: "Revocar Credencial",
@@ -117,14 +134,15 @@ module.exports = {
 		BUTTONS: {
 			CREATE_DELEGATE: "Crear Delegado",
 			DELEGATES: "Delegados",
-			TO_QR: "Registro de DIDs",
-			TO_CERTIFICATES_PENDING: "Credenciales Pendientes",
-			TO_CERTIFICATES: "Credenciales",
-			TO_REVOKED_CERTIFICATES: "Credenciales Revocadas",
-			TO_TEMPLATES: "Templates",
+			TO_QR: "Registro de Personas",
+			TO_CERTIFICATES_PENDING: "Pendientes",
+			CERTIFICATES: "Credenciales",
+			TO_CERTIFICATES: "Activas",
+			TO_REVOKED_CERTIFICATES: "Revocadas",
+			TO_TEMPLATES: "Modelos de credencial",
 			CREATE_TEMPLATE: "Crear Modelo de Credencial",
 			CREATE_CERT: "Crear Credencial",
-			CREATE_SHARE_REQ: "Crear Modelo de Presentación",
+			CREATE_SHARE_REQ: "Crear Modelo de Requerimiento",
 			EMMIT_SELECTED: "Emitir Seleccionados",
 			DELETE_SELECETED: "Eliminar Credenciales Seleccionadas",
 			EMMIT: "Emitir",
@@ -136,7 +154,8 @@ module.exports = {
 			USERS: "Usuarios",
 			CONFIG: "Configuración",
 			PROFILE: "Perfiles",
-			PRESENTATIONS: "Presentaciones",
+			PRESENTATIONS: "Requerimientos",
+			RESPONSES: "Respuestas",
 		}
 	},
 	QR: {
@@ -160,12 +179,16 @@ module.exports = {
 	},
 	TAB_TEXT: {
 		TEMPLATES: {
-			TITLE: "Templates",
+			TITLE: "Modelos de credencial",
 			DESCRIPTION: "Creación de modelos de credenciales que luego se utilizarán al crear y emitir una credencial."
 		},
 		PRESENTATIONS: {
-			TITLE: "Presentaciones",
-			DESCRIPTION: "Creación de modelos de presentaciones para asociadas a un emisor.",
+			TITLE: "Requerimientos",
+			DESCRIPTION: "Creación de modelos de requerimientos para asociadas a un emisor.",
+		},
+		RESPONSES: {
+			TITLE: "Respuestas a Requerimientos",
+			DESCRIPTION: "Listado de respuestas de usuarios a requerimientos para emision de credenciales.",
 		},
 		CERTIFICATES_PENDING: {
 			TITLE: "Credenciales Pendientes",
@@ -181,7 +204,7 @@ module.exports = {
 			DESCRIPTION: "Listado de credenciales revocadas."
 		},
 		REGISTER_DIDS: {
-			TITLE: "Registro de DIDs",
+			TITLE: "Registro de Personas",
 			DESCRIPTION: "Registro de DIDs receptores para la emisión de credenciales."
 		},
 		DELEGATES: {
@@ -204,3 +227,5 @@ module.exports = {
 		}
 	}
 };
+
+export default Messages;

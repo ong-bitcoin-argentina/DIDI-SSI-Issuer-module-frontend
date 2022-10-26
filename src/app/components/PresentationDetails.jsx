@@ -1,11 +1,20 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, List, ListItem, ListItemText, Typography } from "@material-ui/core";
+import {
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Grid,
+	List,
+	ListItem,
+	ListItemText,
+	Typography
+} from "@material-ui/core";
 import React from "react";
 import moment from "moment";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "../setting/default-button";
 import { DATE_FORMAT } from "../../constants/Constants";
-import { CRED_CATEGORIES } from "../presentations/list/constants";
-const TITLE = "Detalle de la Presentación";
+const TITLE = "Detalle del Requerimiento";
 
 const formatDate = date => (date ? moment(date).format(DATE_FORMAT) : "-");
 
@@ -15,24 +24,23 @@ const KeyValue = ({ field, value }) => (
 	</Typography>
 );
 
-const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
-	const { 
-		name,
-		iat,
-		claims,
-	} = presentation ? presentation : null;
-
-	const createdOn = formatDate(iat);
+const PresentationDetails = ({ modalOpen, setModalOpen, presentation, cred_categories }) => {
+	const { name, createdOn, createdAt, claims } = presentation ? presentation : null;
+  
+  const createdOnDate = createdOn || createdAt;
+	const formattedCreationDate = formatDate(createdOnDate);
 	const close = () => {
 		setModalOpen(false);
 	};
-  let credentials = []
-  Object.entries(claims.verifiable).forEach(([key, value]) => credentials.push({
-    [CRED_CATEGORIES[key] || key]: {
-      value
-    }
-  }));
-
+	let credentials = [];
+  Object.entries(claims.verifiable).forEach(([key, value]) =>
+    credentials.push({
+			[key]: {
+				value
+			}
+		})
+	);
+  
 	return (
     <Dialog open={modalOpen} onClose={close}>
       <DialogTitle id="form-dialog-title">
@@ -41,7 +49,7 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
       <DialogContent style={{ margin: "0px 0 25px" }}>
         <Grid container item xs={12} justify="center" direction="column" style={{ marginBottom: "5px" }}>
           <KeyValue field="Nombre" value={name} />
-          <KeyValue field="Fecha de creación" value={createdOn} />
+          <KeyValue field="Fecha de creación" value={formattedCreationDate} />
           <Typography variant="subtitle2">
             <strong>Credenciales: </strong>
           </Typography>
@@ -50,11 +58,13 @@ const PresentationDetails = ({ modalOpen, setModalOpen, presentation }) => {
               const entries = Object.entries(cred);
               const key = entries[0][0];
               const { value } = entries[0][1];
-              const { reason, essential, issuers } = value; 
+              const { reason, required:essential, iss } = value; 
               const required = essential ? 'Si' : 'No';
+              const issuers = iss ? iss : value.issuers;
+              const credName = `${cred_categories && cred_categories.hasOwnProperty(key) ? cred_categories[key] : key}`;
               return (
                 <>
-                  <ListItemText primary={`- ${key}: `} />
+                  <ListItemText primary={`- ${credName}: `} />
                   <ListItem>
                     <ListItemText secondary={`- Razón: ${reason}`} />
                   </ListItem>

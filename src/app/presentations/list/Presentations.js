@@ -4,19 +4,20 @@ import Cookie from "js-cookie";
 import { CircularProgress } from "@material-ui/core";
 
 import Constants from '../../../constants/Constants';
-import Messages, { TAB_TEXT } from "../../../constants/Messages";
+import Messages from "../../../constants/Messages";
 import { getPresentationAllColumns, getPresentationData } from "./PresentationTableHelper";
 import "./Presentations.scss";
 import { filter, filterByDates } from "../../../services/utils";
 import PresentationService from "../../../services/PresentationService";
 import RegisterService from "../../../services/RegisterService";
+import TranslateService from "../../../services/TranslateService";
 import DescriptionGrid from "../../components/DescriptionGrid";
 import OpenModalButton from "../../setting/open-modal-button";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import CreatePresentationModal from "../../components/CreatePresentationModal";
 import PresentationDetails from "../../components/PresentationDetails";
 
-const { TITLE, DESCRIPTION } = TAB_TEXT.PRESENTATIONS;
+const { TITLE, DESCRIPTION } = Messages.TAB_TEXT.PRESENTATIONS;
 
 const Presentation = () => {
 	const [loading, setLoading] = useState(false);
@@ -26,6 +27,7 @@ const Presentation = () => {
 	const [filters, setFilters] = useState({});
 	const [filteredData, setFilteredData] = useState([]);
 	const [presentationSelected, setPresentationSelected] = useState();
+	const [translate, setTranslate] = useState([]);
 
 	const [data, setData] = useState([]);
 	const [error, setError] = useState("");
@@ -44,6 +46,7 @@ const Presentation = () => {
 		setLoading(true);
 		const token = Cookie.get("token");
 		try {
+			setTranslate(await TranslateService.getAll());
 			setData(await PresentationService.getAll()(token));
 			setFilteredData(data);
 		} catch (error) {
@@ -103,7 +106,7 @@ const Presentation = () => {
 		<>
 			{!loading && (
 				<DescriptionGrid title={TITLE} description={DESCRIPTION}>
-					<OpenModalButton setModalOpen={setModalOpen} title="Crear Presentacion" />
+					<OpenModalButton setModalOpen={setModalOpen} title="Crear Requerimiento" />
 				</DescriptionGrid>
 			)}
 			{error && (
@@ -124,7 +127,8 @@ const Presentation = () => {
 						getPresentationData(
 							presentation,
 							selectPresentation(setDetailModalOpen),
-							selectPresentation(setDeleteModalOpen)
+							selectPresentation(setDeleteModalOpen),
+							translate.credential_categories,
 						))}
 					columns={getPresentationAllColumns(onFilterChange, onDateRangeFilterChange)}
 					minRows={Constants.CERTIFICATES.TABLE.MIN_ROWS}
@@ -135,6 +139,7 @@ const Presentation = () => {
 				open={modalOpen}
 				close={() => setModalOpen(false)}
 				onSubmit={createPresentation}
+				cred_categories={translate.credential_categories}
 			/>
 			{presentationSelected ? 
 				<>
@@ -142,6 +147,7 @@ const Presentation = () => {
 						modalOpen={detailModalOpen}
 						setModalOpen={setDetailModalOpen}
 						presentation={presentationSelected}
+						cred_categories={translate.credential_categories}
 					/> 
 					<ConfirmationDialog
 						modalOpen={deleteModalOpen}
