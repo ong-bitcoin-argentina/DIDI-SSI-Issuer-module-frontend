@@ -14,7 +14,7 @@ import moment from "moment";
 import ModalTitle from "../utils/modal-title";
 import DefaultButton from "../setting/default-button";
 import { DATE_FORMAT } from "../../constants/Constants";
-const TITLE = "Detalle de la Presentación";
+const TITLE = "Detalle del Requerimiento";
 
 const formatDate = date => (date ? moment(date).format(DATE_FORMAT) : "-");
 
