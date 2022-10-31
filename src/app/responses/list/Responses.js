@@ -30,6 +30,8 @@ const Response = () => {
 	const filterSubValue = (item, key, val) => {
 		const vkey = key.split('.');
 		const parsedVal = val && val.toLowerCase();
+		if(!item[vkey[0]] && val !== '')
+			return false;
 		return !parsedVal || item[vkey[0]][vkey[1]]?.toLowerCase().includes(parsedVal);
 	}
 	const filterStatus = (item, key, status, errorMessage) => {
